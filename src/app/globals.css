@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  /* The "Modern Elegance" Palette */
+  --color-primary: #f5f0e9; /* Whitish Beige (Background/Light) */
+  --color-maroon: #7f0000; /* Deep Maroon */
+  --color-accent: #c4a484; /* Muted Bronze for highlight */
+  --color-text: #000000; /* PURE BLACK for bold, modern contrast */
+
+  /* Fonts (Inter for clean modern text, Playfair for elegant headers) */
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+/* Global Reset & Premium Feel */
+:root {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-maroon); /* Use the new maroon variable */
+  border-radius: 4px;
+}
+html {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* For Chrome, Safari, and Opera */
+html::-webkit-scrollbar {
+  display: none;
+}
