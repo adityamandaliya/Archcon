@@ -1,9 +1,8 @@
 import Hero from "@/components/sections/Hero";
 import ProjectMap from "@/components/sections/ProjectMap";
-import CorporateIdentity from "@/components/sections/CorporateIdentity"; // New Import
+import CorporateIdentity from "@/components/sections/CorporateIdentity";
 import MotionStatement from "@/components/sections/MotionStatement";
 import InfiniteScrollBar from "@/components/sections/InfiniteScrollBar";
-import Projects from "@/components/sections/Projects";
 
 export default function Home() {
   return (
@@ -11,7 +10,6 @@ export default function Home() {
       <Hero />
       <MotionStatement />
       <InfiniteScrollBar />
-      <Projects />
       <ProjectMap />
       <CorporateIdentity />
     </main>
