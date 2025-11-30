@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import HtmlWrapper from "@/components/layout/HtmlWrapper";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import LenisProvider from "@/components/layout/LenisProvider";
 
 // Load Fonts (Existing Code)
@@ -31,6 +32,7 @@ export default function RootLayout({
       <LenisProvider>
         <Navbar />
         {children}
+        <Footer />
       </LenisProvider>
     </HtmlWrapper>
   );
