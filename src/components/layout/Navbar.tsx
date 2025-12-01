@@ -11,7 +11,7 @@ const navItems = [
   { label: "ABOUT", href: "#about" },
   { label: "PROJECTS", href: "/projects" },
   { label: "UPDATES", href: "#updates" },
-  { label: "TEAM", href: "#team" },
+  { label: "TEAM", href: "/team" },
 ];
 
 export default function Navbar() {
@@ -42,6 +42,7 @@ export default function Navbar() {
   const isActive = (href: string) => {
     if (href === "#about") return pathname === "/";
     if (href === "/projects") return pathname === "/projects";
+    if (href === "/team") return pathname === "/team";
     return pathname === href;
   };
 
@@ -96,7 +97,7 @@ export default function Navbar() {
               transition={{ delay: 0.1 }}
             >
               <Link href="/" className="flex items-center gap-2 group">
-                <span className="text-2xl font-bold text-white group-hover:text-accent transition-colors duration-300 font-sans">
+                <span className="text-2xl font-bold text-white group-hover:text-accent transition-colors duration-300 font-serif">
                   Archcon
                 </span>
               </Link>

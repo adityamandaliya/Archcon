@@ -12,17 +12,12 @@ const footerLinks = {
     { label: "Home", href: "#" },
     { label: "Projects", href: "/projects" },
     { label: "Updates", href: "#updates" },
-    { label: "Teams", href: "#team" },
+    { label: "Teams", href: "/team" },
   ],
   policies: [
     { label: "License Agreement", href: "#license" },
     { label: "Privacy Policy", href: "#privacy" },
     { label: "Cookie Setting", href: "#cookies" },
-  ],
-  resources: [
-    { label: "Mockups", href: "#mockups" },
-    { label: "Framer Templates", href: "#templates" },
-    { label: "Freebies", href: "#freebies" },
   ],
   socials: [
     { label: "Instagram", href: "https://instagram.com" },
@@ -144,9 +139,9 @@ export default function Footer() {
                     whileHover={{ scale: 1.05 }}
                     className="flex flex-col"
                   >
-                    <span className="text-2xl font-bold text-accent">15+</span>
+                    <span className="text-2xl font-bold text-accent">35+</span>
                     <span className="text-xs text-white/60 uppercase tracking-wider mt-1">
-                      Active Sites
+                      Active Years
                     </span>
                   </motion.div>
                 </div>
@@ -209,28 +204,6 @@ export default function Footer() {
                 </h3>
                 <ul className="space-y-3">
                   {footerLinks.policies.map((link) => (
-                    <motion.li key={link.label}>
-                      <motion.a
-                        href={link.href}
-                        variants={linkHoverVariants}
-                        initial="rest"
-                        whileHover="hover"
-                        className="text-white/70 hover:text-accent text-sm font-serif transition-colors duration-300 inline-block"
-                      >
-                        {link.label}
-                      </motion.a>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
-
-              {/* Digital Store */}
-              <motion.div variants={itemVariants}>
-                <h3 className="text-xs uppercase tracking-widest font-semibold text-white mb-6 font-serif">
-                  Digital Store
-                </h3>
-                <ul className="space-y-3">
-                  {footerLinks.resources.map((link) => (
                     <motion.li key={link.label}>
                       <motion.a
                         href={link.href}

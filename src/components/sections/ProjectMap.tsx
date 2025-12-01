@@ -147,10 +147,10 @@ export default function ProjectMap() {
               </div>
               <div>
                 <div className="text-3xl md:text-4xl font-bold text-maroon mb-1">
-                  15
+                  35+
                 </div>
                 <div className="text-text/60 text-sm uppercase tracking-wider">
-                  Active Sites
+                  Active Years
                 </div>
               </div>
             </div>

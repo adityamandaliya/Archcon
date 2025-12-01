@@ -217,7 +217,7 @@ function BenefitCard({
                   <Icon className="w-7 h-7" strokeWidth={1.5} />
                 </motion.div>
 
-                <h3 className="text-2xl lg:text-3xl font-bold text-text leading-tight">
+                <h3 className="text-2xl lg:text-3xl font-serif font-bold text-text leading-tight">
                   {benefit.title}
                 </h3>
                 <p className="text-sm text-accent font-semibold mt-2 tracking-wide">
@@ -432,7 +432,7 @@ export default function Redevelopment() {
 
           {/* Main Heading */}
           <div className="mb-6 lg:mb-8">
-            <h2 className="text-5xl lg:text-7xl font-bold text-text leading-tight mb-4">
+            <h2 className="text-5xl lg:text-7xl font-serif font-bold text-text leading-tight mb-4">
               Redevelopment
             </h2>
             <motion.div
@@ -440,7 +440,7 @@ export default function Redevelopment() {
               transition={{ duration: 3, repeat: Infinity }}
               className="inline-block"
             >
-              <span className="text-5xl lg:text-7xl font-bold bg-gradient-to-r from-maroon via-maroon to-accent bg-clip-text text-transparent">
+              <span className="text-5xl lg:text-7xl font-serif font-bold bg-gradient-to-r from-maroon via-maroon to-accent bg-clip-text text-transparent">
                 Excellence
               </span>
             </motion.div>
@@ -491,8 +491,8 @@ export default function Redevelopment() {
               </span>
             </motion.div>
 
-            <h3 className="text-4xl lg:text-6xl font-bold text-text mb-6">
-              Transparent Process
+            <h3 className="text-4xl lg:text-6xl font-serif font-bold text-text mb-6">
+              Transparent <span className="text-maroon">Process</span>
             </h3>
             <p className="text-text/70 max-w-2xl mx-auto text-lg">
               Seven simple, clearly-defined steps ensuring complete clarity and
@@ -534,8 +534,8 @@ export default function Redevelopment() {
               </span>
             </motion.div>
 
-            <h3 className="text-4xl lg:text-6xl font-bold text-text mb-6">
-              Trust & Experience
+            <h3 className="text-4xl lg:text-6xl font-serif font-bold text-text mb-6">
+              Trust & <span className="text-maroon">Experience</span>
             </h3>
             <p className="text-text/70 max-w-2xl mx-auto text-lg">
               Built on years of delivering exceptional results and building
@@ -567,8 +567,9 @@ export default function Redevelopment() {
             <div className="absolute inset-0 bg-gradient-to-r from-maroon/5 via-transparent to-accent/5" />
 
             <div className="relative z-10">
-              <h4 className="text-3xl lg:text-5xl font-bold text-text mb-4 leading-tight">
-                A Vision Beyond Construction
+              <h4 className="text-3xl lg:text-5xl font-serif font-bold text-text mb-4 leading-tight">
+                A Vision Beyond{" "}
+                <span className="text-maroon">Construction</span>
               </h4>
               <p className="text-lg text-text/70 max-w-2xl mx-auto mb-8">
                 We don`t rebuild buildings—we rebuild experiences, upgrade
