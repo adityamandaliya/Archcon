@@ -1,86 +1,10 @@
-/* "use client";
-
-import { motion } from "framer-motion";
-import HeroCard from "../ui/HeroCard";
-import { LucideHardHat, LucideRuler, LucideLandmark } from "lucide-react";
-
-// Data for the interactive architectural cards
-
-const SERVICE_CARDS = [
-  // ... (SERVICE_CARDS array remains unchanged)
-  {
-    icon: LucideHardHat,
-    title: "Residential Redevelopment",
-    description:
-      "Transforming old Mumbai properties into modern, safe, and luxurious homes.",
-  },
-  {
-    icon: LucideRuler,
-    title: "Commercial Architecture",
-    description:
-      "Designing and building high-performance commercial spaces for future businesses.",
-  },
-  {
-    icon: LucideLandmark,
-    title: "Industrial & Logistics Hubs",
-    description:
-      "Creating large-scale, efficient infrastructure for India's growing economy.",
-  },
-];
-
-export default function Hero() {
-  return (
-    // CHANGE 1: Main Section: Remove py-20, use justify-start, and set bottom padding only (pb-20).
-    // The background (bg-primary + grid pattern) will now start flush at the top.
-    <section className="relative min-h-screen w-full bg-primary flex flex-col justify-start items-center pb-20 overflow-hidden">
-      <div className="relative z-10 container mx-auto px-4 text-center max-w-7xl pt-28 md:pt-32 lg:pt-40">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <h2 className="text-accent text-lg tracking-[0.2em] uppercase mb-4 font-semibold">
-            Mumbai's Premier Architectural & Development Firm
-          </h2>
-
-          <h1 className="text-6xl md:text-8xl font-serif font-extrabold text-secondary mb-8 leading-tight">
-            Building the <span className="text-text">Next Generation</span> of
-            Mumbai
-          </h1>
-
-          <p className="max-w-3xl mx-auto text-text/80 text-xl mb-12">
-            Blending timeless design with future-proof engineering. Archcon is
-            your partner in large-scale urban transformation.
-          </p>
-        </motion.div>
-
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {SERVICE_CARDS.map((card, index) => (
-            <motion.div
-              key={card.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 + index * 0.15 }} // Staggered entry
-            >
-              <HeroCard {...card} />
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
-        <div className="h-full w-full bg-grid-pattern [background-size:20px_20px] [background-image:linear-gradient(to_right,var(--color-text)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-text)_1px,transparent_1px)]" />
-      </div>
-    </section>
-  );
-}
- */
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface MousePosition {
   x: number;
@@ -187,7 +111,7 @@ export default function Hero() {
       };
     }
   }, []);
-
+  const router = useRouter();
   return (
     <section
       ref={containerRef}
@@ -320,6 +244,10 @@ export default function Hero() {
 
             {/* CTA Button */}
             <motion.button
+              onClick={() => {
+                router.push("/projects");
+                window.scrollTo(0, 0);
+              }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
@@ -333,60 +261,6 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
-
-      {/* SERVICE CARDS - Positioned lower to avoid overlap */}
-      {/* <div className="relative z-20 px-4 pb-20">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24"
-          >
-            {SERVICES.map((service, idx) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 + idx * 0.1 }}
-                whileHover={{
-                  y: -8,
-                  boxShadow: "0 20px 40px rgba(127, 0, 0, 0.2)",
-                }}
-                className="group relative bg-white border border-text/10 rounded-2xl p-8 hover:border-maroon/30 transition-all duration-300 cursor-pointer"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="text-4xl">{service.icon}</div>
-                  <motion.div
-                    className="text-maroon opacity-0 group-hover:opacity-100"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  >
-                    <ArrowRight className="h-5 w-5" />
-                  </motion.div>
-                </div>
-
-                <h3 className="text-text font-bold text-lg mb-3">
-                  {service.title}
-                </h3>
-
-                <p className="text-text/60 text-sm leading-relaxed">
-                  {service.id === 1
-                    ? "Transforming old Mumbai properties into modern, safe, and luxurious homes."
-                    : service.id === 2
-                    ? "Designing and building high-performance commercial spaces for future businesses."
-                    : "Creating large-scale, efficient infrastructure for India's growing economy."}
-                </p>
-
-                
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-gradient-to-r from-maroon to-transparent pointer-events-none" />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </div> */}
-
-      {/* Scroll Indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
         animate={{ y: [0, 10, 0] }}

@@ -64,7 +64,7 @@ function TeamCard({
         isFounder ? "col-span-full md:col-span-1" : ""
       }`}
     >
-      <div className="relative h-full rounded-2xl overflow-hidden bg-gradient-to-br from-white/10 to-white/5 border border-white/20 group-hover:border-accent/50 transition-all duration-300 backdrop-blur-sm">
+      <div className="relative h-full rounded-2xl overflow-hidden bg-gradient-to-br from-white/10 to-white/5 border border-accent/30 group-hover:border-accent/50 transition-all duration-300 backdrop-blur-sm">
         {/* Image Container */}
         <div className="relative h-80 md:h-96 overflow-hidden bg-black/50">
           <Image
@@ -220,33 +220,16 @@ export default function Team() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-20 lg:mb-28 text-center"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="inline-block mb-6 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30"
-          >
+
+        <div className="mb-20 lg:mb-28 text-center">
+          <div className="inline-block mb-6 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30">
             <span className="text-xs lg:text-sm font-bold text-accent tracking-widest uppercase">
               👥 Meet Our Excellence Team
             </span>
-          </motion.div>
+          </div>
 
           <h2 className="text-4xl lg:text-6xl font-serif font-bold text-text mb-6 leading-tight">
-            Expertise Behind{" "}
-            <motion.span
-              className="bg-gradient-to-r from-maroon to-accent bg-clip-text text-transparent"
-              animate={{ opacity: [1, 0.7, 1] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              Success
-            </motion.span>
+            Expertise Behind <span className="text-maroon">Success</span>
           </h2>
 
           <p className="text-lg lg:text-xl text-text/70 max-w-3xl mx-auto leading-relaxed">
@@ -257,8 +240,7 @@ export default function Team() {
               buildings and communities.
             </span>
           </p>
-        </motion.div>
-
+        </div>
         {/* ========== FOUNDER SECTION ========== */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -279,21 +261,19 @@ export default function Team() {
               </span>
             </motion.div>
             <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
-              Meet the Founder
+              Meet the <span className="text-maroon">Founder</span>
             </h3>
           </div>
 
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "0px 0px -150px 0px" }}
+            animate="visible"
             className="max-w-2xl mx-auto"
           >
             <TeamCard member={FOUNDER} isFounder={true} />
           </motion.div>
         </motion.div>
-
         {/* ========== ASSOCIATES SECTION ========== */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -313,8 +293,8 @@ export default function Team() {
                 💼 Core Team
               </span>
             </motion.div>
-            <h3 className="text-3xl lg:text-5xl font-bold text-text">
-              Our Associates
+            <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
+              Our <span className="text-maroon">Associates</span>
             </h3>
             <p className="text-text/60 text-lg mt-4">
               Seasoned professionals driving strategic initiatives
@@ -324,8 +304,7 @@ export default function Team() {
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "0px 0px -150px 0px" }}
+            animate="visible"
             className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10"
           >
             {ASSOCIATES.map((member) => (
@@ -333,7 +312,6 @@ export default function Team() {
             ))}
           </motion.div>
         </motion.div>
-
         {/* ========== TEAM CATEGORIES SECTION ========== */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -352,8 +330,8 @@ export default function Team() {
                 🏗️ Specialized Teams
               </span>
             </motion.div>
-            <h3 className="text-3xl lg:text-5xl font-bold text-text">
-              Departments & Experts
+            <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
+              Departments & <span className="text-maroon">Experts</span>
             </h3>
             <p className="text-text/60 text-lg mt-4">
               Specialized professionals in every domain of construction
@@ -365,8 +343,7 @@ export default function Team() {
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "0px 0px -150px 0px" }}
+            animate="visible"
             className="space-y-16 lg:space-y-20"
           >
             {TEAM_CATEGORIES.map((category, categoryIndex) => (
@@ -386,7 +363,7 @@ export default function Team() {
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="flex items-start justify-between p-6 lg:p-8 rounded-xl bg-gradient-to-r from-white/5 to-white/0 border border-white/20 group-hover:border-accent/40 transition-all duration-300">
+                  <div className="flex items-start justify-between p-6 lg:p-8 rounded-xl bg-gradient-to-r from-white/5 to-white/0 border border-accent/30 group-hover:border-accent/50 transition-all duration-300">
                     <div className="flex-1">
                       <motion.h4
                         initial={{ opacity: 0 }}
@@ -448,7 +425,6 @@ export default function Team() {
             ))}
           </motion.div>
         </motion.div>
-
         {/* ========== CALL TO ACTION ========== */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}

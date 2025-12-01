@@ -39,27 +39,50 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const isActive = (href: string) => {
+  const isActive = (href: string): boolean => {
     if (href === "#about") return pathname === "/";
     if (href === "/projects") return pathname === "/projects";
+    if (href === "#updates") return pathname === "/";
     if (href === "/team") return pathname === "/team";
     return pathname === href;
+  };
+
+  // Handle Get In Touch button click
+  const handleGetInTouch = () => {
+    const currentPath = pathname;
+
+    if (currentPath === "/") {
+      // Already on home, scroll to contact
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // On different page, navigate to home with contact hash
+      window.location.href = "/#contact";
+    }
   };
 
   const navbarVariants: Variants = {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.4, ease: "easeOut" },
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
     },
     hidden: {
       y: -100,
       opacity: 0,
-      transition: { duration: 0.4, ease: "easeIn" },
+      transition: {
+        duration: 0.4,
+        ease: "easeIn",
+      },
     },
   };
 
-  const menuVariants = {
+  const menuVariants: Variants = {
     closed: {
       opacity: 0,
       y: -20,
@@ -68,165 +91,165 @@ export default function Navbar() {
     open: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.3, staggerChildren: 0.07, delayChildren: 0.1 },
+      transition: {
+        duration: 0.3,
+        staggerChildren: 0.07,
+        delayChildren: 0.1,
+      },
     },
   };
 
-  const menuItemVariants = {
-    closed: { opacity: 0, x: -20 },
-    open: { opacity: 1, x: 0 },
+  const menuItemVariants: Variants = {
+    closed: {
+      opacity: 0,
+      x: -20,
+    },
+    open: {
+      opacity: 1,
+      x: 0,
+    },
   };
 
   return (
-    <>
-      <motion.nav
-        initial={false}
-        animate={isVisible ? "visible" : "hidden"}
-        variants={navbarVariants}
-        className="fixed top-0 left-0 right-0 z-50 font-sans"
-      >
-        {/* Frosted Glass Background */}
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-md border-b border-white/10" />
+    <motion.nav
+      initial={false}
+      animate={isVisible ? "visible" : "hidden"}
+      variants={navbarVariants}
+      className="fixed top-0 left-0 right-0 z-50 font-sans"
+    >
+      {/* Frosted Glass Background */}
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-md border-b border-white/10" />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <Link href="/" className="flex items-center gap-2 group">
-                <span className="text-2xl font-bold text-white group-hover:text-accent transition-colors duration-300 font-serif">
-                  Archcon
-                </span>
-              </Link>
-            </motion.div>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <Link href="/" className="flex items-center gap-2 group">
+              <span className="text-2xl font-bold text-white group-hover:text-accent transition-colors duration-300 font-serif">
+                Archcon
+              </span>
+            </Link>
+          </motion.div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item, index) => {
-                const active = isActive(item.href);
-                const isHovered = hoveredItem === item.label;
-                const hoveredIndex = navItems.findIndex(
-                  (i) => i.label === hoveredItem
-                );
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1">
+            {navItems.map((item, index) => {
+              const active = isActive(item.href);
+              const isHovered = hoveredItem === item.label;
+              const hoveredIndex = navItems.findIndex(
+                (i) => i.label === hoveredItem
+              );
 
-                // Determine direction based on hovered item position
-                let moveDirection = 0;
-                if (hoveredItem && !isHovered) {
-                  // If hovering on an item, move items away from it based on their position
-                  moveDirection = index < hoveredIndex ? -20 : 20;
-                }
+              // Determine direction based on hovered item position
+              let moveDirection = 0;
+              if (hoveredItem && !isHovered) {
+                // If hovering on an item, move items away from it based on their position
+                moveDirection = index < hoveredIndex ? -20 : 20;
+              }
 
-                return (
-                  <motion.div
-                    key={item.label}
-                    onMouseEnter={() => setHoveredItem(item.label)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                    className="relative"
-                  >
-                    {/* Invisible container for spacing */}
-                    <motion.div
-                      animate={{
-                        x: moveDirection,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 30,
-                      }}
-                      className="relative px-3 py-2"
-                    >
-                      <Link
-                        href={item.href}
-                        className="relative block text-white/80 font-sans text-base font-medium transition-colors duration-200 hover:text-white"
-                      >
-                        {/* Text with scale animation */}
-                        <motion.span
-                          animate={{
-                            scale: isHovered ? 1.15 : 1,
-                          }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 400,
-                            damping: 30,
-                          }}
-                          className="inline-block origin-center whitespace-nowrap"
-                        >
-                          {item.label}
-                        </motion.span>
-
-                        {/* Active State - Minimalist dot below text */}
-                        {active && (
-                          <motion.div
-                            layoutId="activeDot"
-                            className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-accent rounded-full"
-                            initial={false}
-                            transition={{
-                              type: "spring",
-                              stiffness: 380,
-                              damping: 40,
-                            }}
-                          />
-                        )}
-                      </Link>
-                    </motion.div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* CTA Button + Mobile Menu */}
-            <div className="flex items-center gap-4">
-              {/* Contact CTA Button - White/Transparent Default, Maroon on Hover */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <motion.a
-                  href="#contact"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="hidden sm:inline-flex px-6 py-2 text-sm font-semibold text-black bg-white/70 rounded-lg font-sans hover:bg-maroon hover:text-white transition-all duration-300"
+              return (
+                <motion.div
+                  key={item.label}
+                  onMouseEnter={() => setHoveredItem(item.label)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className="relative"
                 >
-                  Get In Touch
-                </motion.a>
-              </motion.div>
+                  {/* Invisible container for spacing */}
+                  <motion.div
+                    animate={{ x: moveDirection }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    className="relative px-3 py-2"
+                  >
+                    <Link
+                      href={item.href}
+                      className="relative block text-white/80 font-sans text-base font-medium transition-colors duration-200 hover:text-white"
+                    >
+                      {/* Text with scale animation */}
+                      <motion.span
+                        animate={{
+                          scale: isHovered ? 1.15 : 1,
+                        }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30,
+                        }}
+                        className="inline-block origin-center whitespace-nowrap"
+                      >
+                        {item.label}
+                      </motion.span>
+                    </Link>
 
-              {/* Mobile Menu Toggle */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <AnimatePresence mode="wait">
-                  {isOpen ? (
-                    <motion.div
-                      key="close"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <X className="w-6 h-6" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="menu"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Menu className="w-6 h-6" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
-            </div>
+                    {/* Active State - Minimalist dot below text */}
+                    {active && (
+                      <motion.div
+                        layoutId="activeDot"
+                        className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-accent rounded-full"
+                        initial={false}
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 40,
+                        }}
+                      />
+                    )}
+                  </motion.div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* CTA Button & Mobile Menu */}
+          <div className="flex items-center gap-4">
+            {/* Contact CTA Button - White/Transparent Default, Maroon on Hover */}
+            <motion.button
+              onClick={handleGetInTouch}
+              type="button"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="hidden sm:inline-flex px-6 py-2 text-sm font-semibold text-black bg-white/70 rounded-lg font-sans hover:bg-maroon hover:text-white transition-all duration-300 cursor-pointer"
+            >
+              Get In Touch
+            </motion.button>
+
+            {/* Mobile Menu Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <AnimatePresence mode="wait">
+                {isOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X className="w-6 h-6" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu className="w-6 h-6" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
 
@@ -263,24 +286,24 @@ export default function Navbar() {
 
                 {/* Mobile CTA Button */}
                 <motion.div variants={menuItemVariants} className="pt-2">
-                  <motion.a
-                    href="#contact"
-                    onClick={() => setIsOpen(false)}
+                  <motion.button
+                    onClick={() => {
+                      handleGetInTouch();
+                      setIsOpen(false);
+                    }}
+                    type="button"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="block w-full px-4 py-3 text-center font-semibold text-black bg-white/70 rounded-lg font-sans hover:bg-maroon hover:text-white transition-all duration-300"
+                    className="block w-full px-4 py-3 text-center font-semibold text-black bg-white/70 rounded-lg font-sans hover:bg-maroon hover:text-white transition-all duration-300 cursor-pointer"
                   >
                     Get In Touch
-                  </motion.a>
+                  </motion.button>
                 </motion.div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.nav>
-
-      {/* Spacer to prevent content jump */}
-      <div className="h-20" />
-    </>
+      </div>
+    </motion.nav>
   );
 }

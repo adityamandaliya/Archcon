@@ -5,35 +5,135 @@ import Map, { Marker, Popup } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { LucideMapPin, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 // Mock Data for Mumbai Projects
 const PROJECTS = [
   {
     id: 1,
-    name: "The Gold Residences, Bandra",
+    name: "Saideep Apartment",
     type: "Residential",
-    lat: 19.05,
-    lon: 72.82,
+    lat: 19.11024717154869,
+    lon: 72.8695991008313,
     status: "Completed",
     year: "2024",
   },
   {
     id: 2,
-    name: "Archcon Towers, BKC",
-    type: "Commercial",
-    lat: 19.06,
-    lon: 72.86,
+    name: "Vijay Apartment",
+    type: "Residential",
+    lat: 19.204512896893068,
+    lon: 72.8439046695957,
     status: "Completed",
-    year: "2023",
+    year: "2018",
   },
   {
     id: 3,
-    name: "Industrial Hub, Bhiwandi",
+    name: "Krish Royale",
+    type: "Residential",
+    lat: 19.22137813840749,
+    lon: 72.84599410987323,
+    status: "Completed",
+    year: "2013",
+  },
+  {
+    id: 4,
+    name: "Vastubh Apartment",
+    type: "Residential",
+    lat: 19.222972112820834,
+    lon: 72.85639335819292,
+    status: "Completed",
+    year: "2007",
+  },
+  {
+    id: 5,
+    name: "Bhailal Steel Impex",
     type: "Industrial",
-    lat: 19.3,
-    lon: 73.06,
-    status: "In Progress",
-    year: "2025",
+    lat: 19.27208114776594,
+    lon: 72.8840193495014,
+    status: "Completed",
+    year: "2004",
+  },
+  {
+    id: 6,
+    name: "Parikh Ind. Estate",
+    type: "Industrial",
+    lat: 19.270566565741046,
+    lon: 72.8819504183833,
+    status: "Completed",
+    year: "2002",
+  },
+  {
+    id: 7,
+    name: "Hatkesh Udyog Nagar",
+    type: "Industrial",
+    lat: 19.28140709396304,
+    lon: 72.87885187018514,
+    status: "Completed",
+    year: "2004",
+  },
+  {
+    id: 8,
+    name: "Patel Precision Eng. Pvt. Ltd.",
+    type: "Industrial",
+    lat: 19.59686778047216,
+    lon: 73.11860314406887,
+    status: "Completed",
+    year: "1999",
+  },
+  {
+    id: 9,
+    name: "Al-Pack Paper Packaging Pvt. Ltd.",
+    type: "Industrial",
+    lat: 19.597890010662127,
+    lon: 73.11898960756184,
+    status: "Completed",
+    year: "1998",
+  },
+  {
+    id: 10,
+    name: "Kohinoor Apartment",
+    type: "Resi.+Commercial",
+    lat: 19.284740216460868,
+    lon: 72.87973961535695,
+    status: "Completed",
+    year: "2002",
+  },
+  {
+    id: 11,
+    name: "Glory Apartment",
+    type: "Residential",
+    lat: 19.285594463513803,
+    lon: 72.88039072728012,
+    status: "Completed",
+    year: "2000",
+  },
+  {
+    id: 12,
+    name: "Satellite Park",
+    type: "Resi./Comm./Rowhouse",
+    lat: 19.28511054504845,
+    lon: 72.880150289423,
+    status: "Completed",
+    year: "2000",
+  },
+  {
+    id: 13,
+    name: "Dev-Ashish",
+    type: "Residential",
+    lat: 19.305541741218736,
+    lon: 72.86219516590693,
+    status: "Completed",
+    year: "1989",
+  },
+  {
+    id: 14,
+    name: "Shelter CHS",
+    type: "Resi.+Commercial",
+    lat: 19.09310813701736,
+    lon: 72.84631502269733,
+    status: "Upcoming",
+    year: "-",
   },
 ];
 
@@ -100,7 +200,7 @@ export default function ProjectMap() {
       )),
     []
   );
-
+  const router = useRouter();
   return (
     <section className="relative w-full bg-primary py-12 lg:py-16 overflow-hidden">
       {/* Container with equal padding on all sides */}
@@ -156,7 +256,13 @@ export default function ProjectMap() {
             </div>
 
             {/* CTA Button */}
-            <button className="group flex items-center gap-3 text-text font-medium hover:text-maroon transition-colors duration-300 pt-2">
+            <button
+              onClick={() => {
+                router.push("/projects");
+                setTimeout(() => window.scrollTo(0, 0), 0);
+              }}
+              className="group flex items-center gap-3 text-text font-medium hover:text-maroon transition-colors duration-300 pt-2"
+            >
               <span className="text-lg">View All Projects</span>
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-2" />
             </button>
