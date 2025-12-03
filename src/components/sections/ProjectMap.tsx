@@ -203,6 +203,16 @@ export default function ProjectMap() {
   const router = useRouter();
   return (
     <section className="relative w-full bg-primary py-12 lg:py-16 overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.02] z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(90deg, #000 1px, transparent 1px),
+            linear-gradient(0deg, #000 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+        }}
+      />
       {/* Container with equal padding on all sides */}
       <div className="px-4 lg:px-8 max-w-[1600px] mx-auto">
         {/* Split Layout Grid */}

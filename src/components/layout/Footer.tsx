@@ -11,7 +11,7 @@ const footerLinks = {
   index: [
     { label: "Home", href: "#" },
     { label: "Projects", href: "/projects" },
-    { label: "Updates", href: "#updates" },
+    { label: "Updates", href: "/updates" },
     { label: "Teams", href: "/team" },
   ],
   policies: [
@@ -23,8 +23,6 @@ const footerLinks = {
     { label: "Instagram", href: "https://instagram.com" },
     { label: "LinkedIn", href: "https://linkedin.com" },
     { label: "YouTube", href: "https://youtube.com" },
-    { label: "TikTok", href: "https://tiktok.com" },
-    { label: "Behance", href: "https://behance.net" },
   ],
 };
 

@@ -10,7 +10,7 @@ import { Variants } from "framer-motion";
 const navItems = [
   { label: "ABOUT", href: "#about" },
   { label: "PROJECTS", href: "/projects" },
-  { label: "UPDATES", href: "#updates" },
+  { label: "UPDATES", href: "/updates" },
   { label: "TEAM", href: "/team" },
 ];
 
@@ -42,7 +42,7 @@ export default function Navbar() {
   const isActive = (href: string): boolean => {
     if (href === "#about") return pathname === "/";
     if (href === "/projects") return pathname === "/projects";
-    if (href === "#updates") return pathname === "/";
+    if (href === "/updates") return pathname === "/updates";
     if (href === "/team") return pathname === "/team";
     return pathname === href;
   };

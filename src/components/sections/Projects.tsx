@@ -207,6 +207,16 @@ export default function Projects() {
 
   return (
     <section className="relative w-full bg-primary py-24 lg:py-32 overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.02] z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(90deg, #000 1px, transparent 1px),
+            linear-gradient(0deg, #000 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+        }}
+      />
       {/* Background */}
       <div className="absolute inset-0 opacity-5 z-0">
         <div

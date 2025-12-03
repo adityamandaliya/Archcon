@@ -204,6 +204,16 @@ export default function Team() {
       className="relative w-full bg-primary py-24 lg:py-32 overflow-hidden"
       id="team"
     >
+      <div
+        className="absolute inset-0 opacity-[0.02] z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(90deg, #000 1px, transparent 1px),
+            linear-gradient(0deg, #000 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+        }}
+      />
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -222,10 +232,8 @@ export default function Team() {
         {/* Section Header */}
 
         <div className="mb-20 lg:mb-28 text-center">
-          <div className="inline-block mb-6 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30">
-            <span className="text-xs lg:text-sm font-bold text-accent tracking-widest uppercase">
-              👥 Meet Our Excellence Team
-            </span>
+          <div className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4">
+            OUR EXCELLENCE TEAM
           </div>
 
           <h2 className="text-4xl lg:text-6xl font-serif font-bold text-text mb-6 leading-tight">
@@ -254,11 +262,10 @@ export default function Team() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="inline-block mb-4 px-4 py-2 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30"
             >
-              <span className="text-xs lg:text-sm font-bold text-accent tracking-widest uppercase">
-                🌟 Leadership
-              </span>
+              <div className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4">
+                LEADERSHIP
+              </div>
             </motion.div>
             <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
               Meet the <span className="text-maroon">Founder</span>
@@ -287,11 +294,10 @@ export default function Team() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="inline-block mb-4 px-4 py-2 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30"
             >
-              <span className="text-xs lg:text-sm font-bold text-accent tracking-widest uppercase">
-                💼 Core Team
-              </span>
+              <div className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4">
+                CORE TEAM
+              </div>
             </motion.div>
             <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
               Our <span className="text-maroon">Associates</span>
@@ -324,11 +330,10 @@ export default function Team() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="inline-block mb-4 px-4 py-2 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30"
             >
-              <span className="text-xs lg:text-sm font-bold text-accent tracking-widest uppercase">
-                🏗️ Specialized Teams
-              </span>
+              <div className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4">
+                SPECIALIZED TEAM
+              </div>
             </motion.div>
             <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
               Departments & <span className="text-maroon">Experts</span>
@@ -424,53 +429,6 @@ export default function Team() {
               </motion.div>
             ))}
           </motion.div>
-        </motion.div>
-        {/* ========== CALL TO ACTION ========== */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="mt-28 lg:mt-32 rounded-3xl border border-accent/30 bg-gradient-to-br from-white/8 to-white/3 backdrop-blur-md p-10 lg:p-14 text-center overflow-hidden relative"
-        >
-          {/* Background Accent */}
-          <div className="absolute inset-0 bg-gradient-to-r from-maroon/5 via-transparent to-accent/5" />
-
-          <div className="relative z-10">
-            <h3 className="text-3xl lg:text-5xl font-bold text-text mb-6 leading-tight">
-              Join Our Growing Team
-            </h3>
-            <p className="text-lg text-text/70 max-w-2xl mx-auto mb-10">
-              We're always looking for passionate professionals to join our
-              mission of transforming Mumbai's skyline.
-              <span className="text-accent font-semibold">
-                {" "}
-                Explore career opportunities with us.
-              </span>
-            </p>
-
-            <motion.a
-              href="mailto:careers@archcon.com"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-maroon to-maroon/80 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-maroon/50 transition-all duration-300"
-            >
-              <span>Get In Touch</span>
-              <motion.div
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <ArrowRight className="w-5 h-5" />
-              </motion.div>
-            </motion.a>
-
-            {/* Animated Line Accent */}
-            <motion.div
-              animate={{ scaleX: [0, 1, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, delay: 0.3 }}
-              className="h-1 w-16 bg-gradient-to-r from-maroon to-accent mx-auto mt-8 origin-center"
-            />
-          </div>
         </motion.div>
       </div>
     </section>

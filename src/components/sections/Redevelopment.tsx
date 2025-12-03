@@ -1,6 +1,8 @@
 "use client";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { Variants } from "framer-motion";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
   Home,
@@ -393,8 +395,19 @@ function WhyChooseCard({
 
 // Main Component
 export default function Redevelopment() {
+  const [isProcessExpanded, setIsProcessExpanded] = useState(false);
   return (
     <section className="relative w-full min-h-screen bg-primary py-24 lg:py-32 overflow-hidden">
+      <div
+        className="absolute inset-0 opacity-[0.02] z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(90deg, #000 1px, transparent 1px),
+            linear-gradient(0deg, #000 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+        }}
+      />
       {/* Background Gradient Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -423,10 +436,10 @@ export default function Redevelopment() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 }}
-            className="inline-block mb-6 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30 hover:border-accent/50 transition-all duration-300"
+            className="inline-block text-accent font-serif text-sm font-semibold tracking-widest mb-4 transition-all duration-300"
           >
-            <span className="text-xs lg:text-sm font-bold text-accent tracking-widest uppercase">
-              ✨ Our Core Service
+            <span className="text-xs lg:text-sm font-sans font-medium text-accent tracking-widest uppercase">
+              Our Core Service
             </span>
           </motion.div>
 
@@ -471,6 +484,7 @@ export default function Redevelopment() {
         </motion.div>
 
         {/* ========== PROCESS SECTION ========== */}
+        {/* PROCESS SECTION */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -478,40 +492,73 @@ export default function Redevelopment() {
           viewport={{ once: true }}
           className="mb-28 lg:mb-32"
         >
-          {/* Section Header */}
+          {/* Section Header with Expand Button */}
           <div className="text-center mb-16 lg:mb-20">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="inline-block mb-6 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30 hover:border-accent/50 transition-all duration-300"
+              className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4 transition-all duration-300"
             >
               <span className="text-xs lg:text-sm font-bold text-accent tracking-widest uppercase">
-                📋 The Journey
+                The Journey
               </span>
             </motion.div>
 
-            <h3 className="text-4xl lg:text-6xl font-serif font-bold text-text mb-6">
-              Transparent <span className="text-maroon">Process</span>
-            </h3>
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-6 mb-6">
+              <h3 className="text-4xl lg:text-6xl font-serif font-bold text-text">
+                Transparent <span className="text-maroon">Process</span>
+              </h3>
+            </div>
+
             <p className="text-text/70 max-w-2xl mx-auto text-lg">
               Seven simple, clearly-defined steps ensuring complete clarity and
               member peace of mind throughout the redevelopment journey
             </p>
+
+            {/* Expand/Collapse Button */}
+            <motion.button
+              onClick={() => setIsProcessExpanded(!isProcessExpanded)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-maroon to-maroon/80 text-white font-sans font-semibold hover:from-maroon/90 hover:to-maroon transition-all duration-300 shadow-lg mt-6"
+            >
+              {isProcessExpanded ? (
+                <>
+                  <span>Show Less</span>
+                  <motion.div
+                    animate={{ rotate: 180 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className="w-5 h-5" />
+                  </motion.div>
+                </>
+              ) : (
+                <>
+                  <span>Show More</span>
+                  <ChevronDown className="w-5 h-5" />
+                </>
+              )}
+            </motion.button>
           </div>
 
-          {/* Process Steps Timeline */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "0px 0px -150px 0px" }}
-            className="space-y-10 lg:space-y-14"
-          >
-            {PROCESS_STEPS.map((step, index) => (
-              <ProcessStep key={step.number} step={step} index={index} />
-            ))}
-          </motion.div>
+          {/* Process Steps Timeline - Expandable */}
+          <AnimatePresence>
+            {isProcessExpanded && (
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                viewport={{ once: true, margin: "-150px 0px 0px 0px" }}
+                className="space-y-10 lg:space-y-14"
+              >
+                {PROCESS_STEPS.map((step, index) => (
+                  <ProcessStep key={step.number} step={step} index={index} />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
 
         {/* ========== WHY CHOOSE US SECTION ========== */}
@@ -527,10 +574,10 @@ export default function Redevelopment() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="inline-block mb-6 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent/10 to-maroon/5 border border-accent/30 hover:border-accent/50 transition-all duration-300"
+              className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4 transition-all duration-300"
             >
               <span className="text-xs lg:text-sm font-bold text-accent tracking-widest uppercase">
-                ⭐ Why Societies Choose Us
+                Why Societies Choose Us
               </span>
             </motion.div>
 

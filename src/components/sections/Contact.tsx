@@ -219,6 +219,16 @@ export default function Contact() {
       className="relative min-h-screen bg-gradient-to-b from-primary to-white py-20 px-4 sm:px-6 lg:px-8"
       id="contact"
     >
+      <div
+        className="absolute inset-0 opacity-[0.02] z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(90deg, #000 1px, transparent 1px),
+            linear-gradient(0deg, #000 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+        }}
+      />
       {/* Background Gradient Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
