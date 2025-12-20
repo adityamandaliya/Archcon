@@ -3,139 +3,11 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import Map, { Marker, Popup } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { LucideMapPin, ArrowRight } from "lucide-react";
+import { LucideMapPin, ArrowRight, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { PROJECTS } from "@/lib/projects";
 
-// Mock Data for Mumbai Projects
-const PROJECTS = [
-  {
-    id: 1,
-    name: "Saideep Apartment",
-    type: "Residential",
-    lat: 19.11024717154869,
-    lon: 72.8695991008313,
-    status: "Completed",
-    year: "2024",
-  },
-  {
-    id: 2,
-    name: "Vijay Apartment",
-    type: "Residential",
-    lat: 19.204512896893068,
-    lon: 72.8439046695957,
-    status: "Completed",
-    year: "2018",
-  },
-  {
-    id: 3,
-    name: "Krish Royale",
-    type: "Residential",
-    lat: 19.22137813840749,
-    lon: 72.84599410987323,
-    status: "Completed",
-    year: "2013",
-  },
-  {
-    id: 4,
-    name: "Vastubh Apartment",
-    type: "Residential",
-    lat: 19.222972112820834,
-    lon: 72.85639335819292,
-    status: "Completed",
-    year: "2007",
-  },
-  {
-    id: 5,
-    name: "Bhailal Steel Impex",
-    type: "Industrial",
-    lat: 19.27208114776594,
-    lon: 72.8840193495014,
-    status: "Completed",
-    year: "2004",
-  },
-  {
-    id: 6,
-    name: "Parikh Ind. Estate",
-    type: "Industrial",
-    lat: 19.270566565741046,
-    lon: 72.8819504183833,
-    status: "Completed",
-    year: "2002",
-  },
-  {
-    id: 7,
-    name: "Hatkesh Udyog Nagar",
-    type: "Industrial",
-    lat: 19.28140709396304,
-    lon: 72.87885187018514,
-    status: "Completed",
-    year: "2004",
-  },
-  {
-    id: 8,
-    name: "Patel Precision Eng. Pvt. Ltd.",
-    type: "Industrial",
-    lat: 19.59686778047216,
-    lon: 73.11860314406887,
-    status: "Completed",
-    year: "1999",
-  },
-  {
-    id: 9,
-    name: "Al-Pack Paper Packaging Pvt. Ltd.",
-    type: "Industrial",
-    lat: 19.597890010662127,
-    lon: 73.11898960756184,
-    status: "Completed",
-    year: "1998",
-  },
-  {
-    id: 10,
-    name: "Kohinoor Apartment",
-    type: "Resi.+Commercial",
-    lat: 19.284740216460868,
-    lon: 72.87973961535695,
-    status: "Completed",
-    year: "2002",
-  },
-  {
-    id: 11,
-    name: "Glory Apartment",
-    type: "Residential",
-    lat: 19.285594463513803,
-    lon: 72.88039072728012,
-    status: "Completed",
-    year: "2000",
-  },
-  {
-    id: 12,
-    name: "Satellite Park",
-    type: "Resi./Comm./Rowhouse",
-    lat: 19.28511054504845,
-    lon: 72.880150289423,
-    status: "Completed",
-    year: "2000",
-  },
-  {
-    id: 13,
-    name: "Dev-Ashish",
-    type: "Residential",
-    lat: 19.305541741218736,
-    lon: 72.86219516590693,
-    status: "Completed",
-    year: "1989",
-  },
-  {
-    id: 14,
-    name: "Shelter CHS",
-    type: "Resi.+Commercial",
-    lat: 19.09310813701736,
-    lon: 72.84631502269733,
-    status: "Upcoming",
-    year: "-",
-  },
-];
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -175,16 +47,21 @@ export default function ProjectMap() {
     return () => {
       mapContainer.removeEventListener("mouseenter", handleMouseEnter);
       mapContainer.removeEventListener("mouseleave", handleMouseLeave);
+      // Ensure Lenis is restarted when component unmounts
+      const lenis = (window as any).lenis;
+      if (lenis) {
+        lenis.start();
+      }
     };
   }, []);
 
   const markers = useMemo(
     () =>
-      PROJECTS.map((project) => (
+      PROJECTS.filter((p) => p.lat && p.lon).map((project) => (
         <Marker
           key={`marker-${project.id}`}
-          latitude={project.lat}
-          longitude={project.lon}
+          latitude={project.lat!}
+          longitude={project.lon!}
           onClick={(e) => {
             e.originalEvent.stopPropagation();
             setPopupInfo(project);
@@ -200,9 +77,9 @@ export default function ProjectMap() {
       )),
     []
   );
-  const router = useRouter();
+
   return (
-    <section className="relative w-full bg-primary py-12 lg:py-16 overflow-hidden">
+    <section id="projects" className="relative w-full bg-primary py-12 lg:py-16 overflow-hidden">
       <div
         className="absolute inset-0 opacity-[0.02] z-0"
         style={{
@@ -214,7 +91,7 @@ export default function ProjectMap() {
         }}
       />
       {/* Container with equal padding on all sides */}
-      <div className="px-4 lg:px-8 max-w-[1600px] mx-auto">
+      <div className="px-4 lg:px-8 max-w-[1600px] mx-auto relative z-10">
         {/* Split Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center">
           {/* LEFT COLUMN - Text Content (5 columns on large screens) */}
@@ -223,7 +100,7 @@ export default function ProjectMap() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="lg:col-span-5 space-y-6 lg:pr-12"
+            className="lg:col-span-5 space-y-6 lg:pr-12 relative z-20"
           >
             {/* Eyebrow */}
             <div className="flex items-center gap-3">
@@ -266,16 +143,14 @@ export default function ProjectMap() {
             </div>
 
             {/* CTA Button */}
-            <button
-              onClick={() => {
-                router.push("/projects");
-                setTimeout(() => window.scrollTo(0, 0), 0);
-              }}
+            <Link
+              href="/projects"
               className="group flex items-center gap-3 text-text font-medium hover:text-maroon transition-colors duration-300 pt-2"
             >
               <span className="text-lg">View All Projects</span>
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-2" />
-            </button>
+            </Link>
+
           </motion.div>
 
           {/* RIGHT COLUMN - Map (7 columns on large screens) */}
@@ -306,37 +181,80 @@ export default function ProjectMap() {
                   <Popup
                     latitude={popupInfo.lat}
                     longitude={popupInfo.lon}
-                    closeButton={true}
+                    closeButton={false}
                     closeOnClick={false}
                     onClose={() => setPopupInfo(null)}
                     anchor="bottom"
                     offset={25}
-                    className="custom-popup"
+                    className="custom-popup !p-0 !bg-transparent !max-w-none shadow-none border-none"
+                    style={{ maxWidth: 'none', padding: 0, background: 'transparent' }}
                   >
-                    <div className="p-3 min-w-[200px]">
-                      <h3 className="font-bold text-lg text-text mb-2">
-                        {popupInfo.name}
-                      </h3>
-                      <div className="space-y-1 text-sm">
-                        <p className="text-text/70">
-                          <span className="font-medium">Type:</span>{" "}
-                          {popupInfo.type}
-                        </p>
-                        <p className="text-text/70">
-                          <span className="font-medium">Year:</span>{" "}
-                          {popupInfo.year}
-                        </p>
-                        <p>
-                          <span
-                            className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                    <div className="w-[300px] p-0 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 font-sans">
+                      {/* Image Header */}
+                      <div className="relative h-40 w-full overflow-hidden bg-gray-100">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={popupInfo.image}
+                          alt={popupInfo.title}
+                          className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        
+                        {/* Status Badge */}
+                        <div className="absolute bottom-3 left-3">
+                           <span
+                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md shadow-sm ${
                               popupInfo.status === "Completed"
-                                ? "bg-green-100 text-green-700"
-                                : "bg-orange-100 text-orange-700"
+                                ? "bg-green-500/90 text-white"
+                                : "bg-amber-500/90 text-white"
                             }`}
                           >
                             {popupInfo.status}
                           </span>
-                        </p>
+                        </div>
+
+                        {/* Custom Close Button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPopupInfo(null);
+                          }}
+                          className="absolute top-3 right-3 p-1.5 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-all z-10"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      {/* Content Body */}
+                      <div className="p-4 space-y-3">
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <span className="text-[10px] uppercase tracking-wider font-semibold text-accent/80">
+                              {popupInfo.type}
+                            </span>
+                          </div>
+                          <h3 className="font-serif font-bold text-xl text-gray-900 leading-tight">
+                            {popupInfo.title}
+                          </h3>
+                        </div>
+
+                        <div className="flex items-start gap-1.5 text-gray-500">
+                          <LucideMapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+                          <p className="text-xs leading-relaxed line-clamp-2">
+                            {popupInfo.location}
+                          </p>
+                        </div>
+
+                        {/* Footer / CTA */}
+                        <div className="pt-3 border-t border-gray-100">
+                           <Link
+                            href={`/projects?projectId=${popupInfo.id}`}
+                            className="group flex items-center justify-between w-full text-sm font-medium text-maroon hover:text-accent transition-colors"
+                          >
+                            <span>View Project Details</span>
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </Popup>

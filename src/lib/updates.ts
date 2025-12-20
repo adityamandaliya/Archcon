@@ -147,4 +147,30 @@ export const UPDATES: Update[] = [
       },
     ],
   },
+  {
+    id: 6,
+    date: "2025-5-15",
+    dateFormatted: "15 May 2025",
+    heading: "Partnership with Global Architecture Firm",
+    description:
+      "Archcon is proud to announce a strategic partnership with a leading international architecture firm. This collaboration brings global expertise and world-class design standards to our projects, enhancing our capability to deliver exceptional results.",
+    category: "announcement",
+    images: [
+      {
+        id: 1,
+        url: "/images/updates/update-6-1.jpg",
+        alt: "Partnership Announcement",
+      },
+      {
+        id: 2,
+        url: "/images/updates/update-6-2.jpg",
+        alt: "Team Meeting",
+      },
+      {
+        id: 3,
+        url: "/images/updates/update-6-3.jpg",
+        alt: "Collaboration Workspace",
+      },
+    ],
+  },
 ];

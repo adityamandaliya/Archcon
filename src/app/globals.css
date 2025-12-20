@@ -5,7 +5,7 @@
   --color-primary: #f5f0e9; /* Whitish Beige (Background/Light) */
   --color-maroon: #7f0000; /* Deep Maroon */
   --color-accent: #c4a484; /* Muted Bronze for highlight */
-  --color-text: #000000; /* PURE BLACK for bold, modern contrast */
+  --color-text: #0E0E0E; /* PURE BLACK for bold, modern contrast */
 
   /* Fonts (Inter for clean modern text, Playfair for elegant headers) */
   --font-sans: var(--font-inter);
@@ -23,6 +23,16 @@
       transform: translateY(-10px);
     }
   }
+  
+  @keyframes scan {
+    0% {
+      top: -100%;
+    }
+    100% {
+      top: 100%;
+    }
+  }
+  --animate-scan: scan 2s linear infinite;
 }
 
 /* Global Reset & Premium Feel */
@@ -56,4 +66,9 @@ html {
 /* For Chrome, Safari, and Opera */
 html::-webkit-scrollbar {
   display: none;
+}
+
+.stroke-text {
+  -webkit-text-stroke: 2px var(--color-accent);
+  color: transparent;
 }

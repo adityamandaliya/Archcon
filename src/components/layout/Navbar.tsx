@@ -6,9 +6,10 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Variants } from "framer-motion";
+import Image from "next/image";
 
 const navItems = [
-  { label: "ABOUT", href: "#about" },
+  { label: "ABOUT", href: "/#redevelopment" },
   { label: "PROJECTS", href: "/projects" },
   { label: "UPDATES", href: "/updates" },
   { label: "TEAM", href: "/team" },
@@ -40,7 +41,7 @@ export default function Navbar() {
   }, [lastScrollY]);
 
   const isActive = (href: string): boolean => {
-    if (href === "#about") return pathname === "/";
+    if (href === "/#redevelopment") return pathname === "/";
     if (href === "/projects") return pathname === "/projects";
     if (href === "/updates") return pathname === "/updates";
     if (href === "/team") return pathname === "/team";
@@ -118,7 +119,7 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 font-sans"
     >
       {/* Frosted Glass Background */}
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-md border-b border-white/10" />
+      <div className="absolute inset-0 bg-black/45 backdrop-blur-md border-b border-text/1" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
@@ -128,7 +129,16 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
+
+
             <Link href="/" className="flex items-center gap-2 group">
+              <Image
+                src="/images/Logo/Archcon_logo_wt.png"
+                alt="Archcon Logo"
+                width={45}
+                height={45}
+                className="w-12 h-12 object-contain"
+              />
               <span className="text-2xl font-bold text-white group-hover:text-accent transition-colors duration-300 font-serif">
                 Archcon
               </span>
@@ -166,7 +176,9 @@ export default function Navbar() {
                   >
                     <Link
                       href={item.href}
-                      className="relative block text-white/80 font-sans text-base font-medium transition-colors duration-200 hover:text-white"
+                      className={`relative block font-sans text-base font-medium transition-colors duration-200 ${
+                        active ? "text-white" : "text-white/80 hover:text-white"
+                      }`}
                     >
                       {/* Text with scale animation */}
                       <motion.span
@@ -214,7 +226,7 @@ export default function Navbar() {
               transition={{ delay: 0.2 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="hidden sm:inline-flex px-6 py-2 text-sm font-semibold text-black bg-white/70 rounded-lg font-sans hover:bg-maroon hover:text-white transition-all duration-300 cursor-pointer"
+              className="hidden sm:inline-flex px-6 py-2 text-sm font-semibold text-black bg-white/70 rounded-lg font-sans hover:bg-accent hover:text-white transition-all duration-300 cursor-pointer"
             >
               Get In Touch
             </motion.button>
@@ -261,7 +273,7 @@ export default function Navbar() {
               animate="open"
               exit="closed"
               variants={menuVariants}
-              className="md:hidden absolute top-full left-0 right-0 bg-black/50 backdrop-blur-lg border-b border-white/10"
+              className="md:hidden absolute top-full left-0 right-0 bg-black/45 backdrop-blur-md border-b border-text/1"
             >
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 space-y-2">
                 {navItems.map((item) => {
@@ -274,7 +286,7 @@ export default function Navbar() {
                         onClick={() => setIsOpen(false)}
                         className={`block px-4 py-3 rounded-lg font-sans transition-all duration-300 ${
                           active
-                            ? "bg-accent/20 text-white border-l-2 border-accent"
+                            ? "bg-text/20 text-white "
                             : "text-white/70 hover:text-white hover:bg-white/5"
                         }`}
                       >
@@ -294,7 +306,7 @@ export default function Navbar() {
                     type="button"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="block w-full px-4 py-3 text-center font-semibold text-black bg-white/70 rounded-lg font-sans hover:bg-maroon hover:text-white transition-all duration-300 cursor-pointer"
+                    className="block w-full px-4 py-3 text-center font-semibold text-black bg-white/70 rounded-lg font-sans hover:bg-accent hover:text-white transition-all duration-300 cursor-pointer"
                   >
                     Get In Touch
                   </motion.button>

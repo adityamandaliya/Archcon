@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, Linkedin, ArrowRight } from "lucide-react";
-import { FOUNDER, ASSOCIATES, TEAM_CATEGORIES, TeamMember } from "@/lib/team";
+import { FOUNDER, ASSOCIATES, TEAM_CATEGORIES, ALL_ASSOCIATES, TeamMember } from "@/lib/team";
 import { Variants } from "framer-motion";
 
 // Animation Variants
@@ -30,17 +30,32 @@ const itemVariants: Variants = {
 };
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { 
+    opacity: 0, 
+    scale: 0.9 
+  },
+
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" },
+    filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.08))",
+    transition: { 
+      duration: 0.5, 
+      ease: "easeOut" 
+    },
   },
+
   hover: {
     scale: 1.05,
-    transition: { duration: 0.3, type: "spring", stiffness: 300 },
+    filter: "drop-shadow(0 20px 60px rgba(0,0,0,0.15))",
+    transition: {
+      duration: 0.3,
+      type: "tween",
+      ease: "easeOut",
+    },
   },
 };
+
 
 // Team Member Card Component
 interface TeamCardProps {
@@ -64,9 +79,15 @@ function TeamCard({
         isFounder ? "col-span-full md:col-span-1" : ""
       }`}
     >
-      <div className="relative h-full rounded-2xl overflow-hidden bg-gradient-to-br from-white/10 to-white/5 border border-accent/30 group-hover:border-accent/50 transition-all duration-300 backdrop-blur-sm">
+      <div className="relative h-full rounded-2xl overflow-hidden bg-white border border-accent/30 group-hover:border-accent/50 transition-all duration-300 backdrop-blur-sm">
         {/* Image Container */}
         <div className="relative h-80 md:h-96 overflow-hidden bg-black/50">
+          {/* Company Badge */}
+          {member.company && (
+            <div className="absolute top-0 right-0 z-20 bg-accent text-white px-4 py-2 rounded-bl-2xl font-sans text-xs font-bold tracking-widest shadow-lg">
+              {member.company}
+            </div>
+          )}
           <Image
             src={member.image}
             alt={member.name}
@@ -198,6 +219,7 @@ function TeamCard({
 // Main Team Section Component
 export default function Team() {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [isAllAssociatesExpanded, setIsAllAssociatesExpanded] = useState(false);
 
   return (
     <section
@@ -231,24 +253,44 @@ export default function Team() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
 
-        <div className="mb-20 lg:mb-28 text-center">
-          <div className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="text-center mb-20"
+        >
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4"
+          >
             OUR EXCELLENCE TEAM
-          </div>
+          </motion.span>
 
-          <h2 className="text-4xl lg:text-6xl font-serif font-bold text-text mb-6 leading-tight">
-            Expertise Behind <span className="text-maroon">Success</span>
-          </h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-text mb-6 leading-tight"
+          >
+            Expertise Behind
+            <motion.span className="block text-maroon">
+              Success
+            </motion.span>
+          </motion.h2>
 
-          <p className="text-lg lg:text-xl text-text/70 max-w-3xl mx-auto leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-text/60 text-lg md:text-xl max-w-2xl mx-auto font-light"
+          >
             A powerhouse of architects, engineers, and consultants dedicated to
-            transforming
-            <span className="text-accent font-semibold">
-              {" "}
-              buildings and communities.
-            </span>
-          </p>
-        </div>
+            transforming buildings and communities.
+          </motion.p>
+        </motion.div>
         {/* ========== FOUNDER SECTION ========== */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -300,7 +342,7 @@ export default function Team() {
               </div>
             </motion.div>
             <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
-              Our <span className="text-maroon">Associates</span>
+              Our Active <span className="text-maroon">Associates</span>
             </h3>
             <p className="text-text/60 text-lg mt-4">
               Seasoned professionals driving strategic initiatives
@@ -311,13 +353,88 @@ export default function Team() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10"
           >
             {ASSOCIATES.map((member) => (
               <TeamCard key={member.id} member={member} />
             ))}
           </motion.div>
         </motion.div>
+        {/* ========== ALL ASSOCIATES EXPANDABLE SECTION ========== */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-28 lg:mb-36"
+        >
+          {/* Header */}
+          <motion.div
+            onClick={() => setIsAllAssociatesExpanded(!isAllAssociatesExpanded)}
+            className="group cursor-pointer mb-8"
+            whileHover={{ x: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="flex items-start justify-between p-6 lg:p-8 rounded-xl bg-gradient-to-r from-white/5 to-white/0 border border-accent/30 group-hover:border-accent/50 transition-all duration-300">
+              <div className="flex-1">
+                <motion.h4
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="text-2xl lg:text-3xl font-bold text-text mb-2"
+                >
+                  All Associates
+                </motion.h4>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: 0.15 }}
+                  className="text-black/60 text-sm lg:text-base"
+                >
+                  View our complete network of 12+ associate partners driving success across projects
+                </motion.p>
+              </div>
+
+              {/* Expand Icon */}
+              <motion.div
+                animate={{
+                  rotate: isAllAssociatesExpanded ? 180 : 0,
+                }}
+                transition={{ duration: 0.3 }}
+                className="ml-4 flex-shrink-0 mt-2"
+              >
+                <ArrowRight className="w-6 h-6 text-accent" />
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Grid - Expandable */}
+          <AnimatePresence>
+            {isAllAssociatesExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-12 pl-4 lg:pl-8 border-l-2 border-accent/30">
+                  {ALL_ASSOCIATES.map((member, memberIndex) => (
+                    <motion.div
+                      key={member.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: memberIndex * 0.05 }}
+                    >
+                      <TeamCard member={member} />
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
         {/* ========== TEAM CATEGORIES SECTION ========== */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}

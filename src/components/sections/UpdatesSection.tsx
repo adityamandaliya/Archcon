@@ -40,21 +40,21 @@ interface CarouselState {
 
 export default function UpdatesSection() {
   const [carouselIndices, setCarouselIndices] = useState<CarouselState>(
-    Object.fromEntries(UPDATES.map((update) => [update.id, 0]))
+    Object.fromEntries(UPDATES.map((update) => [update.id, 0])) as unknown as CarouselState
   );
   const [hoveredUpdateId, setHoveredUpdateId] = useState<number | null>(null);
 
   // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
+//   const containerVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: {
+//         staggerChildren: 0.15,
+//         delayChildren: 0.2,
+//       },
+//     },
+//   };
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
@@ -89,7 +89,27 @@ export default function UpdatesSection() {
     }));
   };
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const UPDATES_PER_PAGE = 5;
+
   const memoizedUpdates = useMemo(() => UPDATES, []);
+
+  // Calculate pagination values
+  const totalPages = Math.ceil(memoizedUpdates.length / UPDATES_PER_PAGE);
+  const displayedUpdates = useMemo(() => {
+    const startIndex = (currentPage - 1) * UPDATES_PER_PAGE;
+    return memoizedUpdates.slice(startIndex, startIndex + UPDATES_PER_PAGE);
+  }, [currentPage, memoizedUpdates]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Optional: Scroll to top of grid
+    const gridElement = document.getElementById('updates-grid');
+    if (gridElement) {
+      gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <section className="relative w-full bg-primary py-24 lg:py-32 overflow-hidden">
@@ -124,7 +144,7 @@ export default function UpdatesSection() {
             transition={{ duration: 0.6 }}
             className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4"
           >
-            LATEST NEWS & UPDATES
+             LATEST NEWS & UPDATES
           </motion.span>
 
           <motion.h2
@@ -151,211 +171,260 @@ export default function UpdatesSection() {
         </motion.div>
 
         {/* Updates Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="space-y-8 lg:space-y-12"
-        >
-          {memoizedUpdates.map((update) => {
-            const currentImageIndex = carouselIndices[update.id] || 0;
-            const currentImage = update.images[currentImageIndex];
-            const categoryConfig = CATEGORY_CONFIG[update.category];
+        <div id="updates-grid" className="scroll-mt-32">
+          <div
+            className="space-y-8 lg:space-y-12 mb-16"
+          >
+            {displayedUpdates.map((update) => {
+              const currentImageIndex = carouselIndices[update.id] || 0;
+              const currentImage = update.images[currentImageIndex];
+              const categoryConfig = CATEGORY_CONFIG[update.category];
 
-            return (
-              <motion.div
-                key={update.id}
-                variants={cardVariants}
-                onMouseEnter={() => setHoveredUpdateId(update.id)}
-                onMouseLeave={() => setHoveredUpdateId(null)}
-                className="group relative"
-              >
-                {/* Card Container */}
-                <motion.div
-                  animate={{
-                    boxShadow:
-                      hoveredUpdateId === update.id
-                        ? "0 20px 60px rgba(0,0,0,0.15)"
-                        : "0 10px 30px rgba(0,0,0,0.08)",
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="relative bg-white rounded-3xl overflow-hidden border border-accent/30 hover:border-accent/50 backdrop-blur-sm"
+              return (
+                <div
+                  key={update.id}
+                  onMouseEnter={() => setHoveredUpdateId(update.id)}
+                  onMouseLeave={() => setHoveredUpdateId(null)}
+                  className="group relative"
                 >
-                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-0">
-                    {/* Image Carousel Section (Right on Desktop, Top on Mobile) */}
-                    <motion.div
-                      animate={{
-                        scale: hoveredUpdateId === update.id ? 1.02 : 1,
-                      }}
-                      transition={{
-                        duration: 0.4,
-                        type: "spring",
-                        stiffness: 300,
-                      }}
-                      className="lg:col-span-2 relative h-80 lg:h-96 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50 order-first lg:order-last"
-                    >
-                      {/* Image Stack */}
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={`${update.id}-${currentImageIndex}`}
-                          initial={{ opacity: 0, x: 100 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -100 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                          className="relative w-full h-full"
-                        >
-                          <Image
-                            src={currentImage.url}
-                            alt={currentImage.alt}
-                            fill
-                            className="object-cover"
-                            priority={false}
-                          />
-                          {/* Image Overlay Gradient */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </motion.div>
-                      </AnimatePresence>
-
-                      {/* Carousel Navigation Dots - Bottom */}
-                      {update.images.length > 1 && (
-                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
-                          {update.images.map((_, idx) => (
-                            <motion.button
-                              key={idx}
-                              onClick={() => {
-                                setCarouselIndices((prev) => ({
-                                  ...prev,
-                                  [update.id]: idx,
-                                }));
-                              }}
-                              className={`h-2 rounded-full transition-all duration-300 ${
-                                idx === currentImageIndex
-                                  ? "bg-white w-8"
-                                  : "bg-white/50 w-2 hover:bg-white/80"
-                              }`}
-                              whileHover={{ scale: 1.2 }}
-                              whileTap={{ scale: 0.95 }}
-                            />
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Carousel Arrow Navigation - Sides */}
-                      {update.images.length > 1 && (
-                        <>
-                          <motion.button
-                            onClick={() => handleCarouselNav(update.id, "prev")}
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/30 text-white transition-all duration-300 group-hover:bg-white/50"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <ChevronLeft className="w-5 h-5" />
-                          </motion.button>
-
-                          <motion.button
-                            onClick={() => handleCarouselNav(update.id, "next")}
-                            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/30 text-white transition-all duration-300 group-hover:bg-white/50"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <ChevronRight className="w-5 h-5" />
-                          </motion.button>
-                        </>
-                      )}
-
-                      {/* Image Counter */}
-                      {update.images.length > 1 && (
-                        <div className="absolute top-4 right-4 z-20 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-sm border border-white/30 text-white text-xs font-semibold">
-                          {currentImageIndex + 1} / {update.images.length}
-                        </div>
-                      )}
-                    </motion.div>
-
-                    {/* Content Section (Left on Desktop, Bottom on Mobile) */}
-                    <div className="lg:col-span-3 p-8 md:p-10 lg:p-12 flex flex-col justify-between order-last lg:order-first">
-                      {/* Top Section: Date and Category */}
-                      <div>
-                        {/* Date */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.1 }}
-                          className="flex items-center gap-2 mb-4"
-                        >
-                          <Calendar className="w-4 h-4 text-accent" />
-                          <span className="text-sm font-semibold text-accent tracking-wide">
-                            {update.dateFormatted}
-                          </span>
-                        </motion.div>
-
-                        {/* Category Badge */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.15 }}
-                          className="flex items-center gap-2 mb-6"
-                        >
-                          <div
-                            className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${categoryConfig.badge}`}
-                          >
-                            <Tag className="w-3 h-3" />
-                            {categoryConfig.label}
-                          </div>
-                        </motion.div>
-
-                        {/* Heading */}
-                        <motion.h3
-                          initial={{ opacity: 0, y: 15 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.2 }}
-                          className="text-3xl md:text-4xl font-serif font-bold text-text mb-4 leading-tight"
-                        >
-                          {update.heading}
-                        </motion.h3>
-
-                        {/* Description */}
-                        <motion.p
-                          initial={{ opacity: 0, y: 15 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.25 }}
-                          className="text-text/70 text-base md:text-lg leading-relaxed max-w-xl"
-                        >
-                          {update.description}
-                        </motion.p>
-                      </div>
-
-                      {/* Bottom Section: Image Info and CTA */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 15 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        className="mt-8 pt-6 border-t border-gray-200"
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="text-sm text-text/60">
-                            <span className="font-semibold">
-                              {update.images.length}
-                            </span>{" "}
-                            images
-                          </div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </div>
-
-                  {/* Card Border Glow Effect on Hover */}
+                  {/* Card Container */}
                   <motion.div
                     animate={{
-                      opacity: hoveredUpdateId === update.id ? 0.1 : 0,
+                      boxShadow:
+                        hoveredUpdateId === update.id
+                          ? "0 20px 60px rgba(0,0,0,0.15)"
+                          : "0 10px 30px rgba(0,0,0,0.08)",
                     }}
-                    className="absolute inset-0 bg-gradient-to-br from-maroon via-accent to-maroon rounded-3xl pointer-events-none"
-                  />
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                    transition={{ duration: 0.3 }}
+                    className="relative bg-white rounded-3xl overflow-hidden border border-accent/30 hover:border-accent/50 backdrop-blur-sm"
+                  >
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 items-stretch">
+
+                      {/* Image Carousel Section (Right on Desktop, Top on Mobile) */}
+                      <motion.div
+                        animate={{
+                          scale: hoveredUpdateId === update.id ? 1.02 : 1,
+                        }}
+                        transition={{
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 300,
+                        }}
+                        className="lg:col-span-2 relative h-80 lg:h-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50 order-first lg:order-last flex"
+
+                      >
+                        {/* Image Stack */}
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={`${update.id}-${currentImageIndex}`}
+                            initial={{ opacity: 0, x: 100 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -100 }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            className="relative w-full h-full"
+                          >
+                            <Image
+                              src={currentImage.url}
+                              alt={currentImage.alt}
+                              fill
+                              className="object-cover"
+                              priority={false}
+                            />
+                            {/* Image Overlay Gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          </motion.div>
+                        </AnimatePresence>
+
+                        {/* Carousel Navigation Dots - Bottom */}
+                        {update.images.length > 1 && (
+                          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+                            {update.images.map((_, idx) => (
+                              <motion.button
+                                key={idx}
+                                onClick={() => {
+                                  setCarouselIndices((prev) => ({
+                                    ...prev,
+                                    [update.id]: idx,
+                                  }));
+                                }}
+                                className={`h-2 rounded-full transition-all duration-300 ${
+                                  idx === currentImageIndex
+                                    ? "bg-white w-8"
+                                    : "bg-white/50 w-2 hover:bg-white/80"
+                                }`}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              />
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Carousel Arrow Navigation - Sides */}
+                        {update.images.length > 1 && (
+                          <>
+                            <motion.button
+                              onClick={() => handleCarouselNav(update.id, "prev")}
+                              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/30 text-white transition-all duration-300 group-hover:bg-white/50"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <ChevronLeft className="w-5 h-5" />
+                            </motion.button>
+
+                            <motion.button
+                              onClick={() => handleCarouselNav(update.id, "next")}
+                              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/30 text-white transition-all duration-300 group-hover:bg-white/50"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <ChevronRight className="w-5 h-5" />
+                            </motion.button>
+                          </>
+                        )}
+
+                        {/* Image Counter */}
+                        {update.images.length > 1 && (
+                          <div className="absolute top-4 right-4 z-20 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-sm border border-white/30 text-white text-xs font-semibold">
+                            {currentImageIndex + 1} / {update.images.length}
+                          </div>
+                        )}
+                      </motion.div>
+
+                      {/* Content Section (Left on Desktop, Bottom on Mobile) */}
+                      <div className="lg:col-span-3 p-8 md:p-10 lg:p-12 flex flex-col justify-between order-last lg:order-first">
+                        {/* Top Section: Date and Category */}
+                        <div>
+                          {/* Date */}
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="flex items-center gap-2 mb-4"
+                          >
+                            <Calendar className="w-4 h-4 text-accent" />
+                            <span className="text-sm font-semibold text-accent tracking-wide">
+                              {update.dateFormatted}
+                            </span>
+                          </motion.div>
+
+                          {/* Category Badge */}
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.15 }}
+                            className="flex items-center gap-2 mb-6"
+                          >
+                            <div
+                              className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${categoryConfig.badge}`}
+                            >
+                              <Tag className="w-3 h-3" />
+                              {categoryConfig.label}
+                            </div>
+                          </motion.div>
+
+                          {/* Heading */}
+                          <motion.h3
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="text-3xl md:text-4xl font-serif font-bold text-text mb-4 leading-tight"
+                          >
+                            {update.heading}
+                          </motion.h3>
+
+                          {/* Description */}
+                          <motion.p
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.25 }}
+                            className="text-text/70 text-base md:text-lg leading-relaxed max-w-xl"
+                          >
+                            {update.description}
+                          </motion.p>
+                        </div>
+
+                        {/* Bottom Section: Image Info and CTA */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: 0.3 }}
+                          className="mt-8 pt-6 border-t border-gray-200"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm text-text/60">
+                              <span className="font-semibold">
+                                {update.images.length}
+                              </span>{" "}
+                              images
+                            </div>
+                          </div>
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    {/* Card Border Glow Effect on Hover */}
+                    <motion.div
+                      animate={{
+                        opacity: hoveredUpdateId === update.id ? 0.1 : 0,
+                      }}
+                      className="absolute inset-0 bg-gradient-to-br from-maroon via-accent to-maroon rounded-3xl pointer-events-none"
+                    />
+                  </motion.div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div 
+            className="flex justify-center items-center gap-4 relative z-20"
+          >
+            {/* Previous Button */}
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className={`px-6 py-3 rounded-full border text-sm font-semibold tracking-wide transition-all duration-300 ${
+                currentPage === 1
+                  ? "border-text/10 text-text/30 cursor-not-allowed"
+                  : "border-text/20 text-text hover:border-maroon hover:text-maroon hover:bg-maroon/5"
+              }`}
+            >
+              PREVIOUS
+            </button>
+
+            {/* Page Numbers */}
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`w-10 h-10 rounded-full text-sm font-semibold transition-all duration-300 flex items-center justify-center ${
+                    currentPage === page
+                      ? "bg-maroon text-white shadow-lg scale-110"
+                      : "text-text/60 hover:bg-text/5"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            {/* Next Button */}
+            <button
+              onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              className={`px-6 py-3 rounded-full border text-sm font-semibold tracking-wide transition-all duration-300 ${
+                currentPage === totalPages
+                  ? "border-text/10 text-text/30 cursor-not-allowed"
+                  : "border-text/20 text-text hover:border-maroon hover:text-maroon hover:bg-maroon/5"
+              }`}
+            >
+              NEXT
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

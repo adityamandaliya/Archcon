@@ -51,14 +51,14 @@ export default function CorporateIdentity() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
-    <section className="relative w-full bg-primary py-24 lg:py-32 overflow-hidden">
+    <section className="relative w-full bg-white py-24 lg:py-32 overflow-hidden">
       {/* Background Grid */}
       <div
-        className="absolute inset-0 opacity-[0.02] z-0"
+        className="absolute inset-0 opacity-[0.15] z-0"
         style={{
           backgroundImage: `
-            linear-gradient(90deg, #000 1px, transparent 1px),
-            linear-gradient(0deg, #000 1px, transparent 1px)
+            linear-gradient(90deg, #c4a484 1px, transparent 1px),
+            linear-gradient(0deg, #c4a484 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
         }}
@@ -107,7 +107,7 @@ export default function CorporateIdentity() {
         </motion.div>
 
         {/* Values Grid - Premium Card Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-8 lg:gap-10">
           {VALUES.map((value, idx) => (
             <motion.div
               key={value.id}
@@ -122,7 +122,7 @@ export default function CorporateIdentity() {
               {/* Card Container */}
               <div className="relative h-full rounded-2xl overflow-hidden bg-white border border-text/10 transition-all duration-500">
                 {/* Image Background */}
-                <div className="relative h-56 overflow-hidden bg-text/5">
+                <div className="relative h-32 md:h-56 overflow-hidden bg-text/5">
                   <Image
                     src={value.image}
                     alt={value.title}
@@ -131,32 +131,32 @@ export default function CorporateIdentity() {
                   />
 
                   {/* Gradient Overlay */}
-                  <div
+                  {/* <div
                     className={`absolute inset-0 bg-gradient-to-br ${value.accent} opacity-0 group-hover:opacity-40 transition-opacity duration-700`}
-                  />
+                  /> */}
 
                   {/* Icon Badge */}
                   <motion.div
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     transition={{ duration: 0.6, delay: idx * 0.15 + 0.3 }}
-                    className="absolute top-4 right-4 w-12 h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center text-xl font-light text-maroon border border-text/10 shadow-lg"
+                    className="absolute top-2 right-2 md:top-4 md:right-4 w-8 h-8 md:w-12 md:h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center text-sm md:text-xl font-light text-maroon border border-text/10 shadow-lg"
                   >
                     {value.icon}
                   </motion.div>
                 </div>
 
                 {/* Content Area */}
-                <div className="p-8 lg:p-10">
+                <div className="p-3 md:p-8 lg:p-10">
                   {/* Subtitle */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: idx * 0.15 + 0.1 }}
-                    className="flex items-center gap-2 mb-3"
+                    className="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-3"
                   >
-                    <div className="w-6 h-px bg-gradient-to-r from-maroon to-transparent" />
-                    <span className="text-accent text-xs uppercase tracking-[0.2em] font-medium">
+                    <div className="w-4 md:w-6 h-px bg-accent" />
+                    <span className="text-accent text-[10px] md:text-xs uppercase tracking-[0.2em] font-medium">
                       {value.subtitle}
                     </span>
                   </motion.div>
@@ -166,7 +166,7 @@ export default function CorporateIdentity() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: idx * 0.15 + 0.15 }}
-                    className="text-2xl md:text-3xl font-serif font-bold text-text mb-4 leading-tight"
+                    className="text-base md:text-2xl md:text-3xl font-serif font-bold text-text mb-2 md:mb-4 leading-tight"
                   >
                     {value.title}
                   </motion.h3>
@@ -176,7 +176,7 @@ export default function CorporateIdentity() {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: idx * 0.15 + 0.2 }}
-                    className="text-text/70 leading-relaxed text-sm md:text-base"
+                    className="text-text/70 leading-tight md:leading-relaxed text-xs md:text-sm md:text-base line-clamp-3 md:line-clamp-none"
                   >
                     {value.description}
                   </motion.p>
@@ -190,13 +190,7 @@ export default function CorporateIdentity() {
                   />
                 </div>
 
-                {/* Hover Glow Effect */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredId === value.id ? 0.1 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={`absolute inset-0 bg-gradient-to-br ${value.accent} pointer-events-none`}
-                />
+                
               </div>
 
               {/* Floating particles on hover */}
@@ -235,13 +229,7 @@ export default function CorporateIdentity() {
               not just buildings, but legacies.
             </p>
 
-            {/* Decorative line */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className="w-16 h-1 bg-gradient-to-r from-transparent via-maroon to-transparent mx-auto"
-            />
+            
           </div>
         </motion.div>
       </div>

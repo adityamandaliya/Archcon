@@ -5,7 +5,7 @@ import UpdatesSection from "@/components/sections/UpdatesSection";
 import CorporateIdentity from "@/components/sections/CorporateIdentity";
 import Contact from "@/components/sections/Contact";
 import MotionStatement from "@/components/sections/MotionStatement";
-import InfiniteScrollBar from "@/components/sections/InfiniteScrollBar";
+import SubCompaniesSection from "@/components/sections/SubCompaniesSection";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
       <Hero />
       <Redevelopment />
       <MotionStatement />
-      <InfiniteScrollBar />
+      <SubCompaniesSection />
       <ProjectMap />
       {/* <UpdatesSection /> */}
       <CorporateIdentity />

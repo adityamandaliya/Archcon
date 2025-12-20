@@ -9,7 +9,8 @@ import { Variants } from "framer-motion";
 
 const footerLinks = {
   index: [
-    { label: "Home", href: "#" },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/#redevelopment" },
     { label: "Projects", href: "/projects" },
     { label: "Updates", href: "/updates" },
     { label: "Teams", href: "/team" },

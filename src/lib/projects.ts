@@ -2,8 +2,9 @@ export interface Project {
   id: number;
   title: string;
   location: string;
-  type: "Residential" | "Commercial" | "Industrial";
-  image: string;
+  type: "Residential" | "Commercial" | "Industrial" | "Resi.+Commercial" | "Resi./Comm./Rowhouse";
+  image: string; // Keep for backward compatibility/thumbnail
+  images: string[]; // New array for carousel
   startDate: string;
   endDate: string;
   durationMonths: number;
@@ -11,6 +12,9 @@ export interface Project {
   description: string;
   area: string;
   status: "Completed" | "In Progress" | "Upcoming";
+  lat?: number;
+  lon?: number;
+  year?: string;
 }
 
 export const PROJECTS: Project[] = [
@@ -18,9 +22,10 @@ export const PROJECTS: Project[] = [
     id: 1,
     title: "Shelter CHS",
     location: "Shraddhanand Road, Vile Parle (E), Mumbai",
-    type: "Residential",
+    type: "Resi.+Commercial",
     image: "/images/projects/tech-park.jpg",
-    startDate: "---",
+    images: ["/images/projects/shelter/shelter-1.jpeg", "/images/projects/shelter/shelter-2.jpeg"],
+    startDate: "IOD",
     endDate: "---",
     durationMonths: 0,
     highlights: [
@@ -32,7 +37,10 @@ export const PROJECTS: Project[] = [
     description:
       "A world-class technology park fostering innovation and entrepreneurship with state-of-the-art facilities for next-generation businesses.",
     area: "15,000 sq ft",
-    status: "In Progress",
+    status: "Upcoming",
+    lat: 19.09310813701736,
+    lon: 72.84631502269733,
+    year: "-",
   },
   {
     id: 2,
@@ -40,6 +48,7 @@ export const PROJECTS: Project[] = [
     location: "Rajasthan Society, J.B Nagar, Andheri (E), Mumbai",
     type: "Residential",
     image: "/images/projects/gold-residences.jpg",
+    images: ["/images/projects/saideep/saideep-1r.jpeg", "/images/projects/saideep/saideep-2r.jpeg", "/images/projects/saideep/saideep-3r.jpg", "/images/projects/saideep/saideep-4r.jpg", "/images/projects/saideep/saideep-5r.jpg", "/images/projects/saideep/saideep-6r.jpg", "/images/projects/saideep/saideep-7r.jpg", "/images/projects/saideep/saideep-8r.jpg", "/images/projects/saideep/saideep-9r.jpg", "/images/projects/saideep/saideep-10r.jpg", "/images/projects/saideep/saideep-11r.jpg", "/images/projects/saideep/saideep-12r.jpg", "/images/projects/saideep/saideep-13r.jpg", "/images/projects/saideep/saideep-14r.jpg", "/images/projects/saideep/saideep-15r.jpg", "/images/projects/saideep/saideep-16r.jpg"],
     startDate: "Jun 2022",
     endDate: "Jun 2024",
     durationMonths: 24,
@@ -53,6 +62,9 @@ export const PROJECTS: Project[] = [
       "A premium residential development redefining luxury living in Andheri with eco-conscious design and world-class amenities.",
     area: "25,000 sq ft",
     status: "Completed",
+    lat: 19.11024717154869,
+    lon: 72.8695991008313,
+    year: "2024",
   },
   {
     id: 3,
@@ -60,6 +72,7 @@ export const PROJECTS: Project[] = [
     location: "M.G. Cross Road No. 2, Kandiwali (W), Mumbai",
     type: "Residential",
     image: "/images/projects/archcon-towers.jpg",
+    images: ["/images/projects/vijay/vijay-1.png", "/images/projects/vijay/vijay-2.png", "/images/projects/vijay/vijay-3.png", "/images/projects/vijay/vijay-4.png"],
     startDate: "Dec 2016",
     endDate: "Nov 2018",
     durationMonths: 23,
@@ -73,6 +86,9 @@ export const PROJECTS: Project[] = [
       "State-of-the-art commercial hub featuring modern offices, premium retail, and dining experiences for forward-thinking businesses.",
     area: "28,500 sq ft",
     status: "Completed",
+    lat: 19.204512896893068,
+    lon: 72.8439046695957,
+    year: "2018",
   },
   {
     id: 4,
@@ -80,6 +96,7 @@ export const PROJECTS: Project[] = [
     location: "Shimpoli Road, Borivali (W), Mumbai",
     type: "Residential",
     image: "/images/projects/industrial-hub.jpg",
+    images: ["/images/projects/industrial-hub.jpg", "/images/projects/urban-garden.jpg", "/images/projects/gold-residences.jpg"],
     startDate: "April 2010",
     endDate: "Dec 2012",
     durationMonths: 33,
@@ -93,6 +110,9 @@ export const PROJECTS: Project[] = [
       "Strategic industrial complex with cutting-edge logistics infrastructure, optimizing supply chain efficiency for India's growing economy.",
     area: "15,000 sq ft",
     status: "Completed",
+    lat: 19.22137813840749,
+    lon: 72.84599410987323,
+    year: "2013",
   },
   {
     id: 5,
@@ -100,6 +120,7 @@ export const PROJECTS: Project[] = [
     location: "Dattapada, Borivali (E), Mumbai",
     type: "Residential",
     image: "/images/projects/urban-garden.jpg",
+    images: ["/images/projects/urban-garden.jpg", "/images/projects/metropolitan-suites.jpg", "/images/projects/archcon-towers.jpg"],
     startDate: "Mar 2005",
     endDate: "Dec 2006",
     durationMonths: 24,
@@ -113,6 +134,9 @@ export const PROJECTS: Project[] = [
       "An innovative community-centric development blending commerce with nature, creating vibrant urban spaces for modern living.",
     area: "7,000 sq ft",
     status: "Completed",
+    lat: 19.222972112820834,
+    lon: 72.85639335819292,
+    year: "2007",
   },
   {
     id: 6,
@@ -120,6 +144,7 @@ export const PROJECTS: Project[] = [
     location: "Kashimira, Mira Road, Mumbai",
     type: "Industrial",
     image: "/images/projects/metropolitan-suites.jpg",
+    images: ["/images/projects/metropolitan-suites.jpg", "/images/projects/tech-park.jpg", "/images/projects/gold-residences.jpg"],
     startDate: "Apr 2002",
     endDate: "Feb 2004",
     durationMonths: 22,
@@ -133,6 +158,9 @@ export const PROJECTS: Project[] = [
       "Contemporary residential community designed for the modern professional, combining comfort, connectivity, and sustainable living.",
     area: "22,000 sq ft",
     status: "Completed",
+    lat: 19.27208114776594,
+    lon: 72.8840193495014,
+    year: "2004",
   },
   {
     id: 7,
@@ -140,6 +168,7 @@ export const PROJECTS: Project[] = [
     location: "Kashimira, Mira Road, Mumbai",
     type: "Industrial",
     image: "/images/projects/tech-park.jpg",
+    images: ["/images/projects/tech-park.jpg", "/images/projects/industrial-hub.jpg", "/images/projects/archcon-towers.jpg"],
     startDate: "Jan 2000",
     endDate: "Dec 2002",
     durationMonths: 36,
@@ -153,6 +182,9 @@ export const PROJECTS: Project[] = [
       "A world-class technology park fostering innovation and entrepreneurship with state-of-the-art facilities for next-generation businesses.",
     area: "35,000 sq ft",
     status: "Completed",
+    lat: 19.270566565741046,
+    lon: 72.8819504183833,
+    year: "2002",
   },
   {
     id: 8,
@@ -160,6 +192,7 @@ export const PROJECTS: Project[] = [
     location: "Hatkesh, Mira-Bhayandar Road, Mira Road, Mumbai",
     type: "Industrial",
     image: "/images/projects/gold-residences.jpg",
+    images: ["/images/projects/gold-residences.jpg", "/images/projects/urban-garden.jpg", "/images/projects/metropolitan-suites.jpg"],
     startDate: "April 1998",
     endDate: "March 2004",
     durationMonths: 72,
@@ -168,6 +201,9 @@ export const PROJECTS: Project[] = [
       "A premium residential development redefining luxury living in Bandra with eco-conscious design and world-class amenities.",
     area: "2,50,000 sq ft",
     status: "Completed",
+    lat: 19.28140709396304,
+    lon: 72.87885187018514,
+    year: "2004",
   },
   {
     id: 9,
@@ -175,6 +211,7 @@ export const PROJECTS: Project[] = [
     location: "Nehroli, Wada",
     type: "Industrial",
     image: "/images/projects/archcon-towers.jpg",
+    images: ["/images/projects/archcon-towers.jpg", "/images/projects/industrial-hub.jpg", "/images/projects/tech-park.jpg"],
     startDate: "Apr 1998",
     endDate: "Dec 1999",
     durationMonths: 21,
@@ -183,6 +220,9 @@ export const PROJECTS: Project[] = [
       "State-of-the-art commercial hub featuring modern offices, premium retail, and dining experiences for forward-thinking businesses.",
     area: "20,000 sq ft",
     status: "Completed",
+    lat: 19.59686778047216,
+    lon: 73.11860314406887,
+    year: "1999",
   },
   {
     id: 10,
@@ -190,6 +230,7 @@ export const PROJECTS: Project[] = [
     location: "Nehroli, Wada",
     type: "Industrial",
     image: "/images/projects/industrial-hub.jpg",
+    images: ["/images/projects/industrial-hub.jpg", "/images/projects/urban-garden.jpg", "/images/projects/gold-residences.jpg"],
     startDate: "Feb 1997",
     endDate: "Dec 1998",
     durationMonths: 23,
@@ -203,13 +244,17 @@ export const PROJECTS: Project[] = [
       "Strategic industrial complex with cutting-edge logistics infrastructure, optimizing supply chain efficiency for India's growing economy.",
     area: "30,000 sq ft",
     status: "Completed",
+    lat: 19.597890010662127,
+    lon: 73.11898960756184,
+    year: "1998",
   },
   {
     id: 11,
     title: "Kohinoor Apartment",
     location: "Satellite Park, Mira Road (E), Mumbai",
-    type: "Residential",
+    type: "Resi.+Commercial",
     image: "/images/projects/urban-garden.jpg",
+    images: ["/images/projects/urban-garden.jpg", "/images/projects/metropolitan-suites.jpg", "/images/projects/archcon-towers.jpg"],
     startDate: "Feb 1999",
     endDate: "Jan 2002",
     durationMonths: 35,
@@ -223,6 +268,9 @@ export const PROJECTS: Project[] = [
       "An innovative community-centric development blending commerce with nature, creating vibrant urban spaces for modern living.",
     area: "12,000 sq ft",
     status: "Completed",
+    lat: 19.284740216460868,
+    lon: 72.87973961535695,
+    year: "2002",
   },
   {
     id: 12,
@@ -230,6 +278,7 @@ export const PROJECTS: Project[] = [
     location: "Satellite Park, Mira Road (E), Mumbai",
     type: "Residential",
     image: "/images/projects/metropolitan-suites.jpg",
+    images: ["/images/projects/metropolitan-suites.jpg", "/images/projects/tech-park.jpg", "/images/projects/gold-residences.jpg"],
     startDate: "Dec 1998",
     endDate: "Dec 2000",
     durationMonths: 24,
@@ -243,13 +292,17 @@ export const PROJECTS: Project[] = [
       "Contemporary residential community designed for the modern professional, combining comfort, connectivity, and sustainable living.",
     area: "8,000 sq ft",
     status: "Completed",
+    lat: 19.285594463513803,
+    lon: 72.88039072728012,
+    year: "2000",
   },
   {
     id: 13,
-    title: "Satellite Park (Com/Resi/Row-Houses)",
+    title: "Satellite Park",
     location: "Hatkesh, Mira Road (E), Mumbai",
-    type: "Commercial",
+    type: "Resi./Comm./Rowhouse",
     image: "/images/projects/tech-park.jpg",
+    images: ["/images/projects/tech-park.jpg", "/images/projects/industrial-hub.jpg", "/images/projects/archcon-towers.jpg"],
     startDate: "Jan 2023",
     endDate: "Aug 2025",
     durationMonths: 31,
@@ -263,6 +316,9 @@ export const PROJECTS: Project[] = [
       "A world-class technology park fostering innovation and entrepreneurship with state-of-the-art facilities for next-generation businesses.",
     area: "1,50,000 sq ft",
     status: "Completed",
+    lat: 19.28511054504845,
+    lon: 72.880150289423,
+    year: "2000",
   },
   {
     id: 14,
@@ -270,6 +326,7 @@ export const PROJECTS: Project[] = [
     location: "Shirdi Nagar, Bhayandar (E), Thane",
     type: "Residential",
     image: "/images/projects/metropolitan-suites.jpg",
+    images: ["/images/projects/metropolitan-suites.jpg", "/images/projects/tech-park.jpg", "/images/projects/gold-residences.jpg"],
     startDate: "Mar 1987",
     endDate: "Dec 1989",
     durationMonths: 33,
@@ -283,5 +340,8 @@ export const PROJECTS: Project[] = [
       "Contemporary residential community designed for the modern professional, combining comfort, connectivity, and sustainable living.",
     area: "10,000 sq ft",
     status: "Completed",
+    lat: 19.305541741218736,
+    lon: 72.86219516590693,
+    year: "1989",
   },
 ];

@@ -6,7 +6,6 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import LenisProvider from "@/components/layout/LenisProvider";
 
-// Load Fonts (Existing Code)
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
