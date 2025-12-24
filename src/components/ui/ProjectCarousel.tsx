@@ -43,15 +43,30 @@ export default function ProjectCarousel({
             animate={{ opacity: 1, scale: isHovered ? 1.05 : 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute inset-0"
+            className="absolute inset-0 overflow-hidden"
           >
-            <Image
-              src={images[currentIndex]}
-              alt={`${title} - Image ${currentIndex + 1}`}
-              fill
-              className="object-cover object-top"
-              quality={75}
-            />
+            {/* Blurred Background Layer - Fills the space */}
+            <div className="absolute inset-0">
+              <Image
+                src={images[currentIndex]}
+                alt=""
+                fill
+                className="object-cover blur-2xl scale-110 opacity-50"
+                priority={currentIndex === 0}
+              />
+            </div>
+
+            {/* Main Image Layer - Shows the full image */}
+            <div className="absolute inset-0">
+              <Image
+                src={images[currentIndex]}
+                alt={`${title} - Image ${currentIndex + 1}`}
+                fill
+                className="object-contain relative z-10 p-0"
+                quality={85}
+                priority={currentIndex === 0}
+              />
+            </div>
           </motion.div>
         </AnimatePresence>
 

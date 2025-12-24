@@ -19,7 +19,12 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Archcon | Mumbai Redevelopment",
   description: "Premier construction and redevelopment firm in Mumbai.",
+  icons: {
+    icon: "/images/Logo/Archcon_logo_wt.png",
+  },
 };
+
+import LoadingScreen from "@/components/layout/LoadingScreen";
 
 export default function RootLayout({
   children,
@@ -29,6 +34,7 @@ export default function RootLayout({
   return (
     <HtmlWrapper>
       <LenisProvider>
+        <LoadingScreen />
         <Navbar />
         {children}
         <Footer />

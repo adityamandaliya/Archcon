@@ -7,7 +7,7 @@ export interface SubCompany {
 export const SUB_COMPANIES: SubCompany[] = [
   {
     id: 1,
-    name: "GLORY CORPORATION",
+    name: "GLORY ENTERPRISE",
     logo: "/images/logos/glory-corp.png",
   },
   {
@@ -52,7 +52,7 @@ export const SUB_COMPANIES: SubCompany[] = [
   },
   {
     id: 10,
-    name: "ARCHCON DESIGN",
+    name: "GLORY CORPORATION",
     logo: "/images/logos/archcon-design.png",
   },
   {
