@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -247,6 +247,14 @@ function ProjectCard({ project, isHighlighted, isHovered, onHover, onLeave, onOp
 }
 
 export default function Projects() {
+  return (
+    <Suspense fallback={<div className="h-screen bg-primary" />}>
+      <ProjectsContent />
+    </Suspense>
+  );
+}
+
+function ProjectsContent() {
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
   const [highlightedId, setHighlightedId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
