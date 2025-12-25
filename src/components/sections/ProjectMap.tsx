@@ -112,11 +112,11 @@ export default function ProjectMap() {
 
             {/* Main Heading */}
             <div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-text leading-tight mb-4">
+              <h2 className="text-4xl md:text-6xl font-serif font-bold text-text leading-tight mb-4">
                 Building Across
                 <span className="text-maroon block">Mumbai</span>
               </h2>
-              <p className="text-text/70 text-base lg:text-lg leading-relaxed max-w-md">
+              <p className="text-text/70 text-lg md:text-lg leading-relaxed max-w-md">
                 From residential redevelopments in Bandra to industrial
                 complexes in Bhiwandi, our projects shape the city's landscape.
               </p>

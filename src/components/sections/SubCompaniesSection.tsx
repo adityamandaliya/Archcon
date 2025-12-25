@@ -73,7 +73,7 @@ const SubCompaniesSection = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-[var(--color-text)]/70 mt-6 max-w-2xl mx-auto text-lg"
+            className="text-[var(--color-text)]/70 mt-6 max-w-2xl mx-auto text-lg md:text-lg"
           >
             A unified network of specialized entities delivering excellence across every dimension of construction and development.
           </motion.p>

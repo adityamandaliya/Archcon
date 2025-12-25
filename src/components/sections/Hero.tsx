@@ -208,7 +208,7 @@ export default function Hero() {
             </div>
 
             {/* Description */}
-            <div className="relative overflow-hidden mb-12">
+            <div className="relative overflow-hidden mb-8 md:mb-12 hidden md:block">
                <p className="hero-text text-xl md:text-2xl text-accent font-light tracking-wide max-w-2xl mx-auto rounded-sm p-1">
                 Engineering the future, one beam at a time.
               </p>

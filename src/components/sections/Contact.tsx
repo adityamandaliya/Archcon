@@ -247,7 +247,7 @@ export default function Contact() {
           <span className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4">
             LET'S CONNECT
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-text mb-6">
+          <h2 className="text-4xl md:text-6xl font-serif font-bold text-text mb-6">
             Get In Touch <span className="text-maroon">With Us</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">

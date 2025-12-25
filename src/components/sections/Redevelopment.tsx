@@ -1064,7 +1064,7 @@ export default function Redevelopment() {
               Core Expertise
             </h2>
           </div>
-          <h2 className="text-6xl md:text-8xl font-serif font-bold tracking-tight mb-8 text-black relative z-10">
+          <h2 className="text-4xl md:text-8xl font-serif font-bold tracking-tight mb-8 text-black relative z-10">
             {"Redevelopment".split("").map((char, i) => (
               <span
       key={i}
@@ -1076,7 +1076,7 @@ export default function Redevelopment() {
               </span>
             ))}
           </h2>
-          <p className="text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
             Transforming aging structures into landmarks of tomorrow. 
             Experience a seamless journey from concept to keys.
           </p>
@@ -1097,8 +1097,8 @@ export default function Redevelopment() {
         {/* --- PROCESS TIMELINE --- */}
         <div ref={processRef} className="relative max-w-5xl mx-auto mb-48">
           <div className="text-center mb-32">
-            <h3 className="text-6xl md:text-8xl font-serif font-bold mb-8">The <span className="text-maroon">Journey</span></h3>
-            <p className="text-xl text-gray-500">Seven steps to your new home.</p>
+            <h3 className="text-4xl md:text-8xl font-serif font-bold mb-8">The <span className="text-maroon">Journey</span></h3>
+            <p className="text-lg md:text-xl text-gray-500">Seven steps to your new home.</p>
           </div>
 
           {/* SVG Line */}
@@ -1131,10 +1131,10 @@ export default function Redevelopment() {
             <h3 className="text-sm font-bold text-accent tracking-[0.5em] uppercase mb-4">
               Our Promise
             </h3>
-            <h2 className="text-6xl md:text-8xl font-serif font-bold mb-8">
+            <h2 className="text-4xl md:text-8xl font-serif font-bold mb-8">
               Why Choose <span className="text-maroon">Us</span>
             </h2>
-            <p className="text-2xl opacity-60 max-w-3xl mx-auto font-light">
+            <p className="text-lg md:text-2xl opacity-60 max-w-3xl mx-auto font-light">
               We don't just build structures; we build relationships that last generations.
             </p>
           </div>
