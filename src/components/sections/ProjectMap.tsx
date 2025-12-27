@@ -12,12 +12,18 @@ import { PROJECTS } from "@/lib/projects";
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 export default function ProjectMap() {
+  useEffect(() => {
+    if (!MAPBOX_TOKEN) {
+      console.error("Mapbox token is missing! Please set NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN in Vercel environment variables.");
+    }
+  }, []);
+
   const [viewport, setViewport] = useState({
     latitude: 19.076,
     longitude: 72.8777,
     zoom: 10,
   });
-  const [popupInfo, setPopupInfo] = useState<any>(null);
+  const [popupInfo, setPopupInfo] = useState<typeof PROJECTS[0] | null>(null);
   const [isMapActive, setIsMapActive] = useState(false);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const lastTapRef = useRef<number>(0);
@@ -95,7 +101,7 @@ export default function ProjectMap() {
               </h2>
               <p className="text-text/70 text-lg md:text-lg leading-relaxed max-w-md">
                 From residential redevelopments in Bandra to industrial
-                complexes in Bhiwandi, our projects shape the city's landscape.
+                complexes in Bhiwandi, our projects shape the city&apos;s landscape.
               </p>
             </div>
 
@@ -180,104 +186,118 @@ export default function ProjectMap() {
                 </div>
               )}
 
-              <Map
-                {...viewport}
-                onMove={(evt) => setViewport(evt.viewState)}
-                style={{ width: "100%", height: "100%" }}
-                mapStyle="mapbox://styles/mapbox/dark-v11"
-                mapboxAccessToken={MAPBOX_TOKEN}
-                minZoom={9}
-                maxZoom={15}
-                dragPan={isMapActive}
-                scrollZoom={isMapActive}
-                touchZoomRotate={isMapActive}
-                doubleClickZoom={isMapActive}
-              >
-                {markers}
+              {MAPBOX_TOKEN ? (
+                <Map
+                  {...viewport}
+                  onMove={(evt) => setViewport(evt.viewState)}
+                  style={{ width: "100%", height: "100%" }}
+                  mapStyle="mapbox://styles/mapbox/dark-v11"
+                  mapboxAccessToken={MAPBOX_TOKEN}
+                  minZoom={9}
+                  maxZoom={15}
+                  dragPan={isMapActive}
+                  scrollZoom={isMapActive}
+                  touchZoomRotate={isMapActive}
+                  doubleClickZoom={isMapActive}
+                >
+                  {markers}
 
-                {popupInfo && (
-                  <Popup
-                    latitude={popupInfo.lat}
-                    longitude={popupInfo.lon}
-                    closeButton={false}
-                    closeOnClick={false}
-                    onClose={() => setPopupInfo(null)}
-                    anchor="bottom"
-                    offset={25}
-                    className="custom-popup !p-0 !bg-transparent !max-w-none shadow-none border-none"
-                    style={{ maxWidth: 'none', padding: 0, background: 'transparent' }}
-                  >
-                    <div className="w-[280px] md:w-[300px] p-0 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 font-sans">
-                      {/* Image Header */}
-                      <div className="relative h-32 md:h-40 w-full overflow-hidden bg-gray-100">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={popupInfo.image}
-                          alt={popupInfo.title}
-                          className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                        
-                        {/* Status Badge */}
-                        <div className="absolute bottom-3 left-3">
-                           <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md shadow-sm ${
-                              popupInfo.status === "Completed"
-                                ? "bg-green-500/90 text-white"
-                                : "bg-amber-500/90 text-white"
-                            }`}
-                          >
-                            {popupInfo.status}
-                          </span>
-                        </div>
-
-                        {/* Custom Close Button */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPopupInfo(null);
-                          }}
-                          className="absolute top-3 right-3 p-1.5 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-all z-10"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-
-                      {/* Content Body */}
-                      <div className="p-4 space-y-3">
-                        <div>
-                          <div className="flex items-center justify-between gap-2 mb-1">
-                            <span className="text-[10px] uppercase tracking-wider font-semibold text-accent/80">
-                              {popupInfo.type}
+                  {popupInfo && popupInfo.lat && popupInfo.lon && (
+                    <Popup
+                      latitude={popupInfo.lat}
+                      longitude={popupInfo.lon}
+                      closeButton={false}
+                      closeOnClick={false}
+                      onClose={() => setPopupInfo(null)}
+                      anchor="bottom"
+                      offset={25}
+                      className="custom-popup !p-0 !bg-transparent !max-w-none shadow-none border-none"
+                      style={{ maxWidth: 'none', padding: 0, background: 'transparent' }}
+                    >
+                      <div className="w-[280px] md:w-[300px] p-0 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 font-sans">
+                        {/* Image Header */}
+                        <div className="relative h-32 md:h-40 w-full overflow-hidden bg-gray-100">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={popupInfo.image}
+                            alt={popupInfo.title}
+                            className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                          
+                          {/* Status Badge */}
+                          <div className="absolute bottom-3 left-3">
+                            <span
+                              className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md shadow-sm ${
+                                popupInfo.status === "Completed"
+                                  ? "bg-green-500/90 text-white"
+                                  : "bg-amber-500/90 text-white"
+                              }`}
+                            >
+                              {popupInfo.status}
                             </span>
                           </div>
-                          <h3 className="font-serif font-bold text-lg md:text-xl text-gray-900 leading-tight">
-                            {popupInfo.title}
-                          </h3>
-                        </div>
 
-                        <div className="flex items-start gap-1.5 text-gray-500">
-                          <LucideMapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-                          <p className="text-[11px] md:text-xs leading-relaxed line-clamp-2">
-                            {popupInfo.location}
-                          </p>
-                        </div>
-
-                        {/* Footer / CTA */}
-                        <div className="pt-3 border-t border-gray-100">
-                           <Link
-                            href={`/projects?projectId=${popupInfo.id}`}
-                            className="group flex items-center justify-between w-full text-sm font-medium text-maroon hover:text-accent transition-colors transition-all pointer-events-auto"
+                          {/* Custom Close Button */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPopupInfo(null);
+                            }}
+                            className="absolute top-3 right-3 p-1.5 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-all z-10"
                           >
-                            <span>View Project Details</span>
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                          </Link>
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {/* Content Body */}
+                        <div className="p-4 space-y-3">
+                          <div>
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <span className="text-[10px] uppercase tracking-wider font-semibold text-accent/80">
+                                {popupInfo.type}
+                              </span>
+                            </div>
+                            <h3 className="font-serif font-bold text-lg md:text-xl text-gray-900 leading-tight">
+                              {popupInfo.title}
+                            </h3>
+                          </div>
+
+                          <div className="flex items-start gap-1.5 text-gray-500">
+                            <LucideMapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+                            <p className="text-[11px] md:text-xs leading-relaxed line-clamp-2">
+                              {popupInfo.location}
+                            </p>
+                          </div>
+
+                          {/* Footer / CTA */}
+                          <div className="pt-3 border-t border-gray-100">
+                            <Link
+                              href={`/projects?projectId=${popupInfo.id}`}
+                              className="group flex items-center justify-between w-full text-sm font-medium text-maroon hover:text-accent transition-colors transition-all pointer-events-auto"
+                            >
+                              <span>View Project Details</span>
+                              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
+                          </div>
                         </div>
                       </div>
+                    </Popup>
+                  )}
+                </Map>
+              ) : (
+                <div className="absolute inset-0 bg-gray-100 flex items-center justify-center p-8 text-center">
+                  <div className="max-w-md space-y-4">
+                    <div className="bg-amber-50 text-amber-600 p-4 rounded-xl border border-amber-200 inline-block">
+                      <LucideMapPin className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p className="font-medium">Map configuration missing</p>
                     </div>
-                  </Popup>
-                )}
-              </Map>
+                    <p className="text-gray-500 text-sm">
+                      Please ensure <code className="bg-gray-200 px-1 rounded text-[10px]">NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN</code> is set in your environment variables.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Map Overlay Badge */}
               <div className="absolute top-6 left-6 bg-primary/95 backdrop-blur-sm px-4 py-2 rounded-full border border-text/10 shadow-lg pointer-events-none hidden md:block">

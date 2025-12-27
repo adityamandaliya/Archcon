@@ -1102,7 +1102,7 @@ export default function Redevelopment() {
           </div>
 
           {/* SVG Line */}
-          <div className="absolute left-[24px] md:left-1/2 top-40 bottom-0 w-[2px] -translate-x-1/2 h-full z-0 pointer-events-none">
+          <div className="absolute left-1/2 top-40 bottom-0 w-[2px] -translate-x-1/2 h-full z-0 pointer-events-none">
             <svg className="w-[4px] h-full overflow-visible">
               <path
                 ref={lineRef}
