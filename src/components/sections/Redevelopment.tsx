@@ -274,7 +274,7 @@ const ProcessStep = ({
       }`}
     >
        {/* Number Bubble */} 
-      <div className="relative shrink-0 w-16 h-16 rounded-full bg-maroon text-white flex items-center justify-center font-bold text-2xl shadow-xl z-10 border-4 border-[#fdfbf7] ring-4 ring-maroon/10">
+      <div className="relative shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-full bg-maroon text-white flex items-center justify-center font-bold text-lg md:text-2xl shadow-xl z-10 border-2 md:border-4 border-[#fdfbf7] ring-4 ring-maroon/10">
         {step.number}
       </div>
 
@@ -283,23 +283,23 @@ const ProcessStep = ({
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`flex-1 p-10 rounded-[2rem] bg-white border border-accent/20 shadow-lg hover:shadow-2xl transition-all duration-500 w-full group hover:-translate-y-2 ${
+        className={`flex-1 p-6 md:p-10 rounded-2xl md:rounded-[2rem] bg-white border border-accent/20 shadow-lg hover:shadow-2xl transition-all duration-500 w-full group hover:-translate-y-2 ${
           index % 2 === 0 ? "text-left" : "text-left md:text-right"
         }`}
         style={{ transformStyle: "preserve-3d" }}
       >
         <div className="relative z-10" style={{ transform: "translateZ(20px)" }}>
           <div
-            className={`flex items-center gap-6 mb-6 ${
+            className={`flex items-center gap-4 md:gap-6 mb-4 md:mb-6 ${
               index % 2 === 0 ? "flex-row" : "flex-row md:flex-row-reverse"
             }`}
           >
-            <div className="p-4 rounded-2xl bg-maroon/5 text-maroon group-hover:bg-maroon group-hover:text-white transition-colors duration-300">
-              <step.icon size={28} />
+            <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-maroon/5 text-maroon group-hover:bg-maroon group-hover:text-white transition-colors duration-300">
+              <step.icon size={22} className="md:w-7 md:h-7" />
             </div>
-            <h4 className="text-3xl font-serif font-bold">{step.title}</h4>
+            <h4 className="text-xl md:text-3xl font-serif font-bold">{step.title}</h4>
           </div>
-          <p className="text-gray-600 text-lg leading-relaxed">{step.desc}</p>
+          <p className="text-gray-600 text-sm md:text-lg leading-relaxed">{step.desc}</p>
         </div>
       </div>
 
@@ -1102,11 +1102,11 @@ export default function Redevelopment() {
           </div>
 
           {/* SVG Line */}
-          <div className="absolute left-[28px] md:left-1/2 top-40 bottom-0 w-[2px] -translate-x-1/2 h-full z-0 pointer-events-none">
+          <div className="absolute left-[24px] md:left-1/2 top-40 bottom-0 w-[2px] -translate-x-1/2 h-full z-0 pointer-events-none">
             <svg className="w-[4px] h-full overflow-visible">
               <path
                 ref={lineRef}
-                d="M 2 0 V 1800"
+                d="M 2 0 V 2200"
                 className="stroke-maroon/30"
                 strokeWidth="2"
                 fill="none"

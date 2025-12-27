@@ -18,42 +18,19 @@ export default function ProjectMap() {
     zoom: 10,
   });
   const [popupInfo, setPopupInfo] = useState<any>(null);
+  const [isMapActive, setIsMapActive] = useState(false);
   const mapContainerRef = useRef<HTMLDivElement>(null);
+  const lastTapRef = useRef<number>(0);
 
-  // Disable Lenis when hovering over the map
-  useEffect(() => {
-    const mapContainer = mapContainerRef.current;
-    if (!mapContainer) return;
-
-    const handleMouseEnter = () => {
-      // Access Lenis instance and stop it
-      const lenis = (window as any).lenis;
-      if (lenis) {
-        lenis.stop();
-      }
-    };
-
-    const handleMouseLeave = () => {
-      // Re-enable Lenis scrolling
-      const lenis = (window as any).lenis;
-      if (lenis) {
-        lenis.start();
-      }
-    };
-
-    mapContainer.addEventListener("mouseenter", handleMouseEnter);
-    mapContainer.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      mapContainer.removeEventListener("mouseenter", handleMouseEnter);
-      mapContainer.removeEventListener("mouseleave", handleMouseLeave);
-      // Ensure Lenis is restarted when component unmounts
-      const lenis = (window as any).lenis;
-      if (lenis) {
-        lenis.start();
-      }
-    };
-  }, []);
+  // Handle double tap or double click to activate the map
+  const handleInteractionTrigger = () => {
+    const now = Date.now();
+    const DOUBLE_TAP_DELAY = 300;
+    if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
+      setIsMapActive(true);
+    }
+    lastTapRef.current = now;
+  };
 
   const markers = useMemo(
     () =>
@@ -163,8 +140,46 @@ export default function ProjectMap() {
           >
             <div
               ref={mapContainerRef}
-              className="relative h-[550px] lg:h-[650px] w-full rounded-3xl overflow-hidden shadow-2xl border border-text/10"
+              className="relative h-[450px] md:h-[550px] lg:h-[650px] w-full rounded-3xl overflow-hidden shadow-2xl border border-text/10"
+              onClick={handleInteractionTrigger}
+              // Prevent lenis scroll only when map is active
+              {...(isMapActive ? { "data-lenis-prevent": "true" } : {})}
             >
+              {/* Interaction Overlay - Unified for all devices */}
+              {!isMapActive && (
+                <div className="absolute inset-0 z-[50] bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center text-center p-6 transition-opacity duration-300 cursor-pointer group/overlay">
+                  <div className="bg-white/20 backdrop-blur-md p-4 rounded-2xl border border-white/30 mb-4 scale-110 group-hover/overlay:scale-125 transition-transform duration-500">
+                    <LucideMapPin className="text-white w-8 h-8 animate-bounce" />
+                  </div>
+                  <h3 className="text-white text-xl font-bold mb-2">Map is locked</h3>
+                  <p className="text-white/80 text-sm max-w-[280px]">
+                    <span className="hidden md:inline">Double click</span>
+                    <span className="md:hidden">Double tap</span>
+                    {" "}to explore map. Scroll outside the map area to continue browsing.
+                  </p>
+                </div>
+              )}
+
+              {/* Exit Interaction Button - Unified */}
+              {isMapActive && (
+                <div className="absolute top-4 right-4 z-[60] flex flex-col items-end gap-2 animate-in fade-in slide-in-from-top-4 duration-500">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsMapActive(false);
+                      setPopupInfo(null);
+                    }}
+                    className="flex items-center gap-2 bg-maroon text-white px-4 py-2 rounded-full shadow-xl font-medium active:scale-95 hover:bg-maroon/90 transition-all pointer-events-auto"
+                  >
+                    <span className="text-sm">Exit Map</span>
+                    <X className="w-4 h-4" />
+                  </button>
+                  <span className="bg-black/40 backdrop-blur-md text-white/90 text-[10px] px-2 py-1 rounded-md border border-white/10 uppercase tracking-wider">
+                    Interaction Active
+                  </span>
+                </div>
+              )}
+
               <Map
                 {...viewport}
                 onMove={(evt) => setViewport(evt.viewState)}
@@ -173,7 +188,10 @@ export default function ProjectMap() {
                 mapboxAccessToken={MAPBOX_TOKEN}
                 minZoom={9}
                 maxZoom={15}
-                scrollZoom={true}
+                dragPan={isMapActive}
+                scrollZoom={isMapActive}
+                touchZoomRotate={isMapActive}
+                doubleClickZoom={isMapActive}
               >
                 {markers}
 
@@ -189,9 +207,9 @@ export default function ProjectMap() {
                     className="custom-popup !p-0 !bg-transparent !max-w-none shadow-none border-none"
                     style={{ maxWidth: 'none', padding: 0, background: 'transparent' }}
                   >
-                    <div className="w-[300px] p-0 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 font-sans">
+                    <div className="w-[280px] md:w-[300px] p-0 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 font-sans">
                       {/* Image Header */}
-                      <div className="relative h-40 w-full overflow-hidden bg-gray-100">
+                      <div className="relative h-32 md:h-40 w-full overflow-hidden bg-gray-100">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={popupInfo.image}
@@ -233,14 +251,14 @@ export default function ProjectMap() {
                               {popupInfo.type}
                             </span>
                           </div>
-                          <h3 className="font-serif font-bold text-xl text-gray-900 leading-tight">
+                          <h3 className="font-serif font-bold text-lg md:text-xl text-gray-900 leading-tight">
                             {popupInfo.title}
                           </h3>
                         </div>
 
                         <div className="flex items-start gap-1.5 text-gray-500">
                           <LucideMapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-                          <p className="text-xs leading-relaxed line-clamp-2">
+                          <p className="text-[11px] md:text-xs leading-relaxed line-clamp-2">
                             {popupInfo.location}
                           </p>
                         </div>
@@ -249,7 +267,7 @@ export default function ProjectMap() {
                         <div className="pt-3 border-t border-gray-100">
                            <Link
                             href={`/projects?projectId=${popupInfo.id}`}
-                            className="group flex items-center justify-between w-full text-sm font-medium text-maroon hover:text-accent transition-colors"
+                            className="group flex items-center justify-between w-full text-sm font-medium text-maroon hover:text-accent transition-colors transition-all pointer-events-auto"
                           >
                             <span>View Project Details</span>
                             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -262,7 +280,7 @@ export default function ProjectMap() {
               </Map>
 
               {/* Map Overlay Badge */}
-              <div className="absolute top-6 left-6 bg-primary/95 backdrop-blur-sm px-4 py-2 rounded-full border border-text/10 shadow-lg pointer-events-none">
+              <div className="absolute top-6 left-6 bg-primary/95 backdrop-blur-sm px-4 py-2 rounded-full border border-text/10 shadow-lg pointer-events-none hidden md:block">
                 <span className="text-text text-sm font-medium">
                   📍 Mumbai, India
                 </span>
