@@ -196,7 +196,7 @@ export default function Hero() {
               <div className="text-reveal-mask absolute inset-0 bg-accent z-10" />
               <div className="hero-text flex items-center gap-3 text-accent text-sm md:text-base tracking-[0.5em] uppercase font-mono">
                 <Construction className="w-4 h-4" />
-                <span>Under Construction Since 2024</span>
+                <span>Under Construction Since 1989</span>
               </div>
             </div>
 

@@ -54,7 +54,7 @@ export default function CorporateIdentity() {
     <section className="relative w-full bg-white py-24 lg:py-32 overflow-hidden">
       {/* Background Grid */}
       <div
-        className="absolute inset-0 opacity-[0.15] z-0"
+        className="absolute inset-0 opacity-[0.09] z-0"
         style={{
           backgroundImage: `
             linear-gradient(90deg, #c4a484 1px, transparent 1px),
