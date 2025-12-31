@@ -73,6 +73,7 @@ function TeamCard({
 
   return (
     <motion.div
+      layout
       variants={cardVariants}
       whileHover="hover"
       className={`group relative ${
@@ -89,7 +90,7 @@ function TeamCard({
             </div>
           )}
           <Image
-            src={member.image}
+            src={member.image || "/images/team/user.png"}
             alt={member.name}
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -165,8 +166,11 @@ function TeamCard({
 
           {/* Contact Info - Hidden by default, shown on hover/expand */}
           <motion.div
+            variants={{
+              hover: { opacity: 1, height: "auto" }
+            }}
             initial={{ opacity: 0, height: 0 }}
-            whileHover={{ opacity: 1, height: "auto" }}
+            transition={{ duration: 0.3 }}
             className="flex items-center gap-4 pt-6 border-t border-black/10 overflow-hidden"
           >
             {member.email && (
@@ -422,9 +426,10 @@ export default function Team() {
                 transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="overflow-hidden"
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-12 pl-4 lg:pl-8 border-l-2 border-accent/30">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-12 pl-4 lg:pl-8 pt-6 border-l-2 border-accent/30">
                   {ALL_ASSOCIATES.map((member, memberIndex) => (
                     <motion.div
+                      layout
                       key={member.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -532,9 +537,10 @@ export default function Team() {
                       transition={{ duration: 0.4, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mb-12 pl-4 lg:pl-8 border-l-2 border-accent/30">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mb-12 pl-4 lg:pl-8 pt-6 border-l-2 border-accent/30">
                         {category.members.map((member, memberIndex) => (
                           <motion.div
+                            layout
                             key={member.id}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}

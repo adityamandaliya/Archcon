@@ -197,7 +197,7 @@ export default function Footer() {
               </motion.div>
 
               {/* Terms & Policies */}
-              <motion.div variants={itemVariants}>
+              {/* <motion.div variants={itemVariants}>
                 <h3 className="text-xs uppercase tracking-widest font-semibold text-white mb-6 font-serif">
                   Terms & Policies
                 </h3>
@@ -216,7 +216,7 @@ export default function Footer() {
                     </motion.li>
                   ))}
                 </ul>
-              </motion.div>
+              </motion.div> */}
 
               {/* Socials */}
               <motion.div variants={itemVariants}>
