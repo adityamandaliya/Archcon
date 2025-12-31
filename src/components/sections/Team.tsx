@@ -193,15 +193,19 @@ function TeamCard({
               </motion.a>
             )}
 
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-lg bg-white/10 hover:bg-accent/20 text-black hover:text-accent transition-all duration-300"
-              title="LinkedIn"
-            >
-              <Linkedin className="w-4 h-4" />
-            </motion.a>
+            {member.linkedin && (
+              <motion.a
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-2 rounded-lg bg-white/10 hover:bg-accent/20 text-black hover:text-accent transition-all duration-300"
+                title="LinkedIn"
+              >
+                <Linkedin className="w-4 h-4" />
+              </motion.a>
+            )}
           </motion.div>
         </div>
 

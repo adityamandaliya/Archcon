@@ -7,6 +7,7 @@ export interface TeamMember {
   specialties?: string[];
   email?: string;
   phone?: string;
+  linkedin?: string;
   company?: string;
 }
 
@@ -319,9 +320,9 @@ export const ALL_ASSOCIATES: TeamMember[] = [
     image: "/images/team/Pravin.jpg",
     bio: "Dedicated professional contributing to the firm's strategic goals and project excellence with years of industry experience.",
     specialties: ["Strategy", "Planning", "Management"],
-    email: "associate2@archcon.com",
-    phone: "+91 98765-43211",
-    company: "ARCHCON ASSO./REALTY",
+    email: "",
+    phone: "",
+    company: "",
   },
   {
     id: 102,
@@ -330,9 +331,9 @@ export const ALL_ASSOCIATES: TeamMember[] = [
     image: "/images/team/Neela.jpg",
     bio: "Dedicated professional contributing to the firm's strategic goals and project excellence with years of industry experience.",
     specialties: ["Strategy", "Planning", "Management"],
-    email: "associate3@archcon.com",
-    phone: "+91 98765-43212",
-    company: "ARCHCON ASSO./REALTY",
+    email: "",
+    phone: "",
+    company: "",
   },
   {
     id: 103,

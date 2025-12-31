@@ -650,7 +650,7 @@ const TransparencyCard = () => {
 
         <div>
           <div className="text-3xl md:text-6xl font-serif font-bold text-maroon/20 mb-2 md:mb-4">02</div>
-          <h4 className="text-lg md:text-4xl font-serif font-bold mb-2 md:mb-4 text-text">100% Transparency</h4>
+          <h4 className="text-lg md:text-4xl font-serif font-bold mb-2 md:mb-4 text-text">Transparency</h4>
           <p className="text-xs md:text-xl opacity-70 leading-tight md:leading-relaxed font-light">
             Every decision documented and accessible to members.
           </p>
