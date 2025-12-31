@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
-import Map, { Marker, Popup } from "react-map-gl/mapbox";
+import { useRef, useState, useMemo, useEffect } from "react";
+import Map, { Marker, Popup, MapRef } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { LucideMapPin, ArrowRight, X } from "lucide-react";
 import { motion } from "framer-motion";
@@ -26,6 +26,7 @@ export default function ProjectMap() {
   const [popupInfo, setPopupInfo] = useState<typeof PROJECTS[0] | null>(null);
   const [isMapActive, setIsMapActive] = useState(false);
   const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<MapRef>(null);
   const lastTapRef = useRef<number>(0);
 
   // Handle double tap or double click to activate the map
@@ -38,6 +39,7 @@ export default function ProjectMap() {
     lastTapRef.current = now;
   };
 
+
   const markers = useMemo(
     () =>
       PROJECTS.filter((p) => p.lat && p.lon).map((project) => (
@@ -48,6 +50,11 @@ export default function ProjectMap() {
           onClick={(e) => {
             e.originalEvent.stopPropagation();
             setPopupInfo(project);
+            mapRef.current?.flyTo({
+              center: [project.lon!, project.lat!],
+              duration: 1000,
+              padding: { top: 300 } // Add padding to top to push map center down, leaving room for popup above
+            });
           }}
         >
           <LucideMapPin
@@ -175,12 +182,12 @@ export default function ProjectMap() {
                       setIsMapActive(false);
                       setPopupInfo(null);
                     }}
-                    className="flex items-center gap-2 bg-maroon text-white px-4 py-2 rounded-full shadow-xl font-medium active:scale-95 hover:bg-maroon/90 transition-all pointer-events-auto"
+                    className="flex items-center gap-2 bg-maroon text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-xl font-medium active:scale-95 hover:bg-maroon/90 transition-all pointer-events-auto"
                   >
-                    <span className="text-sm">Exit Map</span>
-                    <X className="w-4 h-4" />
+                    <span className="text-xs md:text-sm">Exit Map</span>
+                    <X className="w-3 h-3 md:w-4 md:h-4" />
                   </button>
-                  <span className="bg-black/40 backdrop-blur-md text-white/90 text-[10px] px-2 py-1 rounded-md border border-white/10 uppercase tracking-wider">
+                  <span className="hidden md:inline-block bg-black/40 backdrop-blur-md text-white/90 text-[10px] px-2 py-1 rounded-md border border-white/10 uppercase tracking-wider">
                     Interaction Active
                   </span>
                 </div>
@@ -188,6 +195,7 @@ export default function ProjectMap() {
 
               {MAPBOX_TOKEN ? (
                 <Map
+                  ref={mapRef}
                   {...viewport}
                   onMove={(evt) => setViewport(evt.viewState)}
                   style={{ width: "100%", height: "100%" }}
@@ -211,22 +219,37 @@ export default function ProjectMap() {
                       onClose={() => setPopupInfo(null)}
                       anchor="bottom"
                       offset={25}
-                      className="custom-popup !p-0 !bg-transparent !max-w-none shadow-none border-none"
+                      focusAfterOpen={false}
+                      className="custom-popup !p-0 !bg-transparent !max-w-none shadow-none border-none z-50"
                       style={{ maxWidth: 'none', padding: 0, background: 'transparent' }}
                     >
-                      <div className="w-[280px] md:w-[300px] p-0 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 font-sans">
+                      <div className="w-[75vw] max-w-[280px] md:w-[320px] p-0 overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 font-sans">
                         {/* Image Header */}
-                        <div className="relative h-32 md:h-40 w-full overflow-hidden bg-gray-100">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={popupInfo.image}
-                            alt={popupInfo.title}
-                            className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        <div className="relative h-36 md:h-48 w-full overflow-hidden bg-neutral-100">
+                          {/* Blurred Background Layer - Fills the space */}
+                          <div className="absolute inset-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={popupInfo.images && popupInfo.images.length > 0 ? popupInfo.images[0] : popupInfo.image}
+                              alt=""
+                              className="h-full w-full object-cover blur-xl scale-125 opacity-60"
+                            />
+                          </div>
+
+                           {/* Main Image Layer - Shows the full image */}
+                           <div className="absolute inset-0 p-1">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={popupInfo.images && popupInfo.images.length > 0 ? popupInfo.images[0] : popupInfo.image}
+                                alt={popupInfo.title}
+                                className="h-full w-full object-contain relative z-10"
+                              />
+                           </div>
+                          
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-20 pointer-events-none" />
                           
                           {/* Status Badge */}
-                          <div className="absolute bottom-3 left-3">
+                          <div className="absolute bottom-3 left-3 z-30">
                             <span
                               className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md shadow-sm ${
                                 popupInfo.status === "Completed"
@@ -244,7 +267,7 @@ export default function ProjectMap() {
                               e.stopPropagation();
                               setPopupInfo(null);
                             }}
-                            className="absolute top-3 right-3 p-1.5 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-all z-10"
+                            className="absolute top-3 right-3 p-1.5 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-all z-30 cursor-pointer"
                           >
                             <X className="w-4 h-4" />
                           </button>
