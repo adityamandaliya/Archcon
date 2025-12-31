@@ -107,8 +107,8 @@ export default function ProjectMap() {
                 <span className="text-maroon block">Mumbai</span>
               </h2>
               <p className="text-text/70 text-lg md:text-lg leading-relaxed max-w-md">
-                From residential redevelopments in Bandra to industrial
-                complexes in Bhiwandi, our projects shape the city&apos;s landscape.
+                From residential redevelopments to industrial
+                complexes, our projects shape the city&apos;s landscape.
               </p>
             </div>
 

@@ -44,18 +44,6 @@ export default function UpdatesSection() {
   );
   const [hoveredUpdateId, setHoveredUpdateId] = useState<number | null>(null);
 
-  // Animation variants
-//   const containerVariants = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: {
-//         staggerChildren: 0.15,
-//         delayChildren: 0.2,
-//       },
-//     },
-//   };
-
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -362,13 +350,6 @@ export default function UpdatesSection() {
                       </div>
                     </div>
 
-                    {/* Card Border Glow Effect on Hover */}
-                    <motion.div
-                      animate={{
-                        opacity: hoveredUpdateId === update.id ? 0.1 : 0,
-                      }}
-                      className="absolute inset-0 bg-gradient-to-br from-maroon via-accent to-maroon rounded-3xl pointer-events-none"
-                    />
                   </motion.div>
                 </div>
               );

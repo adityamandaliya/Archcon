@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { SUB_COMPANIES } from "@/lib/companies";
-import { ChevronDown, ArrowUpRight, Building2 } from "lucide-react";
+import { ChevronDown, Building2 } from "lucide-react";
 
 const SubCompaniesSection = () => {
   const containerRef = useRef(null);
@@ -109,7 +109,7 @@ const SubCompaniesSection = () => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-5"
+          className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-5"
         >
           <AnimatePresence mode="popLayout">
             {/* Desktop: Always show all. Mobile: Show limited unless expanded */}
@@ -125,29 +125,20 @@ const SubCompaniesSection = () => {
                   initial="hidden"
                   animate="visible"
                   exit={{ opacity: 0, scale: 0.9 }}
-                  className={`${isHiddenOnMobile ? 'hidden md:flex' : 'flex'} group relative`}
+                  className={`${isHiddenOnMobile ? 'hidden md:block' : 'block'} group relative w-[calc(50%-0.5rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1rem)] xl:w-[calc(20%-1rem)] min-w-[150px]`}
                 >
-                  <div className="w-full bg-white/60 backdrop-blur-sm border border-[var(--color-accent)]/10 rounded-xl p-6 md:p-8 flex flex-col items-center justify-center text-center transition-all duration-500 hover:bg-white hover:shadow-2xl hover:shadow-[var(--color-maroon)]/5 hover:border-[var(--color-accent)]/30 group-hover:-translate-y-2 cursor-pointer overflow-hidden">
+                  <div className="h-full w-full bg-white/60 backdrop-blur-sm border border-[var(--color-accent)]/10 rounded-xl p-6 flex flex-col items-center justify-center text-center transition-all duration-500 hover:bg-white/80">
                     
-                    {/* Hover Gradient Background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
-                    {/* Icon Container with Lively Animation */}
-                    <div className="relative mb-5 md:mb-6">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-[var(--color-primary)] flex items-center justify-center transform transition-transform duration-500 group-hover:rotate-[10deg] group-hover:scale-110 border border-[var(--color-accent)]/20 text-[var(--color-maroon)] shadow-lg shadow-[var(--color-maroon)]/5">
-                        <Building2 strokeWidth={1.5} className="w-7 h-7 md:w-8 md:h-8" />
-                      </div>
-                      <div className="absolute top-0 right-0 -mr-2 -mt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-[var(--color-accent)]">
-                        <ArrowUpRight className="w-5 h-5" />
+                    {/* Icon Container */}
+                    <div className="relative mb-4">
+                      <div className="w-14 h-14 rounded-2xl bg-[var(--color-primary)] flex items-center justify-center border border-[var(--color-accent)]/20 text-[var(--color-maroon)] shadow-[var(--color-maroon)]/5">
+                        <Building2 strokeWidth={1.5} className="w-7 h-7" />
                       </div>
                     </div>
 
-                    <h3 className="relative z-10 text-sm md:text-base font-bold text-[var(--color-text)] uppercase tracking-wide group-hover:text-[var(--color-maroon)] transition-colors duration-300">
+                    <h3 className="relative z-10 text-sm font-bold text-[var(--color-text)] uppercase tracking-wide">
                       {company.name}
                     </h3>
-
-                    {/* Decorative Bottom Bar */}
-                    <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--color-accent)] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                   </div>
                 </motion.div>
               );
