@@ -38,11 +38,48 @@ interface CarouselState {
   [key: number]: number;
 }
 
+// Helper component for handling image fallbacks
+const UpdatesImage = ({ src, alt, className, priority }: { src: string|null|undefined, alt: string, className?: string, priority?: boolean }) => {
+  const DEFAULT_IMAGE = "/images/updates/default.png";
+  const [imgSrc, setImgSrc] = useState(src && src.trim() !== "" ? src : DEFAULT_IMAGE);
+
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      fill
+      className={className}
+      priority={priority}
+      onError={() => setImgSrc(DEFAULT_IMAGE)}
+    />
+  );
+};
+
 export default function UpdatesSection() {
   const [carouselIndices, setCarouselIndices] = useState<CarouselState>(
     Object.fromEntries(UPDATES.map((update) => [update.id, 0])) as unknown as CarouselState
   );
+  const [carouselDirections, setCarouselDirections] = useState<CarouselState>(
+    Object.fromEntries(UPDATES.map((update) => [update.id, 0])) as unknown as CarouselState
+  );
   const [hoveredUpdateId, setHoveredUpdateId] = useState<number | null>(null);
+
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 0
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? "100%" : "-100%",
+      opacity: 0
+    })
+  };
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
@@ -70,6 +107,11 @@ export default function UpdatesSection() {
     } else {
       newIndex = (currentIndex - 1 + totalImages) % totalImages;
     }
+
+    setCarouselDirections((prev) => ({
+      ...prev,
+      [updateId]: direction === "next" ? 1 : -1,
+    }));
 
     setCarouselIndices((prev) => ({
       ...prev,
@@ -209,19 +251,23 @@ export default function UpdatesSection() {
 
                       >
                         {/* Image Stack */}
-                        <AnimatePresence mode="wait">
+                        <AnimatePresence mode="popLayout" custom={carouselDirections[update.id] || 0}>
                           <motion.div
                             key={`${update.id}-${currentImageIndex}`}
-                            initial={{ opacity: 0, x: 100 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -100 }}
-                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            custom={carouselDirections[update.id] || 0}
+                            variants={slideVariants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            transition={{
+                              x: { type: "spring", stiffness: 300, damping: 30 },
+                              opacity: { duration: 0.3 }
+                            }}
                             className="relative w-full h-full"
                           >
-                            <Image
+                            <UpdatesImage
                               src={currentImage.url}
                               alt={currentImage.alt}
-                              fill
                               className="object-cover"
                               priority={false}
                             />
@@ -258,19 +304,27 @@ export default function UpdatesSection() {
                         {update.images.length > 1 && (
                           <>
                             <motion.button
-                              onClick={() => handleCarouselNav(update.id, "prev")}
-                              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/30 text-white transition-all duration-300 group-hover:bg-white/50"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCarouselNav(update.id, "prev");
+                              }}
+                              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2.5 rounded-full bg-white shadow-xl text-maroon hover:bg-maroon hover:text-white border border-maroon/10 transition-all duration-300 flex items-center justify-center"
                               whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
+                              whileTap={{ scale: 0.9 }}
+                              aria-label="Previous image"
                             >
                               <ChevronLeft className="w-5 h-5" />
                             </motion.button>
 
                             <motion.button
-                              onClick={() => handleCarouselNav(update.id, "next")}
-                              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/30 text-white transition-all duration-300 group-hover:bg-white/50"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCarouselNav(update.id, "next");
+                              }}
+                              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2.5 rounded-full bg-white shadow-xl text-maroon hover:bg-maroon hover:text-white border border-maroon/10 transition-all duration-300 flex items-center justify-center"
                               whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
+                              whileTap={{ scale: 0.9 }}
+                              aria-label="Next image"
                             >
                               <ChevronRight className="w-5 h-5" />
                             </motion.button>
