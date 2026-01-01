@@ -100,5 +100,85 @@ export const UPDATES: Update[] = [
       },
     ],
   },
-  
+  {
+    id: 4,
+    date: "2025-11-05",
+    dateFormatted: "05 Nov 2025",
+    heading: "Archcon Receives Green Building Certification",
+    description:
+      "Archcon has been recognized for its outstanding contribution to sustainable urban development in Mumbai. This award reflects our commitment to innovative architecture and community-centric building solutions. Our team continues to push boundaries in creating spaces that inspire and transform lives.",
+    category: "milestone",
+    featured: true,
+    images: [
+      {
+        id: 1,
+        url: "/images/updates/update-4-1.jpg",
+        alt: "Award Ceremony - Archcon Recognition",
+      },
+      {
+        id: 2,
+        url: "/images/updates/update-4-2.jpg",
+        alt: "Team Celebration - Award Win",
+      },
+      {
+        id: 3,
+        url: "/images/updates/update-4-3.jpg",
+        alt: "Trophy Display - Urban Excellence",
+      },
+    ],
+  },
+  {
+    id: 5,
+    date: "2025-11-05",
+    dateFormatted: "05 Nov 2025",
+    heading: "Archcon Receives Green Building Certification",
+    description:
+      "Archcon has been recognized for its outstanding contribution to sustainable urban development in Mumbai. This award reflects our commitment to innovative architecture and community-centric building solutions. Our team continues to push boundaries in creating spaces that inspire and transform lives.",
+    category: "milestone",
+    featured: true,
+    images: [
+      {
+        id: 1,
+        url: "/images/updates/update-4-1.jpg",
+        alt: "Award Ceremony - Archcon Recognition",
+      },
+      {
+        id: 2,
+        url: "/images/updates/update-4-2.jpg",
+        alt: "Team Celebration - Award Win",
+      },
+      {
+        id: 3,
+        url: "/images/updates/update-4-3.jpg",
+        alt: "Trophy Display - Urban Excellence",
+      },
+    ],
+  },
+  {
+    id: 4,
+    date: "2025-11-05",
+    dateFormatted: "05 Nov 2025",
+    heading: "Archcon Receives Green Building Certification",
+    description:
+      "Archcon has been recognized for its outstanding contribution to sustainable urban development in Mumbai. This award reflects our commitment to innovative architecture and community-centric building solutions. Our team continues to push boundaries in creating spaces that inspire and transform lives.",
+    category: "milestone",
+    featured: true,
+    images: [
+      {
+        id: 6,
+        url: "/images/updates/update-4-1.jpg",
+        alt: "Award Ceremony - Archcon Recognition",
+      },
+      {
+        id: 2,
+        url: "/images/updates/update-4-2.jpg",
+        alt: "Team Celebration - Award Win",
+      },
+      {
+        id: 3,
+        url: "/images/updates/update-4-3.jpg",
+        alt: "Trophy Display - Urban Excellence",
+      },
+    ],
+  },
 ];

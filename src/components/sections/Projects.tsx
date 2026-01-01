@@ -306,13 +306,17 @@ function ProjectsContent() {
     return memoizedProjects.slice(startIndex, startIndex + PROJECTS_PER_PAGE);
   }, [currentPage, memoizedProjects]);
 
+  // Scroll to top of window when page changes (with delay for layout shift)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100); // 100ms delay to allow header to hide/show and layout to stabilize
+
+    return () => clearTimeout(timer);
+  }, [currentPage]);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Optional: Scroll to top of grid
-    const gridElement = document.getElementById('projects-grid');
-    if (gridElement) {
-      gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   };
 
   const handleOpenLightbox = (projectId: number) => {
@@ -351,44 +355,47 @@ function ProjectsContent() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header with animations matching UpdatesSection */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="mb-20 lg:mb-28 text-center"
-        >
-          <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4"
-          >
-            OUR PORTFOLIO
-          </motion.span>
-
-          <motion.h2
+        {/* Header with animations matching UpdatesSection */}
+        {currentPage === 1 && (
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-7xl font-serif font-bold text-text mb-6 leading-tight"
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="mb-20 lg:mb-28 text-center"
           >
-            Transforming
-            <motion.span className="block text-maroon">
-              Mumbai's Skyline
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4"
+            >
+              OUR PORTFOLIO
             </motion.span>
-          </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-text/60 text-lg md:text-xl max-w-2xl mx-auto font-light"
-          >
-            From concept to completion, each project represents our commitment
-            to excellence, innovation, and sustainable urban development.
-          </motion.p>
-        </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-4xl md:text-7xl font-serif font-bold text-text mb-6 leading-tight"
+            >
+              Transforming
+              <motion.span className="block text-maroon">
+                Mumbai's Skyline
+              </motion.span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-text/60 text-lg md:text-xl max-w-2xl mx-auto font-light"
+            >
+              From concept to completion, each project represents our commitment
+              to excellence, innovation, and sustainable urban development.
+            </motion.p>
+          </motion.div>
+        )}
 
         {/* Projects Grid with staggered animations */}
         <div id="projects-grid" className="scroll-mt-32">

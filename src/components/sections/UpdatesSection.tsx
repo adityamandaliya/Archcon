@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Calendar, Tag } from "lucide-react";
@@ -90,13 +90,17 @@ export default function UpdatesSection() {
     return memoizedUpdates.slice(startIndex, startIndex + UPDATES_PER_PAGE);
   }, [currentPage, memoizedUpdates]);
 
+  // Scroll to top of window when page changes (with delay for layout shift)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [currentPage]);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Optional: Scroll to top of grid
-    const gridElement = document.getElementById('updates-grid');
-    if (gridElement) {
-      gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   };
 
   return (
@@ -119,44 +123,47 @@ export default function UpdatesSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-20"
-        >
-          <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4"
-          >
-             LATEST NEWS & UPDATES
-          </motion.span>
-
-          <motion.h2
+        {/* Header */}
+        {currentPage === 1 && (
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-7xl font-serif font-bold text-text mb-6 leading-tight"
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-20"
           >
-            Stay Updated
-            <motion.span className="block text-maroon">
-              with Archcon
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="inline-block text-accent font-sans text-sm font-semibold tracking-widest mb-4"
+            >
+               LATEST NEWS & UPDATES
             </motion.span>
-          </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-text/60 text-lg md:text-xl max-w-2xl mx-auto font-light"
-          >
-            Discover the latest milestones, project updates, and announcements
-            from Archcon as we continue to shape Mumbai's urban landscape.
-          </motion.p>
-        </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-4xl md:text-7xl font-serif font-bold text-text mb-6 leading-tight"
+            >
+              Stay Updated
+              <motion.span className="block text-maroon">
+                with Archcon
+              </motion.span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-text/60 text-lg md:text-xl max-w-2xl mx-auto font-light"
+            >
+              Discover the latest milestones, project updates, and announcements
+              from Archcon as we continue to shape Mumbai's urban landscape.
+            </motion.p>
+          </motion.div>
+        )}
 
         {/* Updates Grid */}
         <div id="updates-grid" className="scroll-mt-32">

@@ -114,11 +114,12 @@ export default function Footer() {
                   <div className="flex items-start gap-3 group cursor-pointer mb-8">
                     <Mail className="w-5 h-5 text-accent flex-shrink-0 mt-1 group-hover:text-maroon transition-colors duration-300" />
                     <motion.a
-                      href="mailto:archcorealty@gmail.com"
+                      href="mailto:archcongroup.in@gmail.com"
+                      variants={linkHoverVariants}
                       whileHover={{ x: 5 }}
                       className="text-white/80 font-serif text-sm hover:text-accent transition-colors duration-300"
                     >
-                      archcorealty@gmail.com
+                      archcongroup.in@gmail.com
                     </motion.a>
                   </div>
                 </div>

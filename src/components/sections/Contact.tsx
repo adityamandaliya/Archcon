@@ -18,6 +18,7 @@ interface FormData {
   phone: string;
   projectType: string;
   message: string;
+  website: string; // Honeypot field
 }
 
 interface FormErrors {
@@ -35,6 +36,7 @@ export default function Contact() {
     phone: "",
     projectType: "",
     message: "",
+    website: "",
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -115,6 +117,7 @@ export default function Contact() {
         phone: "",
         projectType: "",
         message: "",
+        website: "",
       });
 
       setTimeout(() => {
@@ -122,7 +125,8 @@ export default function Contact() {
       }, 5000);
     } catch (error) {
       setSubmitStatus("error");
-      setSubmitMessage("Something went wrong. Please try again later.");
+      const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again later.";
+      setSubmitMessage(errorMessage);
       setTimeout(() => {
         setSubmitStatus("idle");
       }, 5000);
@@ -181,15 +185,15 @@ export default function Contact() {
         id: 1,
         icon: Mail,
         title: "Email",
-        value: "contact@archcon.in",
-        link: "mailto:contact@archcon.in",
+        value: "archcongroup.in@gmail.com",
+        link: "mailto:archcongroup.in@gmail.com",
       },
       {
         id: 2,
         icon: Phone,
         title: "Phone",
-        value: "+91 (98) 9999-9999",
-        link: "tel:+919899999999",
+        value: "+91 (99) 2029-5559",
+        link: "tel:+919920295559",
       },
       {
         id: 3,
@@ -305,6 +309,17 @@ export default function Contact() {
             className="lg:col-span-8 bg-white/50 backdrop-blur-xl border border-accent/30 rounded-3xl p-8 md:p-12 shadow-xl hover:shadow-2xl hover:border-accent/50 transition-shadow duration-300"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Honey Pot Field (Hidden) */}
+              <div className="hidden" aria-hidden="true">
+                <input
+                  type="text"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
               {/* Success/Error Message */}
               {submitStatus !== "idle" && (
                 <motion.div
