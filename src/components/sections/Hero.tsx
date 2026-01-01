@@ -53,44 +53,79 @@ export default function Hero() {
   const horizontalGridLines = useMemo(() => Array.from({ length: 12 }), []);
   const verticalGridLines = useMemo(() => Array.from({ length: 12 }), []);
 
+  const hasStarted = useRef(false);
+
   useGSAP(
     () => {
-      const tl = gsap.timeline();
+      // Function to start the intro animation
+      const startIntro = () => {
+        if (hasStarted.current) return;
+        hasStarted.current = true;
+        
+        const tl = gsap.timeline();
 
-      // 1. "Construction" Entrance Animation - Optimized
-      // Grid draws in
-      tl.fromTo(
-        ".grid-line",
-        { scaleX: 0, transformOrigin: "left" },
-        { scaleX: 1, duration: 1, stagger: 0.08, ease: "power2.out" }
-      )
-      // Images "Rise" up like a building being constructed
-      .fromTo(
-        ".hero-image-container",
-        { y: 200, opacity: 0, clipPath: "inset(100% 0 0 0)" },
-        { 
-          y: 0, 
-          opacity: 1, 
-          clipPath: "inset(0% 0 0 0)", 
-          duration: 1.5, 
-          stagger: 0.2, 
-          ease: "power4.out" 
-        },
-        "-=0.5"
-      )
-      // Crane/Slider effect for text
-      .fromTo(
-        ".text-reveal-mask",
-        { x: "-100%" },
-        { x: "100%", duration: 1.2, ease: "power2.inOut" },
-        "-=1"
-      )
-      .fromTo(
-        ".hero-text",
-        { opacity: 0, x: -20 },
-        { opacity: 1, x: 0, duration: 0.1, stagger: 0.1 },
-        "-=0.8" // Reveal text as mask passes
-      );
+        // 1. Grid Entrance
+        tl.fromTo(
+          ".grid-line",
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.8, stagger: { amount: 0.4, grid: [12, 12], from: "center" }, ease: "power2.out" }
+        )
+        // 2. Headline Reveal: "ARCH" appears, "CON" slides out
+        .fromTo(
+          ".arch-text",
+          { x: 40, opacity: 0 },
+          { x: 0, opacity: 1, duration: 1, ease: "expo.out" },
+          "-=0.4"
+        )
+        .fromTo(
+          ".con-text",
+          { x: -100, opacity: 0 },
+          { x: 0, opacity: 1, duration: 1.2, ease: "expo.out" },
+          "-=0.8"
+        )
+        // 3. Image Rise
+        .fromTo(
+          ".hero-image-container",
+          { y: 80, opacity: 0 },
+          { 
+            y: 0, 
+            opacity: 1, 
+            duration: 1.2, 
+            stagger: 0.1, 
+            ease: "power3.out" 
+          },
+          "-=1"
+        )
+        // 4. Other text elements
+        .fromTo(
+          ".hero-reveal-el",
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power2.out" },
+          "-=0.6"
+        );
+      };
+
+      // Listener for loading completion
+      const handleLoadingExit = () => {
+        startIntro();
+      };
+
+      window.addEventListener("loading-exit-start", handleLoadingExit);
+      window.addEventListener("loading-complete", handleLoadingExit); // Fallback
+
+      // Check if loading might already be complete
+      if (typeof document !== 'undefined') {
+        const loader = document.querySelector('[class*="fixed inset-0 z-[9999]"]');
+        if (document.body.style.overflow === "unset" || !loader) {
+          // If no loader found or already unlocked, start (fallback)
+          setTimeout(() => {
+            if (!hasStarted.current) startIntro();
+          }, 500);
+        }
+      }
+
+      // Parallax IMAGES ...
+
 
       // 2. Scroll Parallax (Deep Layers) - Optimized with will-change
       HERO_IMAGES.forEach((img) => {
@@ -122,11 +157,16 @@ export default function Hero() {
       // 3. Mouse Tilt Setup
       xTo.current = gsap.quickTo(tiltRef.current, "rotationY", { duration: 0.5, ease: "power3" });
       yTo.current = gsap.quickTo(tiltRef.current, "rotationX", { duration: 0.5, ease: "power3" });
+
+      return () => {
+        window.removeEventListener("loading-exit-start", handleLoadingExit);
+        window.removeEventListener("loading-complete", handleLoadingExit);
+      };
     },
     { scope: containerRef }
   );
 
-  // Memoize mouse handlers to prevent recreation
+  // Optimized mouse handlers with requestAnimationFrame-like behavior via gsap
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!tiltRef.current) return;
     
@@ -135,9 +175,8 @@ export default function Hero() {
     const x = (clientX / width) - 0.5;
     const y = (clientY / height) - 0.5;
 
-    // Tilt range: -10 to 10 degrees
-    xTo.current?.(x * 10);
-    yTo.current?.(y * -10); // Invert Y for natural feel
+    xTo.current?.(x * 8); // Reduced range for subtler/faster feel
+    yTo.current?.(y * -8);
   }, []);
 
   const handleMouseLeave = useCallback(() => {
@@ -165,7 +204,7 @@ export default function Hero() {
           {horizontalGridLines.map((_, i) => (
             <div 
               key={`h-${i}`} 
-              className="grid-line absolute w-full h-px bg-white/20" 
+              className="grid-line opacity-0 absolute w-full h-px bg-white/20" 
               style={{ top: `${i * 8.33}%` }} 
             />
           ))}
@@ -173,7 +212,7 @@ export default function Hero() {
           {verticalGridLines.map((_, i) => (
             <div 
               key={`v-${i}`} 
-              className="grid-line absolute h-full w-px bg-white/20" 
+              className="grid-line opacity-0 absolute h-full w-px bg-white/20" 
               style={{ left: `${i * 8.33}%`, transformOrigin: "top", transform: "scaleY(0)" }} 
             />
           ))}
@@ -189,33 +228,31 @@ export default function Hero() {
 
         {/* MAIN CONTENT */}
         <div ref={contentRef} className="relative z-40 container mx-auto px-4 h-screen flex flex-col justify-center items-center pointer-events-none">
-          <div className="text-center pointer-events-auto bg-black/50 shadow-[0_0_50px_40px_rgba(0,0,0,0.5)] p-6 rounded-[3rem] md:shadow-none md:bg-transparent md:p-0 md:rounded-none md:mix-blend-difference">
+          <div className="text-center pointer-events-auto p-6">
             
-            {/* Eyebrow with Crane Effect */}
-            <div className="relative overflow-hidden mb-4 inline-block">
-              <div className="text-reveal-mask absolute inset-0 bg-accent z-10" />
-              <div className="hero-text flex items-center gap-3 text-accent text-sm md:text-base tracking-[0.5em] uppercase font-mono">
-                <Construction className="w-4 h-4" />
-                <span>Under Construction Since 1989</span>
-              </div>
+            {/* Eyebrow */}
+            <div className="hero-reveal-el opacity-0 flex items-center gap-3 text-accent text-sm md:text-base tracking-[0.5em] uppercase font-mono mb-4">
+              <Construction className="w-4 h-4" />
+              <span>Under Construction Since 1989</span>
             </div>
 
-            {/* Main Heading */}
-            <div className="relative mb-6">
-              <h1 className="hero-text text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9]">
-                ARCH<span className="text-transparent stroke-text">CON</span>
+            {/* Main Heading with Slide-Out Effect */}
+            <div className="relative mb-6 flex justify-center">
+              <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] flex">
+                <span className="arch-text opacity-0 relative z-20 bg-[#0a0a0a]">ARCH</span>
+                <span className="con-text opacity-0 relative z-10 text-transparent stroke-text">CON</span>
               </h1>
             </div>
 
             {/* Description */}
-            <div className="relative overflow-hidden mb-8 md:mb-12 hidden md:block">
-               <p className="hero-text text-xl md:text-2xl text-accent font-light tracking-wide max-w-2xl mx-auto rounded-sm p-1">
+            <div className="mb-8 md:mb-12 hidden md:block">
+               <p className="hero-reveal-el opacity-0 text-xl md:text-2xl text-accent font-light tracking-wide max-w-2xl mx-auto rounded-sm p-1">
                 Engineering the future, one beam at a time.
               </p>
             </div>
 
             {/* CTA Buttons */}
-            <div className="hero-text flex flex-col md:flex-row gap-6 items-center justify-center">
+            <div className="hero-reveal-el opacity-0 flex flex-col md:flex-row gap-6 items-center justify-center">
               <Link
                 href="/projects"
                 className="group relative px-8 py-4 bg-white text-black font-bold uppercase tracking-wider overflow-hidden transition-all hover:bg-accent hover:text-white shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(196,164,132,0.6)]"
@@ -241,7 +278,7 @@ export default function Hero() {
             <div
               key={img.id}
               id={`hero-img-${img.id}`}
-              className={`hero-image-container absolute ${img.position} ${img.className}`}
+              className={`hero-image-container opacity-0 absolute ${img.position} ${img.className}`}
               style={{ zIndex: img.zIndex, willChange: "transform" }}
             >
               {/* Image Frame */}
@@ -256,12 +293,12 @@ export default function Hero() {
                     alt={img.alt}
                     fill
                     className="object-cover"
-                    priority={index === 0}
-                    quality={85}
-                    sizes="(max-width: 768px) 280px, 350px"
+                    priority={true} // Priority for all hero images to avoid LCP delay
+                    quality={75} // Slightly lower quality for much faster load
+                    sizes="(max-width: 768px) 280px, 400px"
                   />
-                  {/* Overlay Scanline */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent opacity-0 hover:opacity-100 animate-scan" />
+                  {/* Overlay Scanline - Opacity based reveal for performance */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
                 
                 {/* Technical Label */}

@@ -32,6 +32,7 @@ export default function LoadingScreen() {
       setTimeout(() => {
         setProgress(100);
         setTimeout(() => {
+          window.dispatchEvent(new CustomEvent("loading-exit-start"));
           setIsLoading(false);
           document.body.style.overflow = "unset";
         }, 500); // Wait a bit at 100% before exiting
@@ -59,6 +60,11 @@ export default function LoadingScreen() {
           className="fixed inset-0 z-[9999] bg-[#0E0E0E] flex flex-col items-center justify-center text-white"
           initial={{ opacity: 1 }}
           exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
+          onAnimationComplete={(definition) => {
+            if (definition === "exit" || (typeof definition === "object" && !Array.isArray(definition) && (definition as any).y === "-100%")) {
+              window.dispatchEvent(new CustomEvent("loading-complete"));
+            }
+          }}
         >
           <div className="w-full max-w-sm px-8">
             {/* Logo/Brand Area */}

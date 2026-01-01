@@ -165,10 +165,10 @@ const TiltCard = ({ item, index }: { item: any; index: number }) => {
     gsap.to(cardRef.current, {
       rotateX,
       rotateY,
-      duration: 0.3,
-      ease: "power2.out",
+      duration: 0.1,
+      ease: "none",
       transformPerspective: 1000,
-      overwrite: "auto",
+      overwrite: true,
     });
   };
 

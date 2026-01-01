@@ -28,8 +28,8 @@ export default function MotionStatement() {
     let width = 0;
     let height = 0;
     
-    // Dot configuration
-    const gap = 40; // Distance between dots
+    // Dot configuration - Optimized for performance
+    const gap = 50; 
     const dots: { x: number; y: number; originX: number; originY: number }[] = [];
 
     const resize = () => {
