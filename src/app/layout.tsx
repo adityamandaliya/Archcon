@@ -19,7 +19,11 @@ export const metadata: Metadata = {
   title: "Archcon | Mumbai Redevelopment",
   description: "Premier construction and redevelopment firm in Mumbai.",
   icons: {
-    icon: "/images/Logo/Archcon_logo_wt.png",
+    icon: [
+      { url: "/images/Logo/Archcon_logo_wt.png", type: "image/png" },
+    ],
+    shortcut: "/images/Logo/Archcon_logo_wt.png",
+    apple: "/images/Logo/Archcon_logo_wt.png",
   },
 };
 

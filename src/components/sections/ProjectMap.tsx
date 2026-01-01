@@ -4,6 +4,7 @@ import { useRef, useState, useMemo, useEffect } from "react";
 import Map, { Marker, Popup, MapRef } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { LucideMapPin, ArrowRight, X } from "lucide-react";
+import ProjectImage from "../ui/ProjectImage";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { PROJECTS } from "@/lib/projects";
@@ -228,20 +229,20 @@ export default function ProjectMap() {
                         <div className="relative h-36 md:h-48 w-full overflow-hidden bg-neutral-100">
                           {/* Blurred Background Layer - Fills the space */}
                           <div className="absolute inset-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={popupInfo.images && popupInfo.images.length > 0 ? popupInfo.images[0] : popupInfo.image}
+                            <ProjectImage
+                              src={popupInfo.images && popupInfo.images.length > 0 ? popupInfo.images[0] : (popupInfo.image || "")}
                               alt=""
+                              fill
                               className="h-full w-full object-cover blur-xl scale-125 opacity-60"
                             />
                           </div>
 
                            {/* Main Image Layer - Shows the full image */}
                            <div className="absolute inset-0 p-1">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img
-                                src={popupInfo.images && popupInfo.images.length > 0 ? popupInfo.images[0] : popupInfo.image}
+                              <ProjectImage
+                                src={popupInfo.images && popupInfo.images.length > 0 ? popupInfo.images[0] : (popupInfo.image || "")}
                                 alt={popupInfo.title}
+                                fill
                                 className="h-full w-full object-contain relative z-10"
                               />
                            </div>

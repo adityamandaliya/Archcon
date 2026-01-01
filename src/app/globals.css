@@ -72,3 +72,23 @@ html::-webkit-scrollbar {
   -webkit-text-stroke: 2px var(--color-accent);
   color: transparent;
 }
+
+/* Mapbox Popup Styling Cleanup */
+.mapboxgl-popup-content {
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 1rem !important;
+  border: none !important;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: white !important;
+  border-bottom-color: white !important;
+}
+
+/* Hide the default close button if still visible */
+.mapboxgl-popup-close-button {
+  display: none !important;
+}
+
