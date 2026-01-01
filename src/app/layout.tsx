@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 import LoadingScreen from "@/components/layout/LoadingScreen";
 
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // ... existing imports
 
@@ -46,6 +47,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Analytics />
+          <SpeedInsights />
           <Footer />
         </LenisProvider>
       </body>
