@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import ProjectImage from "./ProjectImage";
 
 interface LightboxProps {
   images: string[];
@@ -96,14 +97,14 @@ export default function Lightbox({
               transition={{ duration: 0.2 }}
               className="relative w-full h-full max-w-6xl max-h-[85vh]"
             >
-              {images[currentIndex] && (
-                <Image
+              {images[currentIndex] !== undefined && (
+                <ProjectImage
                   src={images[currentIndex]}
-                alt={`Image ${currentIndex + 1}`}
-                fill
-                className="object-contain"
-                quality={90}
-                priority
+                  alt={`Image ${currentIndex + 1}`}
+                  fill
+                  className="object-contain"
+                  quality={90}
+                  priority
                 />
               )}
             </motion.div>
@@ -138,7 +139,13 @@ export default function Lightbox({
                         idx === currentIndex ? "ring-2 ring-white scale-110" : "opacity-50 hover:opacity-100"
                     }`}
                 >
-                    <Image src={img} alt="thumb" fill className="object-cover" sizes="64px" />
+                    <ProjectImage 
+                        src={img} 
+                        alt="thumb" 
+                        fill 
+                        className="object-cover" 
+                        sizes="64px" 
+                    />
                 </button>
             ))}
         </div>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProjectImage from "./ProjectImage";
 
 interface ProjectCarouselProps {
   images: string[];
@@ -47,7 +48,7 @@ export default function ProjectCarousel({
           >
             {/* Blurred Background Layer - Fills the space */}
             <div className="absolute inset-0">
-              <Image
+              <ProjectImage
                 src={images[currentIndex]}
                 alt=""
                 fill
@@ -58,7 +59,7 @@ export default function ProjectCarousel({
 
             {/* Main Image Layer - Shows the full image */}
             <div className="absolute inset-0">
-              <Image
+              <ProjectImage
                 src={images[currentIndex]}
                 alt={`${title} - Image ${currentIndex + 1}`}
                 fill
