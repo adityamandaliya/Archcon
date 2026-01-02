@@ -133,7 +133,7 @@ export default function Navbar() {
 
             <Link href="/" className="flex items-center gap-2 group">
               <Image
-                src="/images/Logo/Archcon_logo_wt.png"
+                src="/images/Logo/Archcon_logo_wt_red.png"
                 alt="Archcon Logo"
                 width={45}
                 height={45}

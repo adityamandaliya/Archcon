@@ -319,7 +319,7 @@ export default function UpdatesSection() {
                                 e.stopPropagation();
                                 handleCarouselNav(update.id, "prev");
                               }}
-                              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2.5 rounded-full bg-white shadow-xl text-maroon hover:bg-maroon hover:text-white border border-maroon/10 transition-all duration-300 flex items-center justify-center"
+                              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2.5 rounded-full bg-white shadow-xl text-maroon hover:bg-maroon hover:text-white border border-maroon/10 transition-all duration-300 hidden md:flex items-center justify-center"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               aria-label="Previous image"
@@ -332,7 +332,7 @@ export default function UpdatesSection() {
                                 e.stopPropagation();
                                 handleCarouselNav(update.id, "next");
                               }}
-                              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2.5 rounded-full bg-white shadow-xl text-maroon hover:bg-maroon hover:text-white border border-maroon/10 transition-all duration-300 flex items-center justify-center"
+                              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2.5 rounded-full bg-white shadow-xl text-maroon hover:bg-maroon hover:text-white border border-maroon/10 transition-all duration-300 hidden md:flex items-center justify-center"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               aria-label="Next image"

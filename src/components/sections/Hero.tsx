@@ -233,7 +233,7 @@ export default function Hero() {
             <div className="absolute inset-0 -inset-y-10 bg-black/40 -z-10 rounded-[3rem] md:hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]" />
             
             {/* Eyebrow */}
-            <div className="hero-reveal-el opacity-0 flex items-center gap-3 text-accent text-sm md:text-base tracking-[0.5em] uppercase font-mono mb-4">
+            <div className="hero-reveal-el opacity-0 flex items-center justify-center gap-3 text-accent text-sm md:text-base tracking-[0.5em] uppercase font-mono mb-4">
               <Construction className="w-4 h-4" />
               <span>Under Construction Since 1989</span>
             </div>
@@ -257,7 +257,7 @@ export default function Hero() {
             <div className="hero-reveal-el opacity-0 flex flex-col md:flex-row gap-6 items-center justify-center">
               <Link
                 href="/projects"
-                className="group relative px-8 py-4 bg-white text-black font-bold uppercase tracking-wider overflow-hidden transition-all hover:bg-accent hover:text-white shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(196,164,132,0.6)]"
+                className="group relative px-6 py-3 md:px-8 md:py-4 bg-white text-black font-bold uppercase tracking-wider overflow-hidden transition-all hover:bg-accent hover:text-white shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(196,164,132,0.6)]"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   View Projects{" "}
@@ -266,7 +266,7 @@ export default function Hero() {
               </Link>
               <Link
                 href="/#contact"
-                className="px-8 py-4 border border-white/20 text-white uppercase tracking-widest text-sm hover:bg-white/5 transition-colors backdrop-blur-sm"
+                className="px-6 py-3 md:px-8 md:py-4 border border-white/20 text-white uppercase tracking-widest text-sm hover:bg-white/5 transition-colors backdrop-blur-sm"
               >
                 Contact Us
               </Link>

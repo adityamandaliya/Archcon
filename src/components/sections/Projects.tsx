@@ -66,6 +66,7 @@ function ProjectCard({ project, isHighlighted, isHovered, onHover, onLeave, onOp
 
   return (
     <motion.div
+      id={`project-${project.id}`}
       variants={cardVariants}
       onMouseEnter={() => onHover(project.id)}
       onMouseLeave={() => onLeave()}
@@ -269,31 +270,55 @@ function ProjectsContent() {
   // Handle Deep Linking
   useEffect(() => {
     const projectIdParam = searchParams.get("projectId");
-    if (projectIdParam) {
-      const projectId = parseInt(projectIdParam);
-      const projectIndex = PROJECTS.findIndex(p => p.id === projectId);
-      
-      if (projectIndex !== -1) {
-        // Calculate which page this project is on
-        const targetPage = Math.ceil((projectIndex + 1) / PROJECTS_PER_PAGE);
-        setCurrentPage(targetPage);
-        setHighlightedId(projectId);
+    if (!projectIdParam) return;
+
+    const projectId = parseInt(projectIdParam);
+    const projectIndex = PROJECTS.findIndex(p => p.id === projectId);
+    
+    if (projectIndex !== -1) {
+      // 1. Calculate and set the correct page first
+      const targetPage = Math.ceil((projectIndex + 1) / PROJECTS_PER_PAGE);
+      setCurrentPage(targetPage);
+
+      // 2. Wait for page transition and component render
+      // Using a longer timeout to ensure content is swapped and layout is stable
+      const timer = setTimeout(() => {
+        const targetElement = document.getElementById(`project-${projectId}`);
         
-        // Scroll to grid after a short delay to allow rendering
-        setTimeout(() => {
+        if (targetElement) {
+          // Calculate offset (Navbar is approx 80px, adding more for breathable space)
+          const offset = 120;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+
+          // 3. Highlight after starting scroll
+          setTimeout(() => {
+            setHighlightedId(projectId);
+            
+            // Clear highlight after delay
+            setTimeout(() => {
+              setHighlightedId(null);
+            }, 3000);
+          }, 400);
+        } else {
+          // Fallback to grid if specific element not found after timeout
           const gridElement = document.getElementById('projects-grid');
           if (gridElement) {
             gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setHighlightedId(projectId);
+            setTimeout(() => setHighlightedId(null), 3000);
           }
-        }, 500);
+        }
+      }, 1000); // 1s timeout to ensure page content loads and renders
 
-        // Clear highlight after 2.5 seconds
-        setTimeout(() => {
-          setHighlightedId(null);
-        }, 2500);
-      }
+      return () => clearTimeout(timer);
     }
-  }, [searchParams]);
+  }, [searchParams, PROJECTS_PER_PAGE]);
 
   // Memoize to prevent unnecessary recalculations
   const memoizedProjects = useMemo(() => PROJECTS, []);

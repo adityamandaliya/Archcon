@@ -20,10 +20,10 @@ export const metadata: Metadata = {
   description: "Premier construction and redevelopment firm in Mumbai.",
   icons: {
     icon: [
-      { url: "/images/Logo/Archcon_logo_wt.png", type: "image/png" },
+      { url: "/images/Logo/Archcon_logo_wt_red.png", type: "image/png" },
     ],
-    shortcut: "/images/Logo/Archcon_logo_wt.png",
-    apple: "/images/Logo/Archcon_logo_wt.png",
+    shortcut: "/images/Logo/Archcon_logo_wt_red.png",
+    apple: "/images/Logo/Archcon_logo_wt_red.png",
   },
 };
 

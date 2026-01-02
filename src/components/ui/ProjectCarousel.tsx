@@ -91,13 +91,13 @@ export default function ProjectCarousel({
         <>
           <button
             onClick={prevImage}
-            className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/30 text-white backdrop-blur-sm opacity-0 group-hover/carousel:opacity-100 hover:bg-black/50 transition-all z-10"
+            className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/30 text-white backdrop-blur-sm opacity-0 group-hover/carousel:opacity-100 hover:bg-black/50 transition-all z-10 hidden md:block"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={nextImage}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/30 text-white backdrop-blur-sm opacity-0 group-hover/carousel:opacity-100 hover:bg-black/50 transition-all z-10"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/30 text-white backdrop-blur-sm opacity-0 group-hover/carousel:opacity-100 hover:bg-black/50 transition-all z-10 hidden md:block"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
