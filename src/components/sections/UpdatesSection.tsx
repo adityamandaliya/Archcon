@@ -263,7 +263,18 @@ export default function UpdatesSection() {
                               x: { type: "spring", stiffness: 300, damping: 30 },
                               opacity: { duration: 0.3 }
                             }}
-                            className="relative w-full h-full"
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={0.2}
+                            onDragEnd={(_, info) => {
+                              const swipeThreshold = 50;
+                              if (info.offset.x > swipeThreshold) {
+                                handleCarouselNav(update.id, "prev");
+                              } else if (info.offset.x < -swipeThreshold) {
+                                handleCarouselNav(update.id, "next");
+                              }
+                            }}
+                            className="relative w-full h-full touch-none"
                           >
                             <UpdatesImage
                               src={currentImage.url}

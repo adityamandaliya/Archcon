@@ -21,13 +21,13 @@ export default function ProjectCarousel({
 }: ProjectCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const nextImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const nextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
-  const prevImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const prevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
@@ -44,7 +44,18 @@ export default function ProjectCarousel({
             animate={{ opacity: 1, scale: isHovered ? 1.05 : 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute inset-0 overflow-hidden"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(_, info) => {
+              const swipeThreshold = 50;
+              if (info.offset.x > swipeThreshold) {
+                prevImage();
+              } else if (info.offset.x < -swipeThreshold) {
+                nextImage();
+              }
+            }}
+            className="absolute inset-0 overflow-hidden touch-none"
           >
             {/* Blurred Background Layer - Fills the space */}
             <div className="absolute inset-0">

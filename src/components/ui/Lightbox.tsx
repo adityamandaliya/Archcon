@@ -95,7 +95,18 @@ export default function Lightbox({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
-              className="relative w-full h-full max-w-6xl max-h-[85vh]"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                const swipeThreshold = 50;
+                if (info.offset.x > swipeThreshold) {
+                  prevImage();
+                } else if (info.offset.x < -swipeThreshold) {
+                  nextImage();
+                }
+              }}
+              className="relative w-full h-full max-w-6xl max-h-[85vh] touch-none"
             >
               {images[currentIndex] !== undefined && (
                 <ProjectImage
