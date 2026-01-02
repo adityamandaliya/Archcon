@@ -21,7 +21,7 @@ export interface TeamCategory {
 
 // Founder Data
 export const FOUNDER: TeamMember = {
-  id: 1,
+  id: 3,
   name: "Snehal Mandaliya",
   title: "Founder & Director",
   image: "/images/team/founder1.png",
@@ -38,6 +38,18 @@ export const FOUNDER: TeamMember = {
 
 // Associates Data
 export const ASSOCIATES: TeamMember[] = [
+    {
+    id: 1,
+    name: "Aditya Mandaliya",
+    title: "Financial Analyst",
+    image: "/images/team/aditya.jpg",
+    bio: "Expert in financial planning and cost estimation for large-scale redevelopment projects.  what hrmnorot i am just writing it add more space to existing card for just as an example",
+    specialties: ["Financial Planning", "Cost Estimation", "Budgeting"],
+    email: "rohan@archcon.com",
+    phone: "+91 98765-43226",
+    linkedin: "https://www.linkedin.com/in/aditya-mandaliya/",
+    company: "ARCHCON",
+  },
   {
     id: 2,
     name: "Hitesh Shah",
@@ -50,7 +62,7 @@ export const ASSOCIATES: TeamMember[] = [
     company: "GLORY CORPORATION",
   },
   {
-    id: 3,
+    id: 17,
     name: "Kunal Thakur",
     title: "Business Development Manager",
     image: "",
@@ -71,18 +83,7 @@ export const ASSOCIATES: TeamMember[] = [
     phone: "+91 98765-43213",
     company: "MTM INFRASTRUCTURES",
   },
-  {
-    id: 17,
-    name: "Aditya Mandaliya",
-    title: "Financial Analyst",
-    image: "/images/team/aditya.jpg",
-    bio: "Expert in financial planning and cost estimation for large-scale redevelopment projects.  what hrmnorot i am just writing it add more space to existing card for just as an example",
-    specialties: ["Financial Planning", "Cost Estimation", "Budgeting"],
-    email: "rohan@archcon.com",
-    phone: "+91 98765-43226",
-    linkedin: "https://www.linkedin.com/in/aditya-mandaliya/",
-    company: "ARCHCON",
-  },
+
 ];
 
 // Team Categories

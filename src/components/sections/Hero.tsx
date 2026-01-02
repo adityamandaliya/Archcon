@@ -228,7 +228,9 @@ export default function Hero() {
 
         {/* MAIN CONTENT */}
         <div ref={contentRef} className="relative z-40 container mx-auto px-4 h-screen flex flex-col justify-center items-center pointer-events-none">
-          <div className="text-center pointer-events-auto p-6">
+          <div className="text-center pointer-events-auto p-6 relative">
+            {/* Mobile dark overlay to improve readability against hero images */}
+            <div className="absolute inset-0 -inset-y-10 bg-black/40 -z-10 rounded-[3rem] md:hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]" />
             
             {/* Eyebrow */}
             <div className="hero-reveal-el opacity-0 flex items-center gap-3 text-accent text-sm md:text-base tracking-[0.5em] uppercase font-mono mb-4">
@@ -239,7 +241,7 @@ export default function Hero() {
             {/* Main Heading with Slide-Out Effect */}
             <div className="relative mb-6 flex justify-center">
               <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] flex">
-                <span className="arch-text opacity-0 relative z-20 bg-[#0a0a0a]">ARCH</span>
+                <span className="arch-text opacity-0 relative z-20">ARCH</span>
                 <span className="con-text opacity-0 relative z-10 text-transparent stroke-text">CON</span>
               </h1>
             </div>
