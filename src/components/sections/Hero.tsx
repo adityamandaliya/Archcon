@@ -296,7 +296,7 @@ export default function Hero() {
                     fill
                     className="object-cover"
                     priority={true} // Priority for all hero images to avoid LCP delay
-                    quality={75} // Slightly lower quality for much faster load
+                    quality={60} // Lowered quality for faster load (was 75)
                     sizes="(max-width: 768px) 280px, 400px"
                   />
                   {/* Overlay Scanline - Opacity based reveal for performance */}

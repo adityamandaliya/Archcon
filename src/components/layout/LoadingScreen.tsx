@@ -13,7 +13,7 @@ export default function LoadingScreen() {
     document.body.style.overflow = "hidden";
 
     const startTime = Date.now();
-    const minLoadTime = 2000; // Minimum 2 seconds for premium feel
+    const minLoadTime = 600; // Reduced from 2s to 600ms for faster LCP while keeping a hint of'premium feel'
 
     // Simulate progress
     const interval = setInterval(() => {
@@ -35,7 +35,7 @@ export default function LoadingScreen() {
           window.dispatchEvent(new CustomEvent("loading-exit-start"));
           setIsLoading(false);
           document.body.style.overflow = "unset";
-        }, 500); // Wait a bit at 100% before exiting
+        }, 100); // Wait a bit at 100% before exiting (reduced from 500ms)
       }, remainingTime);
     };
 

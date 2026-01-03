@@ -6,6 +6,13 @@ import Contact from "@/components/sections/Contact";
 import MotionStatement from "@/components/sections/MotionStatement";
 import SubCompaniesSection from "@/components/sections/SubCompaniesSection";
 
+
+
+
+
+
+
+
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col">
