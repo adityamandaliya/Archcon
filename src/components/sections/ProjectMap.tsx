@@ -117,7 +117,7 @@ export default function ProjectMap() {
             <div className="grid grid-cols-2 gap-6 pt-6 border-t border-text/10">
               <div>
                 <div className="text-3xl md:text-4xl font-bold text-maroon mb-1">
-                  50+
+                  20+
                 </div>
                 <div className="text-text/60 text-sm uppercase tracking-wider">
                   Projects Completed
@@ -125,7 +125,7 @@ export default function ProjectMap() {
               </div>
               <div>
                 <div className="text-3xl md:text-4xl font-bold text-maroon mb-1">
-                20+
+                25+
                 </div>
                 <div className="text-text/60 text-sm uppercase tracking-wider">
                   Active Years
@@ -133,14 +133,68 @@ export default function ProjectMap() {
               </div>
             </div>
 
-            {/* CTA Button */}
-            <Link
-              href="/projects"
-              className="group flex items-center gap-3 text-text font-medium hover:text-maroon transition-colors duration-300 pt-2"
+            {/* CTA Button with Microinteraction */}
+            <motion.div
+              className="inline-block mt-4"
+              onHoverStart={() => {}}
+              onHoverEnd={() => {}}
             >
-              <span className="text-lg">View All Projects</span>
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-2" />
-            </Link>
+              <Link
+                href="/projects"
+                className="group relative inline-flex items-center justify-between gap-3 md:gap-4 bg-maroon text-white px-4 py-3 md:px-6 md:py-4 rounded-full overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-maroon/30 hover:scale-[1.02]"
+              >
+                {/* Button Text */}
+                <span className="text-base md:text-lg font-semibold tracking-wide relative z-10">
+                  View All Projects
+                </span>
+
+                {/* Right Side: Circular Images + Arrow Container */}
+                <div className="relative flex items-center gap-1.5 md:gap-2">
+                  {/* Circular Images Stack */}
+                  <div className="relative flex items-center h-8 md:h-10">
+                    {/* Project 1 Image */}
+                    <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-white shadow-lg transition-transform duration-300 group-hover:-translate-x-0.5">
+                      <ProjectImage
+                        src={PROJECTS[0].images[0]}
+                        alt={PROJECTS[0].title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* Project 2 Image - Overlapping */}
+                    <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-white shadow-lg -ml-2.5 md:-ml-3 transition-transform duration-300 delay-75 group-hover:-translate-x-0.5">
+                      <ProjectImage
+                        src={PROJECTS[1].images[0]}
+                        alt={PROJECTS[1].title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* Project 3 Image - Overlapping */}
+                    <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-white shadow-lg -ml-2.5 md:-ml-3 transition-transform duration-300 delay-100 group-hover:-translate-x-0.5">
+                      <ProjectImage
+                        src={PROJECTS[2].images[0]}
+                        alt={PROJECTS[2].title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Arrow - Slides out on hover */}
+                  <div className="relative overflow-hidden">
+                    <div className="flex items-center justify-center w-0 h-8 md:h-10 rounded-full bg-white/20 backdrop-blur-sm transition-all duration-400 ease-out group-hover:w-8 md:group-hover:w-10 opacity-0 group-hover:opacity-100">
+                      <ArrowRight className="h-4 w-4 md:h-5 md:w-5 text-white -translate-x-2 group-hover:translate-x-0 transition-transform duration-300 delay-100" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Shimmer Effect on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" style={{ width: "50%" }} />
+              </Link>
+            </motion.div>
 
           </motion.div>
 
