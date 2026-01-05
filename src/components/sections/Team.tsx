@@ -537,7 +537,7 @@ export default function Team() {
                       transition={{ duration: 0.4, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mb-12 pl-4 lg:pl-8 pt-6 border-l-2 border-accent/30">
+                      <div className="flex flex-wrap justify-center gap-8 lg:gap-10 mb-12 pl-4 lg:pl-8 pt-6 border-l-2 border-accent/30">
                         {category.members.map((member, memberIndex) => (
                           <motion.div
                             layout
@@ -545,6 +545,7 @@ export default function Team() {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: memberIndex * 0.1 }}
+                            className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(25%-1.875rem)]"
                           >
                             <TeamCard member={member} />
                           </motion.div>

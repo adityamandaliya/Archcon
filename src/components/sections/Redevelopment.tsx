@@ -39,7 +39,7 @@ const BENEFITS = [
     title: "Bigger & Better",
     subtitle: "Zero Cost Upgrade",
     icon: Home,
-    description: "Larger carpet area, premium layouts, and enhanced ventilation.",
+    description: "Larger carpet area, minimal wastage, premium layouts, and enhanced ventilation.",
     accent: "text-maroon",
     bg: "bg-maroon/5",
     border: "group-hover:border-maroon/30",
@@ -49,7 +49,7 @@ const BENEFITS = [
     title: "Modern Amenities",
     subtitle: "Future-Ready Living",
     icon: Zap,
-    description: "High-speed lifts, solar power, CCTV, and landscaped podiums.",
+    description: "Gym,High-speed lifts, solar power, CCTV, terrace deck, and landscaped podiums.",
     accent: "text-maroon",
     bg: "bg-maroon/5",
     border: "group-hover:border-maroon/30",
@@ -59,7 +59,7 @@ const BENEFITS = [
     title: "Value Boost",
     subtitle: "Wealth Creation",
     icon: TrendingUp,
-    description: "25-40% increase in property value and higher rental yields.",
+    description: "40%-60% increase in property value and higher rental yields.",
     accent: "text-maroon",
     bg: "bg-maroon/5",
     border: "group-hover:border-maroon/30",
@@ -70,25 +70,25 @@ const PROCESS_STEPS = [
   {
     number: "01",
     title: "Understanding Your Vision",
-    desc: "We meet your committee to understand pain points, expectations, and priorities.",
+    desc: "We meet your society to understand pain points, expectations, and priorities.",
     icon: Users,
   },
   {
     number: "02",
     title: "Technical Feasibility",
-    desc: "Structural inspection, FSI potential analysis, and municipal rule checks.",
+    desc: "Feasibility evaluation, FSI potential analysis, and municipal rule checks.",
     icon: Building2,
   },
   {
     number: "03",
     title: "Member Approvals",
-    desc: "Conducting meetings to ensure every member understands rights and benefits.",
+    desc: "Conducting meetings to ensure every member understands rights and benefits, targeting 100% approval.",
     icon: CheckCircle2,
   },
   {
     number: "04",
     title: "Development Agreement",
-    desc: "Signing the DA with clear terms on carpet area, rent, and timelines.",
+    desc: "Signing the DA with clear terms on carpet area, corpus fund, rent, and timelines.",
     icon: FileSignature,
   },
   {
@@ -106,7 +106,7 @@ const PROCESS_STEPS = [
   {
     number: "07",
     title: "Welcome Home",
-    desc: "Return to a brand-new, modern home with higher property value.",
+    desc: "Return to a brand-new, larger modern home with higher property value.",
     icon: Key,
   },
 ];
@@ -532,7 +532,7 @@ const TrustedEcosystemCard = () => {
           <div className="text-3xl md:text-6xl font-serif font-bold text-maroon/20 mb-2 md:mb-4">01</div>
           <h4 className="text-lg md:text-4xl font-serif font-bold mb-2 md:mb-4 text-text">Trusted Ecosystem</h4>
           <p className="text-xs md:text-xl opacity-70 leading-tight md:leading-relaxed font-light">
-            Deep relationships with Mumbai's redevelopment authorities.
+            Deep relationships with Mumbai's best agencies & redevelopment authorities.
           </p>
         </div>
       </div>
@@ -899,9 +899,9 @@ const ZeroStressCard = () => {
 
         <div>
           <div className="text-3xl md:text-6xl font-serif font-bold text-maroon/20 mb-2 md:mb-4">04</div>
-          <h4 className="text-lg md:text-4xl font-serif font-bold mb-2 md:mb-4 text-text">Zero Stress</h4>
+          <h4 className="text-lg md:text-4xl font-serif font-bold mb-2 md:mb-4 text-text">RERA Compliance</h4>
           <p className="text-xs md:text-xl opacity-70 leading-tight md:leading-relaxed font-light">
-            We handle everything from paperwork to possession.
+            Fully registered and compliant with all regulatory standards.
           </p>
         </div>
       </div>

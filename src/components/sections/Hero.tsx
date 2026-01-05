@@ -6,7 +6,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { ArrowDown, ArrowRight, Construction, Ruler, Hammer } from "lucide-react";
+import { ArrowDown, ArrowRight, Construction, DraftingCompass, Hammer } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -220,7 +220,7 @@ export default function Hero() {
 
         {/* Floating Construction Icons (Decorative) */}
         <div className="absolute top-20 left-10 opacity-10 animate-pulse">
-          <Ruler size={64} />
+          <DraftingCompass size={64} />
         </div>
         <div className="absolute bottom-20 right-10 opacity-10 animate-bounce">
           <Hammer size={64} />
@@ -257,7 +257,7 @@ export default function Hero() {
             <div className="hero-reveal-el opacity-0 flex flex-col md:flex-row gap-6 items-center justify-center">
               <Link
                 href="/projects"
-                className="group relative px-6 py-3 md:px-8 md:py-4 bg-white text-black font-bold uppercase tracking-wider overflow-hidden transition-all hover:bg-accent hover:text-white shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(196,164,132,0.6)]"
+                className="group relative px-6 py-3 md:px-8 md:py-4 bg-accent text-white font-bold uppercase tracking-wider overflow-hidden transition-all hover:bg-white hover:text-black shadow-[0_0_30px_rgba(196,164,132,0.6)] hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   View Projects{" "}

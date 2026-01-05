@@ -7,7 +7,7 @@ export interface SubCompany {
 export const SUB_COMPANIES: SubCompany[] = [
   {
     id: 1,
-    name: "GLORY ENTERPRISE",
+    name: "GLORY CORPORATION",
     logo: "/images/logos/glory-corp.png",
   },
   {
@@ -32,27 +32,27 @@ export const SUB_COMPANIES: SubCompany[] = [
   },
   {
     id: 6,
-    name: "VASTUBH DEVELOPERS",
+    name: "DARSHAN INFRA", 
     logo: "/images/logos/vastubh-dev.png",
   },
   {
     id: 7,
-    name: "DARSHAN INFRA",
+    name: "INFRACON CONSULTANTS",
     logo: "/images/logos/darshan-infra.png",
   },
   {
     id: 8,
-    name: "GRACE BUILDERS & DEVELOPERS",
+    name: "GLORY ENTERPRISE", 
     logo: "/images/logos/grace.png",
   },
   {
     id: 9,
-    name: "GLORY CORPORATION",
+    name: "GRACE BUILDERS & DEVELOPERS",
     logo: "/images/logos/archcon-design.png",
   },
   {
     id: 10,
-    name: "INFRACON CONSULTANTS",
+    name: "VASTUBH DEVELOPERS",
     logo: "/images/logos/archcon-spaces.png",
   },
 ];

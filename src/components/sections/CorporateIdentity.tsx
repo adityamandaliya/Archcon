@@ -10,7 +10,7 @@ const VALUES = [
     title: "Design Excellence",
     subtitle: "Architectural Mastery",
     description:
-      "We believe in the extraordinary power of design to influence quality of life. Every structure tells a story of precision, vision, and purpose.",
+      "We believe in the power of design to enhance quality of life—where precision, purpose, and Vastu-compliant planning shape every structure.",
     image: "/images/value-design.jpg", // 600x400px
     icon: "✦",
     accent: "from-maroon to-accent",

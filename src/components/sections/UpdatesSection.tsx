@@ -319,12 +319,12 @@ export default function UpdatesSection() {
                                 e.stopPropagation();
                                 handleCarouselNav(update.id, "prev");
                               }}
-                              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 p-2.5 rounded-full bg-white shadow-xl text-maroon hover:bg-maroon hover:text-white border border-maroon/10 transition-all duration-300 hidden md:flex items-center justify-center"
+                              className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-1.5 rounded-full bg-black/30 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 hover:bg-black/50 transition-all duration-300 hidden md:flex items-center justify-center"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               aria-label="Previous image"
                             >
-                              <ChevronLeft className="w-5 h-5" />
+                              <ChevronLeft className="w-4 h-4" />
                             </motion.button>
 
                             <motion.button
@@ -332,12 +332,12 @@ export default function UpdatesSection() {
                                 e.stopPropagation();
                                 handleCarouselNav(update.id, "next");
                               }}
-                              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 p-2.5 rounded-full bg-white shadow-xl text-maroon hover:bg-maroon hover:text-white border border-maroon/10 transition-all duration-300 hidden md:flex items-center justify-center"
+                              className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-1.5 rounded-full bg-black/30 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 hover:bg-black/50 transition-all duration-300 hidden md:flex items-center justify-center"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               aria-label="Next image"
                             >
-                              <ChevronRight className="w-5 h-5" />
+                              <ChevronRight className="w-4 h-4" />
                             </motion.button>
                           </>
                         )}

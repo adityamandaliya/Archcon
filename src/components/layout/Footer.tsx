@@ -130,7 +130,7 @@ export default function Footer() {
                     whileHover={{ scale: 1.05 }}
                     className="flex flex-col"
                   >
-                    <span className="text-2xl font-bold text-accent">50+</span>
+                    <span className="text-2xl font-bold text-accent">25+</span>
                     <span className="text-xs text-white/60 uppercase tracking-wider mt-1">
                       Projects
                     </span>
@@ -271,6 +271,25 @@ export default function Footer() {
                 </motion.div>
               </motion.button>
             </div>
+
+            {/* Credits Section */}
+            <motion.div
+              variants={itemVariants}
+              className="flex justify-center pt-8 mt-8 border-t border-white/10"
+            >
+              <p className="text-white/40 text-xs font-serif">
+                Designed & Developed by{" "}
+                <motion.a
+                  href="https://www.linkedin.com/in/aditya-mandaliya"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  className="text-accent hover:text-white transition-colors duration-300 font-semibold"
+                >
+                  Aditya Mandaliya
+                </motion.a>
+              </p>
+            </motion.div>
           </motion.div>
         </div>
       </div>
