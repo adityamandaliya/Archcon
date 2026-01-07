@@ -250,10 +250,7 @@ export default function MotionStatement() {
 
         <div className="overflow-hidden max-w-2xl mx-auto px-6">
           <p className="reveal-text text-black/70 text-lg md:text-xl leading-relaxed font-light">
-          Where redevelopment meets architectural clarity.
-Every line is intentional, every angle engineered, and every space rebuilt to perform better, last longer, and mean more.
-            {/* Where engineering meets artistry. We don't just fill space; we define it.
-            Every line, every angle, every structure is calculated for legacy. */}
+          Architectural clarity in redevelopment—precise, enduring, purposeful.
           </p>
         </div>
       </div>
