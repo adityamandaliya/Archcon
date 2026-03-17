@@ -28,7 +28,7 @@ export const SUB_COMPANIES: SubCompany[] = [
   {
     id: 5,
     name: "ARCHCON INDIA",
-    logo: "/images/logos/vastubh-archcon.png", // specific
+    logo: "/images/logos/vastubh-archcon.png", 
   },
   {
     id: 6,

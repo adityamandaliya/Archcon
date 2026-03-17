@@ -201,8 +201,7 @@ export default function UpdatesSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-text/60 text-lg md:text-xl max-w-2xl mx-auto font-light"
             >
-              Discover the latest milestones, project updates, and announcements
-              from Archcon as we continue to shape Mumbai's urban landscape.
+              
             </motion.p>
           </motion.div>
         )}
