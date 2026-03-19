@@ -220,15 +220,7 @@ export default function CorporateIdentity() {
           viewport={{ once: true }}
           className="mt-20 lg:mt-28 text-center"
         >
-          <div className="inline-block max-w-3xl">
-            <p className="text-text/60 text-lg md:text-xl leading-relaxed mb-6">
-              These values aren't aspirational—they're operational. They guide
-              every project from conception to completion, ensuring we deliver
-              not just buildings, but legacies.
-            </p>
-
-            
-          </div>
+          
         </motion.div>
       </div>
     </section>
