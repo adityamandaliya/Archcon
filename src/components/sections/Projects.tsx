@@ -416,8 +416,7 @@ function ProjectsContent() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-text/60 text-lg md:text-xl max-w-2xl mx-auto font-light"
             >
-              From concept to completion, each project represents our commitment
-              to excellence, innovation, and sustainable urban development.
+             
             </motion.p>
           </motion.div>
         )}
