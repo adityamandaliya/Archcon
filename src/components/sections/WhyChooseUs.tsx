@@ -625,9 +625,7 @@ export default function WhyChooseUs() {
           <h2 className="text-4xl md:text-8xl font-serif font-bold mb-8">
             Why Choose <span className="text-maroon">Us</span>
           </h2>
-          <p className="text-lg md:text-2xl opacity-60 max-w-3xl mx-auto font-light">
-            We don't just build structures; we build relationships that last generations.
-          </p>
+          
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-8 max-w-7xl mx-auto">

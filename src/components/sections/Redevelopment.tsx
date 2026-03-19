@@ -476,10 +476,11 @@ export default function Redevelopment() {
               </span>
             ))}
           </h2>
-          <p className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
+
+          {/* <p className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
             Transforming aging structures into landmarks of tomorrow. 
             Experience a seamless journey from concept to keys.
-          </p>
+          </p> */}
           
           {/* Decorative Line */}
           <div className="w-24 h-1 bg-maroon mx-auto mt-10 rounded-full opacity-20" />
