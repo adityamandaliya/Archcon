@@ -100,7 +100,7 @@ const SubCompaniesSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-[var(--color-text)]/60 max-w-2xl mx-auto text-lg leading-relaxed"
           >
-            A synergistic alliance of specialized companies, united to deliver engineering excellence and architectural innovation across every project.
+           
           </motion.p>
         </div>
 

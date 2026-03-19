@@ -100,9 +100,7 @@ export default function CorporateIdentity() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-text/60 text-lg md:text-xl max-w-2xl mx-auto"
           >
-            Our values aren't just words on a page—they're woven into every
-            decision, every project, and every interaction with our clients and
-            community.
+            
           </motion.p>
         </motion.div>
 
