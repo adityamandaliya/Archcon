@@ -219,7 +219,7 @@ export default function ProjectMap() {
                   <div className="bg-white/20 backdrop-blur-md p-4 rounded-2xl border border-white/30 mb-4 scale-110 group-hover/overlay:scale-125 transition-transform duration-500">
                     <LucideMapPin className="text-white w-8 h-8 animate-bounce" />
                   </div>
-                  <h3 className="text-white text-xl font-bold mb-2">Map is locked</h3>
+                  <h3 className="text-white text-xl font-bold mb-2">Double click unlock</h3>
                   <p className="text-white/80 text-sm max-w-[280px]">
                     <span className="hidden md:inline">Double click</span>
                     <span className="md:hidden">Double tap</span>

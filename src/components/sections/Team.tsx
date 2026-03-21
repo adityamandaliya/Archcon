@@ -352,9 +352,9 @@ export default function Team() {
             <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
               Our Active <span className="text-maroon">Associates</span>
             </h3>
-            <p className="text-text/60 text-lg mt-4">
+            {/* <p className="text-text/60 text-lg mt-4">
               Seasoned professionals driving strategic initiatives
-            </p>
+            </p> */}
           </div>
 
           <motion.div
@@ -464,10 +464,10 @@ export default function Team() {
             <h3 className="text-3xl lg:text-5xl font-serif font-bold text-text">
               Departments & <span className="text-maroon">Experts</span>
             </h3>
-            <p className="text-text/60 text-lg mt-4">
+            {/* <p className="text-text/60 text-lg mt-4">
               Specialized professionals in every domain of construction
               excellence
-            </p>
+            </p> */}
           </div>
 
           {/* Team Categories */}

@@ -43,7 +43,7 @@ export const ASSOCIATES: TeamMember[] = [
     name: "Aditya Mandaliya",
     title: "Financial Analyst",
     image: "/images/team/aditya.jpg",
-    bio: "Expert in financial planning and cost estimation for large-scale redevelopment projects.  what hrmnorot i am just writing it add more space to existing card for just as an example",
+    bio: "Expert in financial planning and cost estimation for large-scale redevelopment projects.",
     specialties: ["Financial Planning", "Cost Estimation", "Budgeting"],
     email: "adimandaliya28@gmail.com",
     phone: "",

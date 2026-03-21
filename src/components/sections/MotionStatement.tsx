@@ -248,11 +248,11 @@ export default function MotionStatement() {
 
         <div className="separator-line w-24 h-1 bg-maroon mx-auto mb-8 origin-center" />
 
-        <div className="overflow-hidden max-w-2xl mx-auto px-6">
+        {/* <div className="overflow-hidden max-w-2xl mx-auto px-6">
           <p className="reveal-text text-black/70 text-lg md:text-xl leading-relaxed font-light">
           Architectural clarity in redevelopment—precise, enduring, purposeful.
           </p>
-        </div>
+        </div> */}
       </div>
 
       {/* --- DECORATIVE CORNERS --- */}
