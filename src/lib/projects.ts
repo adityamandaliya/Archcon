@@ -29,13 +29,13 @@ export const PROJECTS: Project[] = [
     endDate: "---",
     durationMonths: 0,
     highlights: [
-      "IT hub development",
-      "Innovation center",
-      "High-speed connectivity",
-      "Startup ecosystem",
+      "Commercial development",
+      "Luxury living",
+      "Prime location",
+      
     ],
     description:
-      "A world-class technology park fostering innovation and entrepreneurship with state-of-the-art facilities for next-generation businesses.",
+      "Thoughtfully designed compact residences with seamless commercial integration, offering a complete ecosystem of modern amenities.",
     area: "15,000 sq ft",
     status: "Upcoming",
     lat: 19.09310813701736,
@@ -53,9 +53,9 @@ export const PROJECTS: Project[] = [
     endDate: "Jun 2024",
     durationMonths: 24,
     highlights: [
-      "300+ luxury apartments",
+      "20+ luxury apartments",
       "5-star amenities",
-      "LEED Gold Certified",
+      "Premium parking",
       "Smart home automation",
     ],
     description:
@@ -77,13 +77,12 @@ export const PROJECTS: Project[] = [
     endDate: "Nov 2018",
     durationMonths: 23,
     highlights: [
-      "Mixed-use development",
-      "40-storey tower",
-      "5 lakh sq ft office",
-      "Premium retail spaces",
+      "Premium construction",
+      "12-storey building",
+      "Premium parking",
     ],
     description:
-      "State-of-the-art commercial hub featuring modern offices, premium retail, and dining experiences for forward-thinking businesses.",
+      "Modern residences with vastu-compliant design, thoughtfully planned layouts, and a seamless automated puzzle parking system.",
     area: "28,500 sq ft",
     status: "Completed",
     lat: 19.204512896893068,
@@ -101,14 +100,13 @@ export const PROJECTS: Project[] = [
     endDate: "Dec 2012",
     durationMonths: 33,
     highlights: [
-      "Logistics facility",
-      "Smart warehousing",
-      "Rail connectivity",
-      "ISO compliant",
+      "Calm Location",
+      "Premium construction",
+      "Good connectivity",
     ],
     description:
-      "Strategic industrial complex with cutting-edge logistics infrastructure, optimizing supply chain efficiency for India's growing economy.",
-    area: "15,000 sq ft",
+      "Contemporary residential community designed for the modern professional, combining comfort, connectivity, and sustainable living.",
+    area: "18,000 sq ft",
     status: "Completed",
     lat: 19.22137813840749,
     lon: 72.84599410987323,
@@ -126,12 +124,10 @@ export const PROJECTS: Project[] = [
     durationMonths: 24,
     highlights: [
       "Sustainable design",
-      "Green spaces",
-      "Community center",
-      "Retail + F&B",
+      "Office spaces",
     ],
     description:
-      "An innovative community-centric development blending commerce with nature, creating vibrant urban spaces for modern living.",
+      "Innovative development blending commercial and residential spaces, creating vibrant, well-integrated urban environments for modern living.",
     area: "7,000 sq ft",
     status: "Completed",
     lat: 19.222972112820834,
@@ -149,13 +145,12 @@ export const PROJECTS: Project[] = [
     endDate: "Feb 2004",
     durationMonths: 22,
     highlights: [
-      "200+ premium units",
-      "Wellness center",
-      "Rooftop gardens",
+      "Premium units",
+      "Logistics facility",
       "Co-working spaces",
     ],
     description:
-      "Contemporary residential community designed for the modern professional, combining comfort, connectivity, and sustainable living.",
+      "Strategic industrial complex with cutting-edge logistics infrastructure, optimizing supply chain efficiency for India's growing economy.",
     area: "22,000 sq ft",
     status: "Completed",
     lat: 19.27208114776594,
@@ -198,7 +193,7 @@ export const PROJECTS: Project[] = [
     durationMonths: 72,
     highlights: ["Architectural design", "Consulting Work"],
     description:
-      "A premium residential development redefining luxury living in Bandra with eco-conscious design and world-class amenities.",
+      "A high-end industrial development engineered to redefine industrial ecosystems through precision, scale, and innovation.",
     area: "2,50,000 sq ft",
     status: "Completed",
     lat: 19.28140709396304,
@@ -215,9 +210,9 @@ export const PROJECTS: Project[] = [
     startDate: "Apr 1998",
     endDate: "Dec 1999",
     durationMonths: 21,
-    highlights: ["Industrial Shed", "40-storey tower", "5 lakh sq ft office"],
+    highlights: ["Industrial Shed", "Office building"],
     description:
-      "State-of-the-art commercial hub featuring modern offices, premium retail, and dining experiences for forward-thinking businesses.",
+      "Modern commercial and industrial hub with premium offices, retail, and industrial sheds for forward-thinking enterprises",
     area: "20,000 sq ft",
     status: "Completed",
     lat: 19.59686778047216,
@@ -241,7 +236,7 @@ export const PROJECTS: Project[] = [
       "ISO compliant",
     ],
     description:
-      "Strategic industrial complex with cutting-edge logistics infrastructure, optimizing supply chain efficiency for India's growing economy.",
+      "Strategic industrial building with cutting-edge logistics infrastructure, optimizing supply chain.",
     area: "30,000 sq ft",
     status: "Completed",
     lat: 19.597890010662127,
@@ -260,9 +255,7 @@ export const PROJECTS: Project[] = [
     durationMonths: 35,
     highlights: [
       "Sustainable design",
-      "Green spaces",
-      "Community center",
-      "Retail + F&B",
+      "Vastu compliant",
     ],
     description:
       "An innovative community-centric development blending commerce with nature, creating vibrant urban spaces for modern living.",
@@ -283,10 +276,7 @@ export const PROJECTS: Project[] = [
     endDate: "Dec 2000",
     durationMonths: 24,
     highlights: [
-      "200+ premium units",
-      "Wellness center",
-      "Rooftop gardens",
-      "Co-working spaces",
+      "40+ premium units",
     ],
     description:
       "Contemporary residential community designed for the modern professional, combining comfort, connectivity, and sustainable living.",
@@ -307,13 +297,11 @@ export const PROJECTS: Project[] = [
     endDate: "Aug 2025",
     durationMonths: 31,
     highlights: [
-      "IT hub development",
-      "Innovation center",
-      "High-speed connectivity",
-      "Startup ecosystem",
+      "Comman garden",
+      "Club House",
     ],
     description:
-      "A world-class technology park fostering innovation and entrepreneurship with state-of-the-art facilities for next-generation businesses.",
+      "A world-class residential complex with state-of-the-art facilities.",
     area: "1,50,000 sq ft",
     status: "Completed",
     lat: 19.28511054504845,
@@ -331,13 +319,10 @@ export const PROJECTS: Project[] = [
     endDate: "Dec 1989",
     durationMonths: 33,
     highlights: [
-      "200+ premium units",
-      "Wellness center",
-      "Rooftop gardens",
-      "Co-working spaces",
+      "20+ premium units",
     ],
     description:
-      "Contemporary residential community designed for the modern professional, combining comfort, connectivity, and sustainable living.",
+      "A residential building crafted for professionals, blending comfort, seamless connectivity, and sustainable living.",
     area: "10,000 sq ft",
     status: "Completed",
     lat: 19.305541741218736,
