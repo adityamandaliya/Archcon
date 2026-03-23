@@ -194,37 +194,45 @@ const TiltCard = ({ item, index }: { item: any; index: number }) => {
 
 {/* Premium Card Content */}
 <div
-  className="relative z-10 h-full p-3 md:p-10 flex flex-col items-center justify-center text-center gap-2 md:gap-4"
-  style={{ transform: "translateZ(20px)" }}
+  className="relative z-10 w-full h-full p-4 flex flex-col items-center justify-center text-center"
+  style={{ transform: "translateZ(30px)" }}
 >
-  {/* Icon Container */}
-  <div
-    className={`mb-1 md:mb-2 inline-flex p-3 md:p-5 rounded-2xl ${item.bg} ${item.accent}
-    border border-accent/60
-    shadow-[0_10px_30px_rgba(0,0,0,0.05)]
-    group-hover:shadow-[0_15px_40px_rgba(127,0,0,0.12)]
-    transition-all duration-500`}
-  >
-    <item.icon size={28} className="w-5 h-5 md:w-8 md:h-8" strokeWidth={1.5} />
+  {/* Main Content (Icon, Title, Subtitle) - Centers initially, moves up on hover */}
+  <div className="flex flex-col items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-y-8 md:group-hover:-translate-y-12">
+    {/* Icon Container */}
+    <div
+      className={`mb-3 md:mb-4 inline-flex p-4 md:p-5 rounded-2xl ${item.bg} ${item.accent}
+      border border-accent/60
+      shadow-[0_10px_30px_rgba(0,0,0,0.05)]
+      group-hover:shadow-[0_15px_40px_rgba(127,0,0,0.15)]
+      group-hover:scale-110 group-hover:-rotate-3
+      transition-all duration-500 ease-out`}
+    >
+      <item.icon size={28} className="w-6 h-6 md:w-8 md:h-8 transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
+    </div>
+
+    {/* Title */}
+    <h3 className="text-lg md:text-2xl font-serif font-bold text-black tracking-tight mb-2">
+      {item.title}
+    </h3>
+
+    {/* Subtitle */}
+    <p className="text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase text-maroon/80">
+      {item.subtitle}
+    </p>
+
+    {/* Divider Line */}
+    <div className="w-8 md:w-12 h-[2px] bg-maroon/20 rounded-full mt-4 transition-all duration-500 group-hover:w-16 md:group-hover:w-20 group-hover:bg-maroon" />
   </div>
 
-  {/* Title */}
-  <h3 className="text-base md:text-2xl font-serif font-bold text-black tracking-tight">
-    {item.title}
-  </h3>
-
-  {/* Subtitle */}
-  <p className="text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase text-maroon/80">
-    {item.subtitle}
-  </p>
-
-  {/* Divider Line */}
-  <div className="w-8 md:w-12 h-[2px] bg-maroon/20 rounded-full my-1 md:my-2" />
-
-  {/* Description */}
-  <p className="text-gray-600 text-xs md:text-base leading-tight md:leading-relaxed font-medium max-w-[95%] md:max-w-[90%]">
-    {item.description}
-  </p>
+  {/* Description - Hidden initially, fades and slides in on hover */}
+  <div className="absolute bottom-6 md:bottom-12 left-0 w-full px-4 flex justify-center pointer-events-none">
+    <div className="opacity-0 translate-y-4 blur-[4px] group-hover:opacity-100 group-hover:translate-y-0 group-hover:blur-none transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] delay-75">
+      <p className="text-gray-700 text-[11px] md:text-sm leading-snug md:leading-relaxed font-medium bg-transparent backdrop-blur-md p-3 md:p-4 rounded-xl border border-white/0 shadow-[0_8px_32px_rgba(0,0,0,0.05)] w-full max-w-[280px] md:max-w-[300px] mx-auto">
+        {item.description}
+      </p>
+    </div>
+  </div>
 </div>
 
     </div>
@@ -283,23 +291,36 @@ const ProcessStep = ({
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`flex-1 p-6 md:p-10 rounded-2xl md:rounded-[2rem] bg-white border border-accent/20 shadow-lg hover:shadow-2xl transition-all duration-500 w-full group hover:-translate-y-2 ${
+        className={`flex-1 relative p-6 md:p-10 h-[200px] md:h-[260px] flex flex-col justify-center rounded-2xl md:rounded-[2rem] bg-white border border-accent/20 shadow-lg hover:shadow-2xl transition-all duration-500 w-full group hover:-translate-y-2 ${
           index % 2 === 0 ? "text-left" : "text-left md:text-right"
         }`}
         style={{ transformStyle: "preserve-3d" }}
       >
-        <div className="relative z-10" style={{ transform: "translateZ(20px)" }}>
-          <div
-            className={`flex items-center gap-4 md:gap-6 mb-4 md:mb-6 ${
-              index % 2 === 0 ? "flex-row" : "flex-row md:flex-row-reverse"
-            }`}
-          >
-            <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-maroon/5 text-maroon group-hover:bg-maroon group-hover:text-white transition-colors duration-300">
-              <step.icon size={22} className="md:w-7 md:h-7" />
+        <div className="relative z-10 w-full h-full" style={{ transform: "translateZ(30px)" }}>
+          <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 group-hover:top-0 group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+            <div
+              className={`flex items-center gap-4 md:gap-6 ${
+                index % 2 === 0 ? "flex-row" : "flex-row md:flex-row-reverse"
+              }`}
+            >
+              <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-maroon/5 text-maroon group-hover:bg-maroon group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-sm group-hover:shadow-[0_8px_16px_rgba(127,0,0,0.2)]">
+                <step.icon size={26} className="md:w-8 md:h-8" strokeWidth={1.5} />
+              </div>
+              <h4 className="text-xl md:text-3xl font-serif font-bold text-black group-hover:text-maroon transition-colors duration-300">
+                {step.title}
+              </h4>
             </div>
-            <h4 className="text-xl md:text-3xl font-serif font-bold">{step.title}</h4>
           </div>
-          <p className="text-gray-600 text-sm md:text-lg leading-relaxed">{step.desc}</p>
+
+          <div className="absolute left-0 bottom-0 w-full pointer-events-none">
+            <div className={`opacity-0 translate-y-6 blur-[4px] group-hover:opacity-100 group-hover:translate-y-0 group-hover:blur-none transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] delay-75 w-full ${
+              index % 2 === 0 ? "text-left" : "text-left md:text-right"
+            }`}>
+              <p className="text-gray-600 text-sm md:text-[16px] leading-relaxed font-medium bg-transparent backdrop-blur-md p-4 rounded-xl border border-white/0 shadow-[0_8px_32px_rgba(0,0,0,0.08)] inline-block w-full">
+                {step.desc}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -507,7 +528,7 @@ export default function Redevelopment() {
             <svg className="w-[4px] h-full overflow-visible">
               <path
                 ref={lineRef}
-                d="M 2 0 V 2200"
+                d="M 2 0 V 2300"
                 className="stroke-maroon/30"
                 strokeWidth="2"
                 fill="none"

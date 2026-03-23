@@ -10,7 +10,7 @@ const VALUES = [
     title: "Design Excellence",
     subtitle: "Architectural Mastery",
     description:
-      "We believe in the power of design to enhance quality of life—where precision, purpose, and Vastu-compliant planning shape every structure.",
+      "",
     image: "/images/value-design.jpg", // 600x400px
     icon: "✦",
     accent: "from-maroon to-accent",
@@ -20,7 +20,7 @@ const VALUES = [
     title: "Integrity & Trust",
     subtitle: "Built on Honesty",
     description:
-      "Transparency and honesty are the foundation of our relationships. We stake our reputation on ethical practices and transparent dealings.",
+      "",
     image: "/images/value-integrity.jpg", // 600x400px
     icon: "◆",
     accent: "from-accent to-maroon",
@@ -30,7 +30,7 @@ const VALUES = [
     title: "Innovation Forward",
     subtitle: "Challenging Status Quo",
     description:
-      "We explore both traditional and cutting-edge methods to yield experientially innovative spaces that redefine urban living.",
+      "",
     image: "/images/value-innovation.jpg", // 600x400px
     icon: "▲",
     accent: "from-maroon/60 to-accent/60",
@@ -40,7 +40,7 @@ const VALUES = [
     title: "Community First",
     subtitle: "Social Responsibility",
     description:
-      "Our commitment extends beyond buildings. We create spaces that enrich communities and contribute positively to society.",
+      "",
     image: "/images/value-community.jpg", // 600x400px
     icon: "●",
     accent: "from-accent/70 to-maroon/70",

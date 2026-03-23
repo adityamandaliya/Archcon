@@ -255,8 +255,7 @@ export default function Contact() {
             Get In Touch <span className="text-maroon">With Us</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
-            Have a project in mind? We'd love to hear from you. Reach out to our
-            team and let's turn your vision into reality.
+            Have a project in mind? We'd love to hear from you.
           </p>
         </motion.div>
 
