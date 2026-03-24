@@ -99,7 +99,7 @@ export const TEAM_CATEGORIES: TeamCategory[] = [
         id: 5,
         name: "Kiran Rokadia",
         title: "Lead Architect",
-        image: "",
+        image: "/images/team/kiran_ai2.png",
         bio: "Award-winning architect specializing in sustainable urban development and earthquake-resistant design.",
         specialties: ["Structural Design", "Sustainability", "CAD & BIM"],
         email: "",
@@ -123,7 +123,7 @@ export const TEAM_CATEGORIES: TeamCategory[] = [
         id: 6,
         name: "Anil Jagad",
         title: "Senior Architect",
-        image: "",
+        image: "/images/team/Anil_ai.png",
         bio: "Creative designer with expertise in modern residential layouts and space optimization.",
         specialties: [
           "Residential Design",
