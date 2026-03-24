@@ -48,7 +48,7 @@ export const PROJECTS: Project[] = [
     location: "Rajasthan Society, J.B Nagar, Andheri (E), Mumbai",
     type: "Residential",
     image: "/images/projects/gold-residences.jpg",
-    images: ["/images/projects/saideep/saideep-1r.jpeg", "/images/projects/saideep/saideep-2r.jpeg", "/images/projects/saideep/saideep-3r.jpg", "/images/projects/saideep/saideep-4r.jpg", "/images/projects/saideep/saideep-5r.jpg", "/images/projects/saideep/saideep-6r.jpg", "/images/projects/saideep/saideep-7r.jpg", "/images/projects/saideep/saideep-8r.jpg", "/images/projects/saideep/saideep-9r.jpg", "/images/projects/saideep/saideep-10r.jpg", "/images/projects/saideep/saideep-11r.jpg", "/images/projects/saideep/saideep-12r.jpg", "/images/projects/saideep/saideep-13r.jpg", "/images/projects/saideep/saideep-14r.jpg", "/images/projects/saideep/saideep-15r.jpg", "/images/projects/saideep/saideep-16r.jpg"],
+    images: ["/images/projects/saideep/saideep-1.jpeg", "/images/projects/saideep/saideep-2r.jpeg", "/images/projects/saideep/saideep-3r.jpg", "/images/projects/saideep/saideep-4r.jpg", "/images/projects/saideep/saideep-5r.jpg", "/images/projects/saideep/saideep-6r.jpg", "/images/projects/saideep/saideep-7r.jpg", "/images/projects/saideep/saideep-8r.jpg", "/images/projects/saideep/saideep-9r.jpg", "/images/projects/saideep/saideep-10r.jpg", "/images/projects/saideep/saideep-11r.jpg", "/images/projects/saideep/saideep-12r.jpg", "/images/projects/saideep/saideep-13r.jpg", "/images/projects/saideep/saideep-14r.jpg", "/images/projects/saideep/saideep-15r.jpg", "/images/projects/saideep/saideep-16r.jpg"],
     startDate: "Jun 2022",
     endDate: "Jun 2024",
     durationMonths: 24,
