@@ -18,7 +18,31 @@ export interface Project {
 }
 
 export const PROJECTS: Project[] = [
-  {
+   {
+    id: 15,
+    title: "Woodland",
+    location: "I.C Colony, Borivali (W), Mumbai",
+    type: "Residential",
+    image: "",
+    images: ["/images/projects/woodland/banner.png"],
+    startDate: "Jan 2027",
+    endDate: "Ongoing",
+    durationMonths: 0 ,
+    highlights: [
+      "Fully equiped Gymnasuim",
+      "Separate Bike Parking",
+      "Dedicated Aminity Area",
+      "50+ premium flats",
+    ],
+    description:
+      "A residential building crafted for professionals, blending comfort, seamless connectivity, and sustainable living.",
+    area: "30,000 sq ft",
+    status: "Upcoming",
+    lat: 19.24946140,
+    lon: 72.8492998,
+    year: "-",
+  },
+  { 
     id: 1,
     title: "Shelter CHS",
     location: "Shraddhanand Road, Vile Parle (E), Mumbai",
