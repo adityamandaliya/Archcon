@@ -79,7 +79,7 @@ export default function UpdatesSection() {
   }, []);
 
   return (
-    <section className="relative w-full bg-primary py-16 sm:py-24 lg:py-32 overflow-hidden">
+    <section className="relative w-full bg-primary py-24 lg:py-32 overflow-hidden">
       {/* Background Grid Pattern */}
       <div
         className="absolute inset-0 opacity-[0.02] z-0"

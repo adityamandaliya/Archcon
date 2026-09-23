@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Project } from "@/lib/projects";
+import { UPDATES } from "@/lib/updates";
+import ProjectImage from "@/components/ui/ProjectImage";
 import ProjectCarousel from "@/components/ui/ProjectCarousel";
 import Lightbox from "@/components/ui/Lightbox";
 
@@ -16,12 +18,6 @@ const TYPE_BADGES: Record<string, string> = {
   "Resi./Comm./Rowhouse": "bg-purple-100 text-purple-700",
 };
 
-const STATUS_CONFIG: Record<string, { text: string; color: string }> = {
-  Completed: { text: "✓ Completed", color: "text-green-600 bg-green-50" },
-  "In Progress": { text: "○ In Progress", color: "text-amber-600 bg-amber-50" },
-  Upcoming: { text: "◆ Upcoming", color: "text-slate-700 bg-slate-100" },
-};
-
 interface ProjectUpdateCardProps {
   project: Project;
 }
@@ -30,13 +26,15 @@ export default function ProjectUpdateCard({ project }: ProjectUpdateCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
+  // Extract first image from each update post belonging to this project (without deduplication so each update contributes an image)
+  const projectUpdates = UPDATES.filter((u) => u.projectId === project.id);
+  const updateImages = projectUpdates
+    .map((u) => u.images?.[0]?.url)
+    .filter((url): url is string => Boolean(url && url.trim() !== ""))
+    .slice(0, 3);
+
   const typeBadgeClass =
     TYPE_BADGES[project.type] || "bg-blue-100 text-blue-700";
-  const statusConfig =
-    STATUS_CONFIG[project.status] || {
-      text: project.status,
-      color: "text-slate-700 bg-slate-100",
-    };
 
   const carouselImages =
     project.images && project.images.length > 0 && project.images[0] !== ""
@@ -78,12 +76,12 @@ export default function ProjectUpdateCard({ project }: ProjectUpdateCardProps) {
               {project.type}
             </div>
 
-            {/* Status Badge */}
-            <div
-              className={`absolute top-3 right-3 sm:top-4 sm:right-4 z-20 max-w-[48%] truncate text-[10px] sm:text-xs font-semibold px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-lg backdrop-blur-md shadow-sm pointer-events-none ${statusConfig.color}`}
-            >
-              {statusConfig.text}
-            </div>
+            {/* Company Badge */}
+            {project.company && project.company.trim() !== "" && (
+              <div className="absolute top-0 right-0 z-20 bg-accent text-white px-4 py-2 rounded-bl-2xl font-sans text-xs font-bold tracking-widest shadow-lg">
+                {project.company}
+              </div>
+            )}
           </div>
 
           {/* Content Body */}
@@ -109,13 +107,54 @@ export default function ProjectUpdateCard({ project }: ProjectUpdateCardProps) {
             </div>
 
             {/* Pinned Updates Button */}
-            <div className="pt-3 sm:pt-4 border-t border-text/10 mt-auto">
+            <div className="pt-3 sm:pt-4 border-t border-text/10 mt-auto flex items-center justify-center">
               <Link
                 href={`/updates/${project.id}`}
-                className="w-full inline-flex items-center justify-center gap-2 py-2.5 sm:py-3 px-4 sm:px-5 rounded-xl bg-maroon text-white font-semibold text-xs sm:text-sm hover:bg-maroon/90 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98]"
+                className="group/btn relative inline-flex items-center justify-between gap-3 bg-maroon text-white px-4 py-2.5 sm:px-5 sm:py-2.5 rounded-full overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-maroon/30 hover:scale-[1.02] w-full max-w-[230px] sm:max-w-[240px]"
               >
-                <span>Updates</span>
-                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
+                {/* Button Text */}
+                <span className="text-sm sm:text-base font-semibold tracking-wide relative z-10 flex-shrink-0">
+                  Updates
+                </span>
+
+                {/* Right Side: Circular Images + Arrow Container */}
+                <div className="relative flex items-center gap-1.5 sm:gap-2 z-10 flex-shrink-0">
+                  {/* Circular Images Stack (Displays whatever images are available: 1, 2, or up to 3) */}
+                  {updateImages.length > 0 && (
+                    <div className="relative flex items-center h-8 sm:h-9">
+                      {updateImages.slice(0, 3).map((imgUrl, idx) => {
+                        const delayClasses = ["", "delay-75", "delay-100"];
+                        const marginClasses = ["", "-ml-2.5 sm:-ml-3", "-ml-2.5 sm:-ml-3"];
+                        return (
+                          <div
+                            key={idx}
+                            className={`relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-white shadow-lg transition-transform duration-300 ${marginClasses[idx]} ${delayClasses[idx]} group-hover/btn:-translate-x-0.5`}
+                          >
+                            <ProjectImage
+                              src={imgUrl}
+                              alt={`${project.title} Update ${idx + 1}`}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Arrow - Slides out on hover */}
+                  <div className="relative overflow-hidden">
+                    <div className="flex items-center justify-center w-0 h-8 sm:h-9 rounded-full bg-white/20 backdrop-blur-sm transition-all duration-400 ease-out group-hover/btn:w-8 sm:group-hover/btn:w-9 opacity-0 group-hover/btn:opacity-100">
+                      <ArrowRight className="h-4 w-4 text-white -translate-x-2 group-hover/btn:translate-x-0 transition-transform duration-300 delay-100" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Shimmer Effect on Hover */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000 pointer-events-none"
+                  style={{ width: "50%" }}
+                />
               </Link>
             </div>
           </div>

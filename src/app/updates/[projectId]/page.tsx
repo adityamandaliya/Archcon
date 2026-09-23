@@ -77,7 +77,7 @@ export default function ProjectUpdatesPage() {
   }
 
   return (
-    <main className="min-h-screen bg-primary py-16 sm:py-24 lg:py-32 relative overflow-hidden">
+    <main className="min-h-screen bg-primary py-24 lg:py-32 relative overflow-hidden">
       {/* Background Grid Pattern */}
       <div
         className="absolute inset-0 opacity-[0.02] z-0"

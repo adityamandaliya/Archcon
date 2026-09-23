@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Variants } from "framer-motion";
 import Image from "next/image";
+import { UPDATES } from "@/lib/updates";
+import { PROJECTS } from "@/lib/projects";
 
 const navItems = [
   { label: "ABOUT", href: "/#redevelopment" },
@@ -15,12 +17,49 @@ const navItems = [
   { label: "TEAM", href: "/team" },
 ];
 
+// Generate a unique fingerprint of all updates and project statuses
+const getUpdatesSignature = () => {
+  const updatesSummary = UPDATES.map((u) => `${u.id}:${u.date || ""}`).join("|");
+  const projectsSummary = PROJECTS.map((p) => `${p.id}:${p.status || ""}`).join("|");
+  return `v1_${UPDATES.length}_${PROJECTS.length}_${updatesSummary}_${projectsSummary}`;
+};
+
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [hasNewUpdates, setHasNewUpdates] = useState(false);
+
+  // Check if there are new updates that the user hasn't seen yet
+  useEffect(() => {
+    try {
+      const currentSignature = getUpdatesSignature();
+      const lastSeenSignature = localStorage.getItem("archcon_last_seen_updates_signature");
+
+      if (pathname.startsWith("/updates")) {
+        // Automatically mark as seen when viewing the updates page
+        localStorage.setItem("archcon_last_seen_updates_signature", currentSignature);
+        setHasNewUpdates(false);
+      } else if (lastSeenSignature !== currentSignature) {
+        // Appears on first visit AND whenever any new update is added!
+        setHasNewUpdates(true);
+      } else {
+        setHasNewUpdates(false);
+      }
+    } catch {
+      // In case localStorage is blocked in private browsing
+    }
+  }, [pathname]);
+
+  const handleUpdatesClick = () => {
+    try {
+      const currentSignature = getUpdatesSignature();
+      localStorage.setItem("archcon_last_seen_updates_signature", currentSignature);
+    } catch {}
+    setHasNewUpdates(false);
+  };
 
   // Handle scroll to hide/show navbar
   useEffect(() => {
@@ -176,6 +215,7 @@ export default function Navbar() {
                   >
                     <Link
                       href={item.href}
+                      onClick={item.href === "/updates" ? handleUpdatesClick : undefined}
                       className={`relative block font-sans text-base font-medium transition-colors duration-200 ${
                         active ? "text-white" : "text-white/80 hover:text-white"
                       }`}
@@ -190,9 +230,26 @@ export default function Navbar() {
                           stiffness: 400,
                           damping: 30,
                         }}
-                        className="inline-block origin-center whitespace-nowrap"
+                        className="relative inline-block origin-center whitespace-nowrap"
                       >
                         {item.label}
+
+                        {/* Minimalist Notification Indicator for Updates */}
+                        <AnimatePresence>
+                          {item.href === "/updates" && hasNewUpdates && (
+                            <motion.span
+                              key="updates-indicator"
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              exit={{ scale: 0, opacity: 0 }}
+                              transition={{ duration: 0.25, ease: "easeOut" }}
+                              className="absolute -top-1 -right-2.5 flex h-2 w-2 pointer-events-none"
+                            >
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 duration-1000" />
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.9)] border border-black/40" />
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
                       </motion.span>
                     </Link>
 
@@ -236,7 +293,7 @@ export default function Navbar() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+              className="relative md:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
             >
               <AnimatePresence mode="wait">
                 {isOpen ? (
@@ -261,6 +318,20 @@ export default function Navbar() {
                   </motion.div>
                 )}
               </AnimatePresence>
+              <AnimatePresence>
+                {!isOpen && hasNewUpdates && (
+                  <motion.span
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="absolute top-1.5 right-1.5 flex h-2 w-2 pointer-events-none"
+                  >
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 duration-1000" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.9)] border border-black/40" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </motion.button>
           </div>
         </div>
@@ -283,14 +354,30 @@ export default function Navbar() {
                     <motion.div key={item.label} variants={menuItemVariants}>
                       <Link
                         href={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className={`block px-4 py-3 rounded-lg font-sans transition-all duration-300 ${
+                        onClick={() => {
+                          if (item.href === "/updates") handleUpdatesClick();
+                          setIsOpen(false);
+                        }}
+                        className={`flex items-center justify-between px-4 py-3 rounded-lg font-sans transition-all duration-300 ${
                           active
                             ? "bg-text/20 text-white "
                             : "text-white/70 hover:text-white hover:bg-white/5"
                         }`}
                       >
-                        {item.label}
+                        <span className="flex items-center gap-2">
+                          {item.label}
+                          {item.href === "/updates" && hasNewUpdates && (
+                            <span className="relative flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 duration-1000" />
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.9)]" />
+                            </span>
+                          )}
+                        </span>
+                        {item.href === "/updates" && hasNewUpdates && (
+                          <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30">
+                            New
+                          </span>
+                        )}
                       </Link>
                     </motion.div>
                   );

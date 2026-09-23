@@ -291,7 +291,7 @@ const ProcessStep = ({
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`flex-1 relative p-6 md:p-10 h-[200px] md:h-[260px] flex flex-col justify-center rounded-2xl md:rounded-[2rem] bg-white border border-accent/20 shadow-lg hover:shadow-2xl transition-all duration-500 w-full group hover:-translate-y-2 ${
+        className={`flex-1 relative p-6 md:p-10 min-h-[80px] h-[200px] md:h-[260px] flex flex-col justify-center rounded-2xl md:rounded-[2rem] bg-white border border-accent/20 shadow-lg hover:shadow-2xl transition-all duration-500 w-full group hover:-translate-y-2 ${
           index % 2 === 0 ? "text-left" : "text-left md:text-right"
         }`}
         style={{ transformStyle: "preserve-3d" }}
