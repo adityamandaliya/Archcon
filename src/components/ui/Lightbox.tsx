@@ -20,13 +20,9 @@ export interface LightboxProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
-  /** Minimum zoom scale (1 = 100% / fit). Default: 1 */
   minZoom?: number;
-  /** Maximum zoom scale (4 = 400% / 4x). Default: 4 */
   maxZoom?: number;
-  /** Zoom step for in/out buttons & wheel scroll. Default: 0.5 */
   zoomStep?: number;
-  /** Scale on double-tap. Default: 2.5 */
   doubleTapZoom?: number;
 }
 
@@ -79,28 +75,25 @@ export default function Lightbox({
     setMounted(true);
   }, []);
 
-  // Synchronize initialIndex and manage body scroll locking cleanly
+  // Lock background scroll when open, unlock when closed
   useEffect(() => {
     if (isOpen) {
       setCurrentIndex(initialIndex);
       resetZoom(false);
-
-      // Lock page scrolling while lightbox is active
-      const originalBodyOverflow = document.body.style.overflow;
-      const originalHtmlOverflow = document.documentElement.style.overflow;
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
-
       return () => {
-        document.body.style.overflow = originalBodyOverflow;
-        document.documentElement.style.overflow = originalHtmlOverflow;
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
       };
     } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
       resetZoom(false);
     }
   }, [isOpen, initialIndex, resetZoom]);
 
-  // Reset zoom on slide change
+  // Reset zoom whenever image changes
   useEffect(() => {
     resetZoom(false);
   }, [currentIndex, resetZoom]);
@@ -139,200 +132,194 @@ export default function Lightbox({
   if (!isOpen || !mounted) return null;
 
   return createPortal(
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-xl flex items-center justify-center select-none overflow-hidden touch-none"
-        onClick={() => {
-          if (!isZoomed) onClose();
-        }}
+    <div
+      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-xl flex items-center justify-center select-none overflow-hidden"
+      onClick={() => {
+        // Close on backdrop tap only when not zoomed in
+        if (!isZoomed) onClose();
+      }}
+    >
+      {/* Full-Screen Zoom Viewport: handles pinch, touch pan, mouse drag, and wheel */}
+      <div
+        ref={containerRef}
+        className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden touch-none"
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Full-Screen Zoom Viewport: Edge-to-edge hardware accelerated display */}
-        <div
-          ref={containerRef}
-          data-zoom-container="true"
-          className={`absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden touch-none ${
-            isZoomed ? "cursor-grab active:cursor-grabbing" : "cursor-default"
-          }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Slide container without blocking mode='wait' to eliminate lag & transition deadlock */}
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="absolute inset-0 w-full h-full flex items-center justify-center"
+          >
+            {/* Directly transformed image container (zero React re-renders during active drag/pinch!) */}
+            <div
+              ref={imageRef}
               className="relative w-full h-full flex items-center justify-center"
             >
-              {/* Scalable & Pannable DOM container with direct GPU transforms */}
-              <div
-                ref={imageRef}
-                className="relative w-full h-full flex items-center justify-center will-change-transform"
-                style={{
-                  transform: "translate3d(0px, 0px, 0px) scale(1)",
-                  transformOrigin: "center center",
-                }}
-              >
-                {images[currentIndex] !== undefined && (
-                  <ProjectImage
-                    src={images[currentIndex]}
-                    alt={`Image ${currentIndex + 1}`}
-                    fill
-                    className="object-contain pointer-events-none select-none"
-                    quality={95}
-                    priority
-                    draggable={false}
-                  />
-                )}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+              {images[currentIndex] !== undefined && (
+                <ProjectImage
+                  src={images[currentIndex]}
+                  alt={`Image ${currentIndex + 1}`}
+                  fill
+                  className="object-contain pointer-events-none select-none"
+                  quality={90}
+                  priority
+                  draggable={false}
+                />
+              )}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* -------------------- OVERLAY CONTROLS -------------------- */}
+
+      {/* Close Button */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-90 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-transform z-[10000] touch-manipulation cursor-pointer"
+        aria-label="Close lightbox"
+      >
+        <X className="w-5 h-5 sm:w-6 sm:h-6" />
+      </button>
+
+      {/* Header Title & Counter */}
+      {title && (
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-[calc(100%-140px)] sm:max-w-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/20 shadow-2xl text-white z-[10000] pointer-events-none">
+          <h3 className="text-xs sm:text-base font-serif font-bold tracking-wide truncate">
+            {title}
+          </h3>
+          <p className="text-[10px] sm:text-xs text-white/70 mt-0.5 font-sans font-medium">
+            {currentIndex + 1} / {images.length}
+          </p>
         </div>
+      )}
 
-        {/* -------------------- OVERLAY CONTROLS (Floating on top of full-screen image) -------------------- */}
-
-        {/* Close Button */}
+      {/* Floating Zoom Controls Toolbar - Hidden on Mobile/Tablet (<1024px), Visible on Desktop */}
+      <div
+        className="hidden lg:flex absolute top-6 left-1/2 -translate-x-1/2 z-[10000] items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white backdrop-blur-md border border-white/25 shadow-2xl transition-all"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
-          onClick={onClose}
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000] touch-manipulation cursor-pointer"
-          aria-label="Close lightbox"
+          type="button"
+          onClick={() => zoomOut()}
+          disabled={!canZoomOut}
+          className={`p-2 rounded-full hover:bg-white/20 active:scale-95 transition-all touch-manipulation cursor-pointer ${
+            !canZoomOut ? "opacity-30 cursor-not-allowed" : "opacity-90 hover:opacity-100"
+          }`}
+          aria-label="Zoom out"
+          title="Zoom out (-)"
         >
-          <X className="w-5 h-5 sm:w-6 sm:h-6" />
+          <ZoomOut className="w-4 h-4" />
         </button>
 
-        {/* Header Title & Counter */}
-        {title && (
-          <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-[calc(100%-140px)] sm:max-w-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/20 shadow-2xl text-white z-[10000] pointer-events-none">
-            <h3 className="text-xs sm:text-base font-serif font-bold tracking-wide truncate">
-              {title}
-            </h3>
-            <p className="text-[10px] sm:text-xs text-white/70 mt-0.5 font-sans font-medium">
-              {currentIndex + 1} / {images.length}
-            </p>
-          </div>
-        )}
-
-        {/* Floating Zoom Controls Toolbar - Hidden on Mobile & Tablet, Displayed on Desktop (lg+) */}
-        <div
-          className="hidden lg:flex absolute top-6 left-1/2 -translate-x-1/2 z-[10000] items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white backdrop-blur-md border border-white/25 shadow-2xl transition-all touch-manipulation"
-          onClick={(e) => e.stopPropagation()}
+        <button
+          type="button"
+          onClick={() => {
+            if (isZoomed) {
+              resetZoom(true);
+            } else {
+              setZoom(doubleTapZoom);
+            }
+          }}
+          className="px-2 py-0.5 text-xs font-mono font-medium tracking-tight rounded hover:bg-white/15 transition-all text-white/90 hover:text-white touch-manipulation cursor-pointer"
+          title={isZoomed ? "Click to reset zoom (0 or R)" : "Click to zoom in (2.5x)"}
         >
-          {/* Zoom Out Button */}
-          <button
-            onClick={() => zoomOut()}
-            disabled={!canZoomOut}
-            className={`p-2 rounded-full hover:bg-white/20 active:scale-95 transition-all ${
-              !canZoomOut ? "opacity-35 cursor-not-allowed" : "opacity-90 hover:opacity-100"
-            }`}
-            aria-label="Zoom out"
-            title="Zoom out (-)"
-          >
-            <ZoomOut className="w-4 h-4" />
-          </button>
+          {Math.round(scale * 100)}%
+        </button>
 
-          {/* Zoom Percentage / Quick Toggle */}
+        <button
+          type="button"
+          onClick={() => zoomIn()}
+          disabled={!canZoomIn}
+          className={`p-2 rounded-full hover:bg-white/20 active:scale-95 transition-all touch-manipulation cursor-pointer ${
+            !canZoomIn ? "opacity-30 cursor-not-allowed" : "opacity-90 hover:opacity-100"
+          }`}
+          aria-label="Zoom in"
+          title="Zoom in (+)"
+        >
+          <ZoomIn className="w-4 h-4" />
+        </button>
+
+        {isZoomed && (
           <button
-            onClick={() => {
-              if (isZoomed) {
-                resetZoom(true);
-              } else {
-                setZoom(doubleTapZoom);
-              }
+            type="button"
+            onClick={() => resetZoom(true)}
+            className="ml-1 px-2.5 py-1 rounded-full bg-accent/90 hover:bg-accent active:scale-95 text-white transition-all flex items-center gap-1 text-[11px] font-sans font-semibold shadow-md touch-manipulation cursor-pointer"
+            aria-label="Reset zoom"
+            title="Reset zoom (R)"
+          >
+            <RotateCcw className="w-3 h-3" />
+            <span>Reset</span>
+          </button>
+        )}
+      </div>
+
+      {/* Navigation Arrows */}
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              prevImage();
             }}
-            className="px-2 py-0.5 text-xs font-mono font-medium tracking-tight rounded hover:bg-white/15 transition-all text-white/90 hover:text-white cursor-pointer"
-            title={isZoomed ? "Click to reset zoom (0 or R)" : "Click to zoom in (2.5x)"}
+            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-90 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-transform z-[10000] flex items-center justify-center touch-manipulation cursor-pointer"
+            aria-label="Previous image"
           >
-            {Math.round(scale * 100)}%
+            <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
           </button>
-
-          {/* Zoom In Button */}
           <button
-            onClick={() => zoomIn()}
-            disabled={!canZoomIn}
-            className={`p-2 rounded-full hover:bg-white/20 active:scale-95 transition-all ${
-              !canZoomIn ? "opacity-35 cursor-not-allowed" : "opacity-90 hover:opacity-100"
-            }`}
-            aria-label="Zoom in"
-            title="Zoom in (+)"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              nextImage();
+            }}
+            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-90 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-transform z-[10000] flex items-center justify-center touch-manipulation cursor-pointer"
+            aria-label="Next image"
           >
-            <ZoomIn className="w-4 h-4" />
+            <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
           </button>
+        </>
+      )}
 
-          {/* Reset Zoom Button */}
-          {isZoomed && (
-            <button
-              onClick={() => resetZoom(true)}
-              className="ml-1 px-2.5 py-1 rounded-full bg-accent/90 hover:bg-accent active:scale-95 text-white transition-all flex items-center gap-1 text-[11px] font-sans font-semibold shadow-md cursor-pointer"
-              aria-label="Reset zoom"
-              title="Reset zoom (R)"
-            >
-              <RotateCcw className="w-3 h-3" />
-              <span>Reset</span>
-            </button>
-          )}
-        </div>
-
-        {/* Navigation Arrows */}
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prevImage();
-              }}
-              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000] flex items-center justify-center touch-manipulation cursor-pointer"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nextImage();
-              }}
-              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000] flex items-center justify-center touch-manipulation cursor-pointer"
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
-            </button>
-          </>
-        )}
-
-        {/* Thumbnails Strip */}
-        <div
-          className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2 overflow-x-auto max-w-[92vw] p-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/20 shadow-2xl hide-scrollbar z-[10000] touch-manipulation"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {images.map((img, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                resetZoom(false);
-                setCurrentIndex(idx);
-              }}
-              className={`relative w-12 h-8 sm:w-16 sm:h-10 flex-shrink-0 rounded-md overflow-hidden transition-all touch-manipulation cursor-pointer ${
-                idx === currentIndex
-                  ? "ring-2 ring-white scale-105 opacity-100 shadow-md"
-                  : "opacity-40 hover:opacity-100"
-              }`}
-            >
-              <ProjectImage
-                src={img}
-                alt="thumb"
-                fill
-                className="object-cover"
-                sizes="64px"
-              />
-            </button>
-          ))}
-        </div>
-      </motion.div>
-    </AnimatePresence>,
+      {/* Thumbnails Strip */}
+      <div
+        className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2 overflow-x-auto max-w-[92vw] p-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/20 shadow-2xl hide-scrollbar z-[10000] touch-pan-x"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {images.map((img, idx) => (
+          <button
+            type="button"
+            key={idx}
+            onClick={() => {
+              resetZoom(false);
+              setCurrentIndex(idx);
+            }}
+            className={`relative w-12 h-8 sm:w-16 sm:h-10 flex-shrink-0 rounded-md overflow-hidden transition-all touch-manipulation cursor-pointer ${
+              idx === currentIndex
+                ? "ring-2 ring-white scale-105 opacity-100 shadow-md"
+                : "opacity-40 hover:opacity-100"
+            }`}
+          >
+            <ProjectImage
+              src={img}
+              alt="thumb"
+              fill
+              className="object-cover pointer-events-none"
+              sizes="64px"
+            />
+          </button>
+        ))}
+      </div>
+    </div>,
     document.body
   );
 }

@@ -36,7 +36,7 @@ export default function ProjectCarousel({
         className="relative h-56 overflow-hidden bg-neutral-100 cursor-pointer touch-pan-y"
         onClick={onImageClick}
       >
-        <AnimatePresence mode="popLayout" initial={false}>
+        <AnimatePresence initial={false}>
           <motion.div
             key={currentIndex}
             initial={{ opacity: 0, scale: 1.05 }}
