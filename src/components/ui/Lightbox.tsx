@@ -223,16 +223,16 @@ export default function Lightbox({
           </div>
         )}
 
-        {/* Floating Zoom Controls Toolbar */}
+        {/* Floating Zoom Controls Toolbar - Hidden on Mobile & Tablet, Displayed on Desktop (lg+) */}
         <div
-          className="absolute top-16 sm:top-6 left-1/2 -translate-x-1/2 z-[10000] flex items-center gap-1 sm:gap-1.5 px-3 py-1.5 rounded-full bg-black/70 sm:bg-black/60 text-white backdrop-blur-md border border-white/25 shadow-2xl transition-all"
+          className="hidden lg:flex absolute top-6 left-1/2 -translate-x-1/2 z-[10000] items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white backdrop-blur-md border border-white/25 shadow-2xl transition-all"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Zoom Out Button */}
           <button
             onClick={() => zoomOut()}
             disabled={!canZoomOut}
-            className={`p-1.5 sm:p-2 rounded-full hover:bg-white/20 active:scale-95 transition-all ${
+            className={`p-2 rounded-full hover:bg-white/20 active:scale-95 transition-all ${
               !canZoomOut ? "opacity-35 cursor-not-allowed" : "opacity-90 hover:opacity-100"
             }`}
             aria-label="Zoom out"
@@ -250,7 +250,7 @@ export default function Lightbox({
                 setZoom(doubleTapZoom);
               }
             }}
-            className="px-2 py-0.5 text-[11px] sm:text-xs font-mono font-medium tracking-tight rounded hover:bg-white/15 transition-all text-white/90 hover:text-white"
+            className="px-2 py-0.5 text-xs font-mono font-medium tracking-tight rounded hover:bg-white/15 transition-all text-white/90 hover:text-white"
             title={isZoomed ? "Click to reset zoom (0 or R)" : "Click to zoom in (2.5x)"}
           >
             {Math.round(scale * 100)}%
@@ -260,7 +260,7 @@ export default function Lightbox({
           <button
             onClick={() => zoomIn()}
             disabled={!canZoomIn}
-            className={`p-1.5 sm:p-2 rounded-full hover:bg-white/20 active:scale-95 transition-all ${
+            className={`p-2 rounded-full hover:bg-white/20 active:scale-95 transition-all ${
               !canZoomIn ? "opacity-35 cursor-not-allowed" : "opacity-90 hover:opacity-100"
             }`}
             aria-label="Zoom in"
@@ -281,15 +281,6 @@ export default function Lightbox({
               <span>Reset</span>
             </button>
           )}
-        </div>
-
-        {/* Gesture Hint for Touch & Desktop */}
-        <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-[10000] pointer-events-none opacity-70 hover:opacity-100 transition-opacity">
-          <p className="text-[10px] sm:text-xs text-white/80 bg-black/60 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/15 shadow-xl tracking-wide text-center">
-            {isZoomed
-              ? "Click & drag or swipe to pan across the screen • Double-click/tap to reset"
-              : "Pinch gesture or double-tap to zoom • Mouse wheel to zoom • Drag to swipe"}
-          </p>
         </div>
 
         {/* Navigation Arrows */}
