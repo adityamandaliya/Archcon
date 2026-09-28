@@ -327,7 +327,7 @@ export function ProjectUpdatesFeed({ updatesList }: { updatesList: Update[] }) {
                               handleCarouselNav(update.id, "next");
                             }
                           }}
-                          className="relative w-full h-full touch-none"
+                          className="relative w-full h-full touch-pan-y"
                         >
                           <UpdatesImage
                             src={currentImage?.url}

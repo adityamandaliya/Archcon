@@ -54,6 +54,7 @@ export default function Lightbox({
 
   const {
     containerRef,
+    imageRef,
     scale,
     isZoomed,
     canZoomIn,
@@ -62,7 +63,6 @@ export default function Lightbox({
     zoomOut,
     resetZoom,
     setZoom,
-    transformStyle,
   } = useImageZoom({
     minScale: minZoom,
     maxScale: maxZoom,
@@ -79,41 +79,28 @@ export default function Lightbox({
     setMounted(true);
   }, []);
 
-  // Synchronize initialIndex when lightbox opens
+  // Synchronize initialIndex and manage body scroll locking cleanly
   useEffect(() => {
     if (isOpen) {
       setCurrentIndex(initialIndex);
       resetZoom(false);
 
-      // Disable body and html scrolling while lightbox is active
+      // Lock page scrolling while lightbox is active
+      const originalBodyOverflow = document.body.style.overflow;
+      const originalHtmlOverflow = document.documentElement.style.overflow;
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
 
-      // Prevent non-interactive background touch scroll on mobile devices
-      const handleTouchMove = (e: TouchEvent) => {
-        const isInteractive =
-          (e.target as HTMLElement)?.closest(".hide-scrollbar") ||
-          (e.target as HTMLElement)?.closest("[data-zoom-container]");
-        if (!isInteractive) {
-          e.preventDefault();
-        }
-      };
-
-      document.addEventListener("touchmove", handleTouchMove, { passive: false });
-
       return () => {
-        document.body.style.overflow = "";
-        document.documentElement.style.overflow = "";
-        document.removeEventListener("touchmove", handleTouchMove);
+        document.body.style.overflow = originalBodyOverflow;
+        document.documentElement.style.overflow = originalHtmlOverflow;
       };
     } else {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
       resetZoom(false);
     }
   }, [isOpen, initialIndex, resetZoom]);
 
-  // Reset zoom when navigating to a different image slide
+  // Reset zoom on slide change
   useEffect(() => {
     resetZoom(false);
   }, [currentIndex, resetZoom]);
@@ -157,32 +144,39 @@ export default function Lightbox({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-xl flex items-center justify-center select-none overflow-hidden"
+        transition={{ duration: 0.2 }}
+        className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-xl flex items-center justify-center select-none overflow-hidden touch-none"
         onClick={() => {
-          // Close only if not zoomed in
           if (!isZoomed) onClose();
         }}
       >
-        {/* Full-Screen Zoom Viewport: image occupies whole screen and pans edge-to-edge */}
+        {/* Full-Screen Zoom Viewport: Edge-to-edge hardware accelerated display */}
         <div
           ref={containerRef}
           data-zoom-container="true"
-          className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden touch-none"
+          className={`absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden touch-none ${
+            isZoomed ? "cursor-grab active:cursor-grabbing" : "cursor-default"
+          }`}
           onClick={(e) => e.stopPropagation()}
         >
-          <AnimatePresence mode="wait">
+          {/* Slide container without blocking mode='wait' to eliminate lag & transition deadlock */}
+          <AnimatePresence initial={false}>
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="relative w-full h-full flex items-center justify-center"
             >
-              {/* Scalable & Click-Draggable Image Container */}
+              {/* Scalable & Pannable DOM container with direct GPU transforms */}
               <div
-                style={transformStyle}
-                className="relative w-full h-full flex items-center justify-center"
+                ref={imageRef}
+                className="relative w-full h-full flex items-center justify-center will-change-transform"
+                style={{
+                  transform: "translate3d(0px, 0px, 0px) scale(1)",
+                  transformOrigin: "center center",
+                }}
               >
                 {images[currentIndex] !== undefined && (
                   <ProjectImage
@@ -200,18 +194,18 @@ export default function Lightbox({
           </AnimatePresence>
         </div>
 
-        {/* -------------------- OVERLAY CONTROLS (Float on top of full-screen image) -------------------- */}
+        {/* -------------------- OVERLAY CONTROLS (Floating on top of full-screen image) -------------------- */}
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 sm:p-2.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000]"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000] touch-manipulation cursor-pointer"
           aria-label="Close lightbox"
         >
           <X className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Header Title & Counter with Glass Backing for Crystal Clarity Over Images */}
+        {/* Header Title & Counter */}
         {title && (
           <div className="absolute top-4 left-4 sm:top-6 sm:left-6 max-w-[calc(100%-140px)] sm:max-w-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/20 shadow-2xl text-white z-[10000] pointer-events-none">
             <h3 className="text-xs sm:text-base font-serif font-bold tracking-wide truncate">
@@ -225,7 +219,7 @@ export default function Lightbox({
 
         {/* Floating Zoom Controls Toolbar - Hidden on Mobile & Tablet, Displayed on Desktop (lg+) */}
         <div
-          className="hidden lg:flex absolute top-6 left-1/2 -translate-x-1/2 z-[10000] items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white backdrop-blur-md border border-white/25 shadow-2xl transition-all"
+          className="hidden lg:flex absolute top-6 left-1/2 -translate-x-1/2 z-[10000] items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white backdrop-blur-md border border-white/25 shadow-2xl transition-all touch-manipulation"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Zoom Out Button */}
@@ -250,7 +244,7 @@ export default function Lightbox({
                 setZoom(doubleTapZoom);
               }
             }}
-            className="px-2 py-0.5 text-xs font-mono font-medium tracking-tight rounded hover:bg-white/15 transition-all text-white/90 hover:text-white"
+            className="px-2 py-0.5 text-xs font-mono font-medium tracking-tight rounded hover:bg-white/15 transition-all text-white/90 hover:text-white cursor-pointer"
             title={isZoomed ? "Click to reset zoom (0 or R)" : "Click to zoom in (2.5x)"}
           >
             {Math.round(scale * 100)}%
@@ -273,7 +267,7 @@ export default function Lightbox({
           {isZoomed && (
             <button
               onClick={() => resetZoom(true)}
-              className="ml-1 px-2.5 py-1 rounded-full bg-accent/90 hover:bg-accent active:scale-95 text-white transition-all flex items-center gap-1 text-[11px] font-sans font-semibold shadow-md"
+              className="ml-1 px-2.5 py-1 rounded-full bg-accent/90 hover:bg-accent active:scale-95 text-white transition-all flex items-center gap-1 text-[11px] font-sans font-semibold shadow-md cursor-pointer"
               aria-label="Reset zoom"
               title="Reset zoom (R)"
             >
@@ -291,7 +285,7 @@ export default function Lightbox({
                 e.stopPropagation();
                 prevImage();
               }}
-              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000] flex items-center justify-center"
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000] flex items-center justify-center touch-manipulation cursor-pointer"
               aria-label="Previous image"
             >
               <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
@@ -301,7 +295,7 @@ export default function Lightbox({
                 e.stopPropagation();
                 nextImage();
               }}
-              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000] flex items-center justify-center"
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white backdrop-blur-md border border-white/20 shadow-2xl transition-all z-[10000] flex items-center justify-center touch-manipulation cursor-pointer"
               aria-label="Next image"
             >
               <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
@@ -311,7 +305,7 @@ export default function Lightbox({
 
         {/* Thumbnails Strip */}
         <div
-          className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2 overflow-x-auto max-w-[92vw] p-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/20 shadow-2xl hide-scrollbar z-[10000]"
+          className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2 overflow-x-auto max-w-[92vw] p-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/20 shadow-2xl hide-scrollbar z-[10000] touch-manipulation"
           onClick={(e) => e.stopPropagation()}
         >
           {images.map((img, idx) => (
@@ -321,7 +315,7 @@ export default function Lightbox({
                 resetZoom(false);
                 setCurrentIndex(idx);
               }}
-              className={`relative w-12 h-8 sm:w-16 sm:h-10 flex-shrink-0 rounded-md overflow-hidden transition-all ${
+              className={`relative w-12 h-8 sm:w-16 sm:h-10 flex-shrink-0 rounded-md overflow-hidden transition-all touch-manipulation cursor-pointer ${
                 idx === currentIndex
                   ? "ring-2 ring-white scale-105 opacity-100 shadow-md"
                   : "opacity-40 hover:opacity-100"
